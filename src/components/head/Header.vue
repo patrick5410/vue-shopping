@@ -1,12 +1,12 @@
 <template>
     <div class="header">
-        <input type="text" placeholder="搜索商品">  
+        <input type="text" placeholder="搜索商品">
     </div>
-    
+
 </template>
 <script>
 export default {
-    
+
 }
 </script>
 
@@ -26,6 +26,7 @@ export default {
         background-color: white;
         border-bottom: #e5e5e5 1px solid;
         box-sizing: border-box;
+        z-index: 100;
         input{
             height: 28px;
             width: 355px;
@@ -39,7 +40,7 @@ export default {
             border-radius: 3px ;
             outline: none;
             border: 0;
-            padding-left:25px; 
+            padding-left:25px;
         };
     }
 </style>

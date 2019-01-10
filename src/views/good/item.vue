@@ -1,5 +1,5 @@
 <template>
-    <div class="good_item">
-        
-    </div>
+  <div class="good_item">
+
+  </div>
 </template>

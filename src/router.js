@@ -4,7 +4,7 @@ import Home from './views/Home.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -25,6 +25,31 @@ export default new Router({
       path: '/good',
       name: 'good',
       component: () => import('./views/good/item.vue')
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: () => import(/* webpackChunkName: "about" */ './views/Index.vue'),
+      meta: {
+        title: '首页'
+      }
+    },
+    {
+      path: '/clz',
+      name: 'clz',
+      component: () => import(/* webpackChunkName: "about" */ './views/Clz.vue'),
+      meta: {
+        title: '分类'
+      }
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
+
+export default router
