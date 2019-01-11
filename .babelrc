@@ -1,6 +1,6 @@
 {
-    "plugins": [["import", {
-    "libraryName": "iview",
-    "libraryDirectory": "src/components"
+    "plugins": [["component", {
+    "libraryName": "mint-ui",
+    "style":true
   }]]
 }

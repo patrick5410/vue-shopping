@@ -110,7 +110,7 @@ export default {
                 height: 210px;
                 width: 325px;
                 border-radius: 3px;
-                background-color: #333333;
+                background-color: #323436;
             }
         }   
     }
