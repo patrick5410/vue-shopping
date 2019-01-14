@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header" id="header">
         <input type="text" placeholder="搜索商品">
     </div>
 

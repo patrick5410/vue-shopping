@@ -17,17 +17,19 @@
       <!--商品列表-->
       <div class="goods-container">
         <div class="goods" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-          <div class="good" v-for="item in goods" :key="item.id">
+          <div class="good" v-for="(item,index) in goods" :key="item.id">
             <div class="good-img">
               <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
-              <img v-lazy="item.img" style="width: 100%;height: 100%"/>
+              <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
+              <div v-show="item.originalPrice>item.price" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{item.originalPrice-item.price}}元</div>
             </div>
-            <div>{{item.name}}</div>
-            <div style="color:#995454">¥{{item.price}}</div>
+            <div class="good-bottom">
+              <div>{{item.name}}</div>
+              <div style="color:#995454">¥{{item.price}}</div>
+            </div>
           </div>
           <div class="loading" v-show="loading">
             <!--<mt-spinner :size="60"></mt-spinner>-->
-            <!--<mt-spinner color="yellow"></mt-spinner>-->
             <img  class="loading-img" src="/img/loading.gif"/>
             加载中...
           </div>
@@ -61,7 +63,18 @@ Vue.use(InfiniteScroll)
 Vue.component(Spinner.name, Spinner);
 Vue.use(VueLazyLoad,{
   error:'/img/good/加载失败.png',
-  loading:'/img/good/加载.png'
+  loading:'/img/good/加载.png',
+  adapter: {
+    loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
+      // do something here
+      // example for call LoadedHandler
+      // console.log("图片加载完毕",el,naturalHeight,naturalWidth,src,$parent,Init);
+      // if(naturalHeight>naturalWidth){
+      //   console.log("高度比宽度大",el);
+      // }
+
+    }
+  }
 })
 
 export default {
@@ -83,6 +96,13 @@ export default {
       num: 4
     }
   },
+  mounted: function () {
+    this.$nextTick(function () {
+      // vm.$Lazyload.$once('loaded', function ({ el, src }) {
+      //   console.log(el, src)
+      // })
+    })
+  },
   methods: {
     toRecommendClass () {
       this.$router.push(this.recommendClassUrl)
@@ -94,12 +114,33 @@ export default {
         setTimeout(() => {
           let last = this.goods[this.goods.length - 1]
           for (let i = 1; i <= 9; i++) {
-            this.goods.push({
-              id: that.num++,
-              name: '车载配件' + i,
-              price: 1058,
-              img: '/img/good/'+i+'.png'
-            })
+            if(i%3==0){
+              this.goods.push({
+                id: that.num++,
+                name: '车载配件' + i,
+                originalPrice:1108,
+                price: 1058,
+                img: '/img/good/'+i+'.png'
+              })
+            }else if(i%3==1){
+              this.goods.push({
+                id: that.num++,
+                name: '车载配件' + i,
+                originalPrice:1304,
+                price: 1058,
+                img: '/img/good/'+i+'.png'
+              })
+            }else {
+              this.goods.push({
+                id: that.num++,
+                name: '车载配件' + i,
+                originalPrice:1406,
+                price: 1058,
+                img: '/img/good/'+i+'.png'
+              })
+            }
+
+
           }
           this.loading = false
 
@@ -109,8 +150,6 @@ export default {
 
         }, 2000)
       }
-
-
     }
 
   }
@@ -119,14 +158,11 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .container{
     width: 375px;
     height: 230px;
     background-color: white;
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
     margin-top: 36px;
     margin-bottom: 65px;
   }
@@ -179,6 +215,8 @@ export default {
     left: 10px;
   }
 
+
+
   /*商品列表*/
   .goods-container{
     display: flex;
@@ -199,6 +237,7 @@ export default {
     width: 110px;
     height: 150px;
     margin: 5px 0;
+    /*text-align: left;*/
     /*background-color: blue;*/
     /*border: 1px solid blue;*/
   }
@@ -207,11 +246,35 @@ export default {
     width: 110px;
     height: 110px;
     overflow: hidden;
+    position: relative;
+    background-color: #f2f2f2;
     img[lazy=loading]{
       width: 110px;
       height: 110px;
       margin: auto;
     }
+  }
+  .good-bottom{
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+  .good-bottom>div{
+    width: 110px;
+  }
+
+  .cutPrice{
+    display: flex;
+    width: 60px;
+    height: 16px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #52992e;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    /*border-radius: 2px;*/
   }
 
   .loading{

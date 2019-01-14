@@ -1,6 +1,6 @@
 <!--底部菜单-->
 <template>
-  <div class="menu">
+  <div class="menu" id="menu">
       <div class="m-index" @click="toIndex" :class="{indexActive: $route.path.indexOf('index') !== -1}">首页</div>
       <div class="m-clz" @click="toClz"  :class="{clzActive: $route.path.indexOf('clz') !== -1}">分类</div>
       <div class="m-cart" :class="{cartActive: $route.path.indexOf('cart') !== -1}">购物车</div>

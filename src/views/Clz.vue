@@ -4,135 +4,51 @@
     <Header/>
 
     <!--内容框-->
-    <!--<transition name="fade-choose">-->
-      <!--<section  class="food_container">-->
-        <!--<section class="menu_container">-->
-          <!--<section class="menu_left" id="wrapper_menu" ref="wrapperMenu">-->
-            <!--<ul>-->
-              <!--<li class="menu_left_li" @click="chooseMenu(index)">-->
-                <!--<img :src="/img/good/1.png">-->
-                <!--<span>gigi</span>-->
-                <!--<span class="category_num" >fstet</span>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</section>-->
-          <!--<section class="menu_right" ref="menuFoodList">-->
-            <!--<ul>-->
-              <!--<li>-->
-                <!--<header class="menu_detail_header">-->
-                  <!--<section class="menu_detail_header_left">-->
-                    <!--<strong class="menu_item_title">jud</strong>-->
-                    <!--<span class="menu_item_description">udtrur</span>-->
-                  <!--</section>-->
-                  <!--<span class="menu_detail_header_right"></span>-->
-                  <!--<p class="description_tip" >-->
-                    <!--<span>uery</span>-->
-                   <!--ysey-->
-                  <!--</p>-->
-                <!--</header>-->
-                <!--<section  class="menu_detail_list">-->
-                  <!--<router-link  :to="/index" tag="div" class="menu_detail_link">-->
-                    <!--<section class="menu_food_img">-->
-                      <!--<img :src="/img/good/1.png">-->
-                    <!--</section>-->
-                    <!--<section class="menu_food_description">-->
-                      <!--<h3 class="food_description_head">-->
-                        <!--<strong class="description_foodname">hboh</strong>-->
-                        <!--<ul class="attributes_ul">-->
-                          <!--<li :style="{color: '#' + attribute.icon_color,borderColor:'#' + attribute.icon_color}" :class="{attribute_new: attribute.icon_name == '新'}">-->
-                            <!--&lt;!&ndash;<p :style="{color: attribute.icon_name == '新'? '#fff' : '#' + attribute.icon_color}">{{attribute.icon_name == '新'? '新品':attribute.icon_name}}</p>&ndash;&gt;-->
-                            <!--<p>fFf</p>-->
-                          <!--</li>-->
-                        <!--</ul>-->
+    <div class="container" :style="{height:containerHeight+'px'}">
+      <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
+        <ul>
+          <li v-for="(item,index) in goods"  :class="{active : item.clzId == currentClzId}" @click="selectClz(item.clzId)" class="menu_left_li" :id="'clz'+item.clzId">
+            <div class="menu_clz">分类{{index}}</div>
+          </li>
 
-                      <!--</h3>-->
-                      <!--<p class="food_description_content">{{foods.description}}</p>-->
-                      <!--<p class="food_description_sale_rating">-->
-                        <!--<span>月售{{foods.month_sales}}份</span>-->
-                        <!--<span>好评率{{foods.satisfy_rate}}%</span>-->
-                      <!--</p>-->
-                      <!--<p v-if="foods.activity" class="food_activity">-->
-                        <!--<span :style="{color: '#' + foods.activity.image_text_color,borderColor:'#' +foods.activity.icon_color}">{{foods.activity.image_text}}</span>-->
-                      <!--</p>-->
-                    <!--</section>-->
-                  <!--</router-link>-->
-                  <!--<footer class="menu_detail_footer">-->
-                    <!--<section class="food_price">-->
-                      <!--<span>¥</span>-->
-                      <!--<span>{{foods.specfoods[0].price}}</span>-->
-                      <!--<span v-if="foods.specifications.length">起</span>-->
-                    <!--</section>-->
-                    <!--<buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></buy-cart>-->
-                  <!--</footer>-->
-                <!--</section>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</section>-->
-        <!--</section>-->
-        <!--&lt;!&ndash;<section class="buy_cart_container">&ndash;&gt;-->
-          <!--&lt;!&ndash;<section @click="toggleCartList" class="cart_icon_num">&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="cart_icon_container" :class="{cart_icon_activity: totalPrice > 0, move_in_cart:receiveInCart}" ref="cartContainer">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<span v-if="totalNum" class="cart_list_length">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;{{totalNum}}&ndash;&gt;-->
-                                <!--&lt;!&ndash;</span>&ndash;&gt;-->
-              <!--&lt;!&ndash;<svg class="cart_icon">&ndash;&gt;-->
-                <!--&lt;!&ndash;<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-icon"></use>&ndash;&gt;-->
-              <!--&lt;!&ndash;</svg>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="cart_num">&ndash;&gt;-->
-              <!--&lt;!&ndash;<div>¥ {{totalPrice}}</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div>配送费¥{{deliveryFee}}</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</section>&ndash;&gt;-->
-          <!--&lt;!&ndash;<section class="gotopay" :class="{gotopay_acitvity: minimumOrderAmount <= 0}">&ndash;&gt;-->
-            <!--&lt;!&ndash;<span class="gotopay_button_style" v-if="minimumOrderAmount > 0">还差¥{{minimumOrderAmount}}起送</span>&ndash;&gt;-->
-            <!--&lt;!&ndash;<router-link :to="{path:'/confirmOrder', query:{geohash, shopId}}" class="gotopay_button_style" v-else >去结算</router-link>&ndash;&gt;-->
-          <!--&lt;!&ndash;</section>&ndash;&gt;-->
-        <!--&lt;!&ndash;</section>&ndash;&gt;-->
-        <!--&lt;!&ndash;<transition name="toggle-cart">&ndash;&gt;-->
-          <!--&lt;!&ndash;<section class="cart_food_list" v-show="showCartList&&cartFoodList.length">&ndash;&gt;-->
-            <!--&lt;!&ndash;<header>&ndash;&gt;-->
-              <!--&lt;!&ndash;<h4>购物车</h4>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div @click="clearCart">&ndash;&gt;-->
-                <!--&lt;!&ndash;<svg>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-remove"></use>&ndash;&gt;-->
-                <!--&lt;!&ndash;</svg>&ndash;&gt;-->
-                <!--&lt;!&ndash;<span class="clear_cart">清空</span>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;</header>&ndash;&gt;-->
-            <!--&lt;!&ndash;<section class="cart_food_details" id="cartFood">&ndash;&gt;-->
-              <!--&lt;!&ndash;<ul>&ndash;&gt;-->
-                <!--&lt;!&ndash;<li v-for="(item, index) in cartFoodList" :key="index" class="cart_food_li">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div class="cart_list_num">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p class="ellipsis">{{item.name}}</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p class="ellipsis">{{item.specs}}</p>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div class="cart_list_price">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span>¥</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span>{{item.price}}</span>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<section class="cart_list_control">&ndash;&gt;-->
-                                            <!--&lt;!&ndash;<span @click="removeOutCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)">&ndash;&gt;-->
-                                                <!--&lt;!&ndash;<svg>&ndash;&gt;-->
-                                                    <!--&lt;!&ndash;<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-minus"></use>&ndash;&gt;-->
-                                                <!--&lt;!&ndash;</svg>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span class="cart_num">{{item.num}}</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<svg class="cart_add" @click="addToCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)">&ndash;&gt;-->
-                      <!--&lt;!&ndash;<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-add"></use>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</svg>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</section>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-              <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-            <!--&lt;!&ndash;</section>&ndash;&gt;-->
-          <!--&lt;!&ndash;</section>&ndash;&gt;-->
-        <!--&lt;!&ndash;</transition>&ndash;&gt;-->
-        <!--&lt;!&ndash;<transition name="fade">&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="screen_cover" v-show="showCartList&&cartFoodList.length" @click="toggleCartList"></div>&ndash;&gt;-->
-        <!--&lt;!&ndash;</transition>&ndash;&gt;-->
-      <!--</section>-->
-    <!--</transition>-->
+        </ul>
+      </section>
 
+      <section class="menu_right" id="wrapper_good" ref="wrapperGood" :style="{height:containerHeight+'px'}">
+        <ul>
+          <li v-for="(item,index) in goods" class="clz-sign" :id="'clz-sign'+item.clzId">
+            <div class="clz-container">
+              <!--<div>{{index}}</div>-->
+              <!--商品类型主题图片-->
+              <div class="clzImg-div">
+                <img src="/img/banner.png" style="width: 100%;height: 100%"  ref='itemImg' />
+              </div>
+
+              <!--商品类型主题-->
+              <div class="sigma-content">
+                <div class="sigma-middle-line">
+                  <span class="sigma-line-text">爆款人气推荐{{index}}</span>
+                </div>
+              </div>
+              <!--商品-->
+              <div class="good-container">
+                <div v-for="it in item.goods"  class="good">
+                  <div class="goodImg-div">
+                    <img v-lazy="it.img" style="width: 100%;height: auto"  />
+                    <div v-show="it.originalPrice>it.price" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{it.originalPrice-it.price}}元</div>
+                  </div>
+                  <div class="good-bottom">
+                    <div>{{it.name}}</div>
+                    <div style="color:#995454">¥{{it.price}}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
     <!--底部菜单-->
     <Menu/>
   </div>
@@ -140,69 +56,320 @@
 
 <script>
 
-import Menu from '@/components/Menu'
-import Header from '@/components/head/Header'
+  import Menu from '@/components/Menu'
+  import Header from '@/components/head/Header'
+  import BScroll from 'better-scroll'
 
-// import {mapState, mapMutations} from 'vuex'
-// import {msiteAddress, shopDetails, foodMenu, getRatingList, ratingScores, ratingTags} from 'src/service/getData'
-// import loading from 'src/components/common/loading'
-// import buyCart from 'src/components/common/buyCart'
-// import ratingStar from 'src/components/common/ratingStar'
-// import {loadMore, getImgPath} from 'src/components/common/mixin'
-// import {imgBaseUrl} from 'src/config/env'
-// import BScroll from 'better-scroll'
+  import VueLazyLoad from 'vue-lazyload'
+
+  import Vue from 'vue'
 
 
+  // Vue.use(InfiniteScroll)
+  // Vue.component(Spinner.name, Spinner);
+  Vue.use(VueLazyLoad,{
+    error:'/img/good/加载失败.png',
+    loading:'/img/good/加载.png',
+    adapter: {
+      loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
+        // do something here
+        // example for call LoadedHandler
+        // console.log("图片加载完毕",el,naturalHeight,naturalWidth,src,$parent,Init);
+        // if(naturalHeight>naturalWidth){
+        //   console.log("高度比宽度大",el);
+        // }
 
-export default {
-  name: 'index',
-  components: {
-    Menu,
-    Header
-  },
-  data(){
-    return{
-      geohash: '', //geohash位置信息
-      shopId: null, //商店id值
-      showLoading: true, //显示加载动画
-      changeShowType: 'food',//切换显示商品或者评价
-      shopDetailData: null, //商铺详情
-      showActivities: false, //是否显示活动详情
-      menuList: [], //食品列表
-      menuIndex: 0, //已选菜单索引值，默认为0
-      menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
-      shopListTop: [], //商品列表的高度集合
-      TitleDetailIndex: null, //点击展示列表头部详情
-      categoryNum: [], //商品类型右上角已加入购物车的数量
-      totalPrice: 0, //总共价格
-      cartFoodList: [], //购物车商品列表
-      showCartList: false,//显示购物车列表
-      receiveInCart: false, //购物车组件下落的圆点是否到达目标位置
-      ratingList: null, //评价列表
-      ratingOffset: 0, //评价获取数据offset值
-      ratingScoresData: null, //评价总体分数
-      ratingTagsList: null, //评价分类列表
-      ratingTageIndex: 0, //评价分类索引
-      preventRepeatRequest: false,// 防止多次触发数据请求
-      ratingTagName: '',//评论的类型
-      loadRatings: false, //加载更多评论是显示加载组件
-      foodScroll: null,  //食品列表scroll
-      showSpecs: false,//控制显示食品规格
-      specsIndex: 0, //当前选中的规格索引值
-      choosedFoods: null, //当前选中视频数据
-      showDeleteTip: false, //多规格商品点击减按钮，弹出提示框
-      showMoveDot: [], //控制下落的小圆点显示隐藏
-      windowHeight: null, //屏幕的高度
-      elLeft: 0, //当前点击加按钮在网页中的绝对top值
-      elBottom: 0, //当前点击加按钮在网页中的绝对left值
-      ratingScroll: null, //评论页Scroll
-      imgBaseUrl:'/img/good/',
+      }
     }
+  })
+
+
+  export default {
+    name: 'index',
+    components: {
+      Menu,
+      Header
+    },
+    data(){
+      return {
+        containerHeight:1200,//内容宽度
+        currentClzId:0,//分类id
+        clzs:new Array(50),//分类
+        wrapperMenuScroll : null,//左边菜单滚动框
+        goodScroll: null,//商品滚动框
+        goods:[],//商品
+        num:0,//商品累计数，待删
+        clzSigns:[],//记录各个类型商品的offsetTop值，用于滚动(右边)
+        menuIndexChange: false,//menuIndexChange解决运动时listenScroll依然监听的bug
+      }
+    },
+    mounted: function () {
+
+      //自适应高度
+      console.log("屏幕高度",window.innerHeight);
+      this.containerHeight =  window.innerHeight - window.document.getElementById('header').clientHeight -window.document.getElementById('menu').clientHeight ;
+      console.log("containerHeight",this.containerHeight)
+
+      this.$nextTick(function () {
+        //商品类型滚动框
+        this.wrapperMenuScroll = new BScroll(this.$refs.wrapperMenu, {
+          probeType: 0,
+          deceleration: 0.001,
+          bounce: false,
+          swipeTime: 1000,
+          click: true,
+        })
+
+        this.wrapperMenuScroll.on('scroll', (pos) => {
+          console.log("pos",pos,this.wrapperMenuScroll.maxScrollY);
+
+        })
+
+        //商品滚动框
+        this.goodScroll = new BScroll(this.$refs.wrapperGood, {
+          probeType: 3,
+          deceleration: 0.001,
+          bounce: false,
+          swipeTime: 1000,
+          click: true,
+          bindToWrapper:false
+        })
+
+        this.goodScroll.on('scroll', (pos) => {
+          // console.log("pos",pos,this.goodScroll.maxScrollY);
+          //防止每次都查询所有的元素
+          // if(this.clzSigns.length==0){
+          //   this.clzSigns = this.$refs.wrapperGood.querySelectorAll(".clz-sign");
+          // }
+
+
+          //不需要遍历
+          let maxScrollY = Math.abs(this.goodScroll.maxScrollY);
+          let index = Math.floor(Math.abs(pos.y)/maxScrollY*this.goods.length);
+          if(index>this.goods.length-1){
+            index = this.goods.length-1;
+          }
+          // console.log("index",index,Math.abs(pos.y),maxScrollY);
+          this.currentClzId = this.goods[index].clzId;
+
+          // console.log("clzSigns",this.clzSigns);
+          // this.clzSigns.forEach((item,index)=>{
+          //   // console.log("item",item);
+          //   if(this.menuIndexChange && Math.abs(Math.round(pos.y))>= item.offsetTop - window.document.getElementById("wrapper_good").clientHeight/2 ){
+          //     this.currentClzId = this.goods[index].clzId;
+          //   }
+          // })
+
+
+        })
+
+
+
+
+
+        //模拟商品数据
+        let that = this;
+        for (var i=0;i<8;i++){
+          let gs =  [];
+          for(var j=0;j<36;j++){
+            gs.push({
+              id: that.num++,
+              name: '车载配件' + i,
+              originalPrice:1708,
+              price: 1058,
+              img: '/img/good/'+(j%9+1)+'.png'
+            })
+          }
+          this.goods.push({
+            clzId:i+1,
+            goods:gs
+          })
+
+        }
+        console.log("goos",this.goods);
+
+        //初始化当前选中的商品类型
+        this.currentClzId = this.goods[0].clzId;
+
+      });
+
+
+
+
+    },
+    methods: {
+      loadMore () {
+        console.log("滚动到底部");
+      },
+      selectClz(val){
+        // this.currentClzId = val;
+        //滚动右边商品框
+        let clzSigns = this.$refs.wrapperGood.querySelectorAll('#clz-sign'+val);
+        this.goodScroll.scrollToElement(clzSigns[0], 600,0,0)
+      }
+
+    },
+    watch:{
+      currentClzId:function(val) {
+        //监听当前类型的变化
+        let that = this;
+        if(!that.wrapperMenuScroll.isInTransition){
+          //滚动左边菜单框
+          // console.log("左边滚动");
+          let clzs = that.$refs.wrapperMenu.querySelector('#clz'+val);
+          that.wrapperMenuScroll.scrollToElement(clzs, 600,0,0)
+        }
+        // console.log(clzs,that.wrapperMenuScroll);
+        // setTimeout(function () {
+        //   let clzs = that.$refs.wrapperMenu.querySelector('#clz'+val);
+        //   // console.log(clzs,that.wrapperMenuScroll);
+        //   that.wrapperMenuScroll.scrollToElement(clzs, 800,0,0)
+        // },1000)
+
+
+
+
+      }
+    }
+
+
+
+  }
+
+</script>
+
+<style lang="scss" scoped>
+  .container{
+    display: flex;
+    flex-direction:row;
+    align-items: flex-start;
+    margin-top: 37px;
   }
 
 
 
+  .menu_left{
+    height: 100%;
+    overflow: hidden;
+    background-color: #e5e5e5;
+    width: 75px;
+  }
 
-}
+  .menu_left li{
+    height: 40px;
+    display: flex;
+  }
 
-</script>
+  .menu_clz{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 100%;
+    margin: auto 0;
+  }
+
+  .active{
+    background-color: white;
+    font-size: 14px;
+    .menu_clz{
+      background-color: white;
+      border-left: 4px solid #3d7a99;
+    }
+  }
+
+  .menu_right{
+    width: 280px;
+    height: 100%;
+    margin: 0 10px;
+    overflow: hidden;
+  }
+
+
+
+  .menu_right li{
+    /*border: 1px solid blue;*/
+  }
+
+  .clz-container{
+    width: 280px;
+    padding: 10px 0;
+  }
+
+  .clzImg-div{
+    width: 100%;
+    height: 80px;
+  }
+
+  .good-container{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+
+  }
+
+  .good{
+    margin: 10px 0;
+    /*border: 1px solid blue;*/
+
+  }
+
+  .goodImg-div{
+    width: 85px;
+    height: 85px;
+    position: relative;
+    background-color: #f2f2f2;
+    overflow: hidden;
+  }
+
+  .good-bottom{
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  .cutPrice{
+    display: flex;
+    width: 60px;
+    height: 16px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #52992e;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    /*border-radius: 2px;*/
+  }
+
+  /*文字横线样式*/
+  .sigma-content{
+    width: 50%;
+    margin: 10px auto;
+    text-align: center;
+    background-color: #fff;
+
+  }
+  .sigma-middle-line:before{
+    content: '';
+    display: block;
+    height: 1px;
+    width: 100%;
+    /*width: 375px;*/
+    background-color: #999;/*颜色需与主题大背景色一致*/
+    position: relative;
+    top: 10px;/*调节线高*/
+    left: 0px;
+
+  }
+  .sigma-line-text{
+    display: inline-block;
+    background: #fff;
+    padding: 0 14px 0 14px;
+    position: relative;
+    font-size: 14px;
+    font-weight: 500;
+    color: #808080;
+  }
+
+</style>

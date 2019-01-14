@@ -29,7 +29,7 @@ const router =  new Router({
     {
       path: '/index',
       name: 'index',
-      component: () => import(/* webpackChunkName: "about" */ './views/Index.vue'),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Index.vue'],resolve),
       meta: {
         title: '首页'
       }
@@ -37,7 +37,7 @@ const router =  new Router({
     {
       path: '/clz',
       name: 'clz',
-      component: () => import(/* webpackChunkName: "about" */ './views/Clz.vue'),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Clz.vue'],resolve),
       meta: {
         title: '分类'
       }
