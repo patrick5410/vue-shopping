@@ -53,7 +53,7 @@ const router =  new Router({
     {
       path: '/cart',
       name: 'cart',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Cart.vue'],resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Clz.vue'],resolve),
       meta: {
         title: '购物车'
       }
