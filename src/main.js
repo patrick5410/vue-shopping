@@ -3,13 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'lib-flexible'
-// import 'iview/dist/styles/iview.css'
-// import 'mint-ui/lib/checklist/style.css'
-import { Input } from 'iview'
+import 'mint-ui/lib/style.css'
 
 Vue.config.productionTip = false
-
-Vue.component('Input', Input)
 
 new Vue({
   router,

@@ -42,10 +42,10 @@ export default {
     created(){
         this.end = 5555;
     },
-    methods:{
+    methods:{        
         fanzhuan(){
             console.log(this.$refs.credit);
-
+            
         }
     }
 }
@@ -71,14 +71,14 @@ export default {
         }
     }
     .credit{
-        /*position: relative;*/
+        position: relative;
         display: flex;
         display: -webkit-flex;
         justify-content: center;
         align-items: center;
         border-bottom: 1px solid #e5e5e5;
         box-sizing: border-box;
-        /*top: 36px; */
+        top: 36px; 
         height: $height;
         line-height: $height;
         background-color: #fff;
@@ -87,20 +87,20 @@ export default {
         .content{
             position: relative;
             height: 210px;
-            width: 325px;
+            width: 325px; 
             transition: 0.6s;
-	          transform-style: preserve-3d;
+	        transform-style: preserve-3d;  
             .text{
-                position: absolute;
+                position: absolute; 
                 color: #DEC678;
                 font-size: 28px;
                 font-style: italic;
                 width: 100%;
-            }
+            }       
             img{
                 height: 210px;
                 width: 325px;
-            }
+            }  
             .back,.front{
                 position: absolute;
                 backface-visibility: hidden;
@@ -109,10 +109,10 @@ export default {
                 left: 0;
                 height: 210px;
                 width: 325px;
-                border-radius: 10px;
-                background-color: #333333;
+                border-radius: 3px;
+                background-color: #323436;
             }
-        }
+        }   
     }
 
 	.credit.flip .content {
@@ -125,7 +125,7 @@ export default {
 
     .back {
         transform: rotateY(180deg);
-
+        
     }
 </style>
 

@@ -10,6 +10,7 @@
   "dependencies": {
     "better-scroll": "^1.13.4",
     "countup.js": "^1.9.3",
+    "element-ui": "^2.4.11",
     "iview": "^3.2.1",
     "lib-flexible": "^0.3.2",
     "mint-ui": "^2.2.13",
