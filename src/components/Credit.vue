@@ -51,7 +51,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     $height: 230px;
     @keyframes action{
         0%{
@@ -71,7 +71,6 @@ export default {
         }
     }
     .credit{
-        position: relative;
         display: flex;
         display: -webkit-flex;
         justify-content: center;

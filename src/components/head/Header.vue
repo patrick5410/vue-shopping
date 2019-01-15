@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .header{
         position: fixed;
         display: -webkit-flex;
@@ -20,16 +20,15 @@ export default {
         -webkit-justify-content: center;
         justify-content: center;
         top: 0;
-        left: 0;
         height: 36px;
-        width: 375px;
+        width: 100%;
         background-color: white;
         border-bottom: #e5e5e5 1px solid;
         box-sizing: border-box;
         z-index: 100;
         input{
             height: 28px;
-            width: 355px;
+            width: 330px;
             font-size: 12px;
             background-color: #e5e5e5;
             background-image: url('/img/search.png');
@@ -41,6 +40,6 @@ export default {
             outline: none;
             border: 0;
             padding-left:25px;
-        };
+        }
     }
 </style>

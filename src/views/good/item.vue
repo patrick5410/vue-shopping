@@ -48,7 +48,7 @@
                 <span class="add_num" :class="add_num?'add_num_show':''" id="popone">+1</span>
                 <Badge :value="1">                    
                     <div class="img">
-                        <img src="/img/cart.png" alt="cart">
+                        <img src="/img/cart_item.png" alt="cart">
                     </div>
                 </Badge>
                 <p>购物车</p>
@@ -124,7 +124,7 @@ export default {
 }
 </script>
 <style lang="scss">
-    @keyframes de_add_num{
+    @-webkit-keyframes de_add_num{
         0%{top:-10px;opacity:1}
         50%{top:-25px;opacity:1}
         100%{top:-25px;opacity:0}
@@ -255,7 +255,7 @@ export default {
             .add_num_show{
                     display: block;
                     opacity: 0;
-                    animation: de_add_num 2s;
+                    -webkit-animation: de_add_num 2s;
             }
                   
         }
