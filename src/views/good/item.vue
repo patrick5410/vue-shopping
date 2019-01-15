@@ -5,9 +5,9 @@
             <img class="back" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png"/>
             <img class="home" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_homeNormal.png"/>
             <Swipe :auto="3000">
-                <SwipeItem>1</SwipeItem>
-                <SwipeItem>2</SwipeItem>
-                <SwipeItem>3</SwipeItem>
+                <SwipeItem v-for="item in itemList" :key="item">
+                    <img :src="item" alt="item">
+                </SwipeItem>                
             </Swipe>
         </div>
         <!-- 商品简单介绍 -->
@@ -22,13 +22,13 @@
             <img src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png"/>
         </div>
         <!-- 商品说明 -->
-        <div class="remark">
+        <div class="description">
             说明：<p>1、本产品为公司商品</p>
 
         </div>
         <!-- 商品详情 -->
-        <div class="details">
-
+        <div class="details" >
+            <img v-for="item in list" :key="item" :src="item" alt="item">          
         </div>
         <!-- 底部工具栏 -->
         <div class="bottom_tool">
@@ -108,7 +108,18 @@ export default {
             selectNum: 1,
             maxNum: 10,
             popupVisible: false,
-            add_num: false
+            add_num: false,
+            list: [],
+            itemList: []
+        }
+    },
+    created(){
+        let that = this;
+        for (let i = 0; i < 20; i++){
+            that.list.push('/img/item/item_' + i + '.jpg')
+        }
+        for (let i = 1; i < 4; i++){
+            that.itemList.push('/img/item/item/item_' + i + '.jpg')
         }
     },
     methods:{
@@ -142,7 +153,12 @@ export default {
         background-color: rgb(223, 201, 201);
         color: #222;
         font-size: 28px;
-        
+        .mint-swipe{
+            img{
+                // width: 100%;
+                height: 211px;
+            }            
+        }        
         .back{
             position: absolute;
             top: 0;
@@ -204,7 +220,7 @@ export default {
         }
     }
     //商品说明
-    .remark{
+    .description{
         margin-top: 10px;
         margin-bottom: 10px;
         height: 77px;
@@ -213,6 +229,17 @@ export default {
         display: flex;
         font-size: 14px;
     }
+    //商品详情图
+    .details{ 
+        padding-bottom: 49px; 
+             
+        img{
+            width: 100%;
+            border: 0 none;
+            vertical-align: top;
+        }
+    }
+
     //底部工具栏
     .bottom_tool{
         position: fixed;
@@ -242,20 +269,20 @@ export default {
             width: 36px;
             height: 41px;   
             .add_num{
-                    position: absolute;
-                    padding: 2px 3px;
-                    color: #e4393c;
-                    font-weight: 700;
-                    bottom: 15px;
-                    display: none;
-                    font-size: 18px;
-                    pointer-events: none;
-                    z-index: 30;                    
+                position: absolute;
+                padding: 2px 3px;
+                color: #e4393c;
+                font-weight: 700;
+                bottom: 15px;
+                display: none;
+                font-size: 18px;
+                pointer-events: none;
+                z-index: 30;                    
             }
             .add_num_show{
-                    display: block;
-                    opacity: 0;
-                    -webkit-animation: de_add_num 2s;
+                display: block;
+                opacity: 0;
+                -webkit-animation: de_add_num 2s;
             }
                   
         }
