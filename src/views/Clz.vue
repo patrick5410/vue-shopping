@@ -330,16 +330,19 @@
 
   .cutPrice{
     display: flex;
-    width: 60px;
-    height: 16px;
+    width: 50px;
+    height: 12px;
     position: absolute;
     bottom: 0;
     left: 0;
     background-color: #52992e;
     color: white;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     /*border-radius: 2px;*/
+    align-items: baseline;
+    font-size: 10px;
+    border-radius: 1px;
   }
 
   /*文字横线样式*/

@@ -1,6 +1,12 @@
 {
-    "plugins": [["import", {
-    "libraryName": "iview",
-    "libraryDirectory": "src/components"
-  }]]
+    "plugins": [
+      ["import", {
+        "libraryName": "iview",
+        "libraryDirectory": "src/components"
+      },"iview"],
+      ["component", {
+        "libraryName": "mint-ui",
+        "style": true
+      },"mint"]
+    ]
 }

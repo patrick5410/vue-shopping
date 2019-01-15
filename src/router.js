@@ -41,6 +41,22 @@ const router =  new Router({
       meta: {
         title: '分类'
       }
+    },
+    {
+      path: '/showMore',
+      name: 'showMore',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/ShowMore.vue'],resolve),
+      meta: {
+        title: '更多'
+      }
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Cart.vue'],resolve),
+      meta: {
+        title: '购物车'
+      }
     }
   ]
 })

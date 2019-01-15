@@ -21,7 +21,9 @@
             <div class="good-img">
               <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
               <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
-              <div v-show="item.originalPrice>item.price" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{item.originalPrice-item.price}}元</div>
+              <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
+                <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
+              </div>
             </div>
             <div class="good-bottom">
               <div>{{item.name}}</div>
@@ -88,7 +90,7 @@ export default {
     return {
       creditSort: 425, // 用户积分
       recommendClass: '车载配件', // 推荐商品类型
-      recommendClassUrl: '/clz', // 推荐商品链接
+      recommendClassUrl: '/showMore', // 推荐商品链接
       recommendImgUrl: '/img/banner.png', // 推荐商品图片
       loading: false, // 加载
       isFinish:false,
@@ -105,7 +107,7 @@ export default {
   },
   methods: {
     toRecommendClass () {
-      this.$router.push(this.recommendClassUrl)
+      this.$router.push({path:this.recommendClassUrl,query:{clzName:this.recommendClass}})
     },
     loadMore () {
       let that = this;
@@ -120,7 +122,7 @@ export default {
                 name: '车载配件' + i,
                 originalPrice:1108,
                 price: 1058,
-                img: '/img/good/'+i+'.png'
+                img: '/img/good/'+i+'.jpg'
               })
             }else if(i%3==1){
               this.goods.push({
@@ -128,7 +130,7 @@ export default {
                 name: '车载配件' + i,
                 originalPrice:1304,
                 price: 1058,
-                img: '/img/good/'+i+'.png'
+                img: '/img/good/'+i+'.jpg'
               })
             }else {
               this.goods.push({
@@ -136,7 +138,7 @@ export default {
                 name: '车载配件' + i,
                 originalPrice:1406,
                 price: 1058,
-                img: '/img/good/'+i+'.png'
+                img: '/img/good/'+i+'.jpg'
               })
             }
 
@@ -247,12 +249,8 @@ export default {
     height: 110px;
     overflow: hidden;
     position: relative;
-    background-color: #f2f2f2;
-    img[lazy=loading]{
-      width: 110px;
-      height: 110px;
-      margin: auto;
-    }
+    /*background-color: #f2f2f2;*/
+    background: rgba(0,0,0,0.02);
   }
   .good-bottom{
     display: block;
@@ -264,17 +262,24 @@ export default {
   }
 
   .cutPrice{
-    display: flex;
-    width: 60px;
-    height: 16px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-color: #52992e;
+    /*display: flex;*/
+    /*width: 50px;*/
+    /*height: 12px;*/
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*background-color: #52992e;*/
+    /*color: white;*/
+    /*justify-content: center;*/
+    /*align-items: baseline;*/
+    /*font-size: 10px;*/
+    /*border-radius: 1px;*/
+
     color: white;
-    justify-content: center;
-    align-items: center;
-    /*border-radius: 2px;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    font-size: 12px;
+    border-radius: 1px;
   }
 
   .loading{
