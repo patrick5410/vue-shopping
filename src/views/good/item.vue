@@ -17,12 +17,17 @@
             <div class="price"><span class="money">¥</span>{{price}}</div>
         </div>
         <!-- 商品数量选择 -->
-        <div class="selectNum">
+        <div class="selectNum" @click="popupVisible=!popupVisible">
             &nbsp;&nbsp;已选：<span>{{selectNum}}件</span>
             <img src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png"/>
         </div>
         <!-- 商品说明 -->
         <div class="remark">
+            说明：<p>1、本产品为公司商品</p>
+
+        </div>
+        <!-- 商品详情 -->
+        <div class="details">
 
         </div>
         <!-- 底部工具栏 -->
@@ -40,67 +45,118 @@
                 <span>收藏</span>
             </div>
             <div class="cart">
-                <div class="img">
-                    <img src="/img/cart.png" alt="cart">
-                </div>
+                <span class="add_num" :class="add_num?'add_num_show':''" id="popone">+1</span>
+                <Badge :value="1">                    
+                    <div class="img">
+                        <img src="/img/cart.png" alt="cart">
+                    </div>
+                </Badge>
                 <p>购物车</p>
             </div>
-            <div class="buy">
+            <div class="buy" @click="popupVisible=!popupVisible">
                 立即购买
             </div>
-            <div class="takein">
+            <div class="takein" @click="turn_add_num">
                 加入购物车
             </div>
         </div>
+        <Popup v-model="popupVisible" position="bottom" class="toBuy">
+            <div class="toBuy_container">
+                <div class="good">
+                    <div><img src="/img/logo.png" alt="logo" /></div>
+                    <div class="text">
+                        <div class="name">{{ name }}</div>
+                        <div class="price">¥{{ price }}</div>
+                    </div>
+                    <div class="kucun">
+                        库存：{{ maxNum }}件
+                    </div>
+                </div>
+                <div class="numSelect">
+                    <span>数量</span><br>
+                    <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="maxNum"></InputNumber>
+                </div>
+                <div class="button">
+                    <div class="buy">
+                        立即购买
+                    </div>
+                    <div class="toCart" @click="turn_add_num">
+                        加入购物车
+                    </div>
+                </div>
+            </div>
+        </Popup>
     </div>
 </template>
 <script>
-import {Swipe,SwipeItem} from 'mint-ui'
+import {Swipe,SwipeItem,Popup} from 'mint-ui'
+import {Badge,InputNumber} from 'element-ui'
 export default {
     name: "good",
     components:{
         Swipe,
-        SwipeItem
+        SwipeItem,
+        Popup,
+        Badge,
+        InputNumber
     },
     data(){
         return{
             name: '我是商品名字',
             introduction: '我是商品内容介绍',
             price: '1399',
-            selectNum: 1
+            selectNum: 1,
+            maxNum: 10,
+            popupVisible: false,
+            add_num: false
+        }
+    },
+    methods:{
+        turn_add_num(){
+            let that = this;
+            that.popupVisible = false;
+            that.add_num = !that.add_num;
+            setTimeout(()=>{
+                that.add_num = !that.add_num;
+            },1500)
         }
     }
 }
 </script>
 <style lang="scss">
+    @keyframes de_add_num{
+        0%{top:-10px;opacity:1}
+        50%{top:-25px;opacity:1}
+        100%{top:-25px;opacity:0}
+    }
     .good_item{
         width: 100%;
         height: 100vh;
         background-color: #e5e5e5;
+        // position: fixed;
     }
     // 商品轮播图
     .item{
         width: 100%;
         height: 211px;
-        background-color: #e5e5e5;
-        color: #fff;
+        background-color: rgb(223, 201, 201);
+        color: #222;
         font-size: 28px;
-        img{
-            height: 48px;
-            width: 48px;
-        }
+        
         .back{
             position: absolute;
             top: 0;
-            left: 0;     
-            transform: rotateX(180deg)       
+            left: 0; 
+            height: 48px;
+            width: 48px;    
+            transform: rotateX(180deg);       
         }
         .home{
             position: absolute;
             top: 0;
             right: 0;
             height: 48px;
-            width: 48px;
+            width: 48px;            
         }
     }
     // 商品价格及介绍
@@ -109,15 +165,13 @@ export default {
         flex-direction: column;
         align-items: flex-start;
         background-color: #fff;
-        height: 78px; 
+        height: 58px; 
         padding: 10px;
         .name{
-            // margin-bottom: 10px;
             font-size: 14px;
             color: rgb(51, 51, 51);
         }
         .introduction{
-            // margin-bottom: 10px;
             font-size: 12px;
             color: rgb(128, 128, 128);
         }
@@ -153,10 +207,13 @@ export default {
     .remark{
         margin-top: 10px;
         margin-bottom: 10px;
-        width: 100%;
-        height: 97px;
+        height: 77px;
         background-color: #fff;
+        padding: 10px; 
+        display: flex;
+        font-size: 14px;
     }
+    //底部工具栏
     .bottom_tool{
         position: fixed;
         bottom: 0;
@@ -164,7 +221,6 @@ export default {
         flex-flow: nowrap;
         align-items: center;
         justify-content: space-between;
-        padding: 0 10px; 
         width: 100%;
         height: 49px;
         background-color: #fff;
@@ -174,6 +230,7 @@ export default {
             height: 24px;
         }
         .service{
+            margin-left: 10px;
             width: 24px;
             height: 41px;
         }
@@ -183,22 +240,111 @@ export default {
         }
         .cart{
             width: 36px;
-            height: 41px;         
+            height: 41px;   
+            .add_num{
+                    position: absolute;
+                    padding: 2px 3px;
+                    color: #e4393c;
+                    font-weight: 700;
+                    bottom: 15px;
+                    display: none;
+                    font-size: 18px;
+                    pointer-events: none;
+                    z-index: 30;                    
+            }
+            .add_num_show{
+                    display: block;
+                    opacity: 0;
+                    animation: de_add_num 2s;
+            }
+                  
         }
         
         .buy{
             width: 100px;
             height: 32px;
             line-height: 32px;
+            color: #fff;
             background-color: rgb(153,84,84); 
             border-radius: 10px;           
         }
         .takein{
+            margin-right: 10px;
             width: 100px;
             height: 32px;
             line-height: 32px;
+            color: #fff;
             background-color:rgb(61,122,153);
             border-radius: 10px;           
+        }
+    }
+    //点击立即购买弹出层
+    .toBuy{
+        position: fixed;
+        width: 100%;
+        height: 375px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        bottom: 0;
+        background-color: #fff;
+        z-index: 2;
+        .toBuy_container{
+            width: 95%;
+            margin: 10px;
+            .good{
+                display: flex;
+                flex-direction: row;                
+                img{
+                    width: 50px;
+                    height: 50px;
+                    border: #e5e5e5 1px solid;
+                    box-sizing: border-box;
+                }
+                .text{
+                    margin-left: 10px; 
+                    font-size: 16px;
+                    text-align: left;
+                    .name{color: rgb(51, 51, 51);}
+                    .price{color: rgb(153, 84, 84);}               
+                }
+                .kucun{
+                    margin-left: 10px; 
+                    font-size: 14px;
+                    color: rgb(128, 128, 128)
+                }
+            }
+            .numSelect{
+                margin-top: 10px; 
+                text-align: left;
+                font-size: 14px;
+                color: rgb(51,51,51);
+                .InputNumber{
+                    margin-top: 10px;
+                }
+            }
+            .button{
+                position: relative;
+                top: 160px;
+                margin-bottom: 10px;
+                font-size: 14px;
+                color: #fff;
+                display: flex;
+                justify-content: space-around;
+                .buy{
+                    width: 150px;
+                    height: 32px;
+                    border-radius: 10px;
+                    line-height: 32px;
+                    background-color: rgb(153,84,84); 
+                }
+                .toCart{
+                    width: 150px;
+                    height: 32px;
+                    border-radius: 10px;
+                    line-height: 32px;
+                    background-color:rgb(61,122,153);
+                }
+            }
         }
     }
 </style>
