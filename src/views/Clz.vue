@@ -32,10 +32,14 @@
               </div>
               <!--商品-->
               <div class="good-container">
-                <div v-for="it in item.goods"  class="good">
+                <div v-for="it in item.goods"  class="good" @click="goodDetail(it.id)">
                   <div class="goodImg-div">
                     <img v-lazy="it.img" style="width: 100%;height: auto"  />
-                    <div v-show="it.originalPrice>it.price" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{it.originalPrice-it.price}}元</div>
+                    <!--<div v-show="it.originalPrice>it.price" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{it.originalPrice-it.price}}元</div>-->
+                    <div v-show="it.originalPrice>it.price" style="position: absolute;left: 0;bottom: 0">
+                      <span class="cutPrice" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{it.originalPrice-it.price}}元&nbsp;</span>
+                    </div>
+
                   </div>
                   <div class="good-bottom">
                     <div>{{it.name}}</div>
@@ -206,6 +210,10 @@
         //滚动右边商品框
         let clzSigns = this.$refs.wrapperGood.querySelectorAll('#clz-sign'+val);
         this.goodScroll.scrollToElement(clzSigns[0], 600,0,0)
+      },
+      //商品详情页面
+      goodDetail(goodId){
+        this.$router.push({path:this.goodDetailUrl,query:{goodId:goodId}})
       }
 
     },
@@ -244,6 +252,7 @@
     flex-direction:row;
     align-items: flex-start;
     margin-top: 37px;
+    background-color: white;
   }
 
 
@@ -253,12 +262,12 @@
     overflow: hidden;
     background-color: #e5e5e5;
     width: 75px;
+    li{
+      height: 40px;
+      display: flex;
+    }
   }
 
-  .menu_left li{
-    height: 40px;
-    display: flex;
-  }
 
   .menu_clz{
     display: flex;
@@ -286,10 +295,6 @@
   }
 
 
-
-  .menu_right li{
-    /*border: 1px solid blue;*/
-  }
 
   .clz-container{
     width: 280px;
@@ -329,21 +334,32 @@
   }
 
   .cutPrice{
-    display: flex;
-    width: 50px;
-    height: 12px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-color: #52992e;
+    /*display: flex;*/
+    /*width: 65px;*/
+    /*height: 16px;*/
+    /*background-color: #52992e;*/
     color: white;
     justify-content: center;
-    /*align-items: center;*/
-    /*border-radius: 2px;*/
-    align-items: baseline;
-    font-size: 10px;
+    align-items: center;
+    font-size: 11px;
     border-radius: 1px;
   }
+
+  /*.cutPrice{*/
+    /*display: flex;*/
+    /*width: 50px;*/
+    /*height: 14px;*/
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*background-color: #52992e;*/
+    /*color: white;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*!*line-height: 14px;*!*/
+    /*font-size: 10px;*/
+    /*border-radius: 1px;*/
+  /*}*/
 
   /*文字横线样式*/
   .sigma-content{

@@ -17,7 +17,7 @@
       <!--商品列表-->
       <div class="goods-container">
         <div class="goods" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-          <div class="good" v-for="(item,index) in goods" :key="item.id">
+          <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
             <div class="good-img">
               <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
               <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
@@ -109,6 +109,7 @@ export default {
     toRecommendClass () {
       this.$router.push({path:this.recommendClassUrl,query:{clzName:this.recommendClass}})
     },
+    //加载更多
     loadMore () {
       let that = this;
       if(!that.isFinish){
@@ -152,6 +153,10 @@ export default {
 
         }, 2000)
       }
+    },
+    //商品详情页面
+    goodDetail(goodId){
+      this.$router.push({path:this.goodDetailUrl,query:{goodId:goodId}})
     }
 
   }

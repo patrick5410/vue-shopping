@@ -4,9 +4,21 @@ import Home from './views/Home.vue'
 
 Vue.use(Router)
 
-const router =  new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+  // 跳转到新页面时，默认位置为最顶端
+  scrollBehavior (to, from, savedPosition) {
+    console.log(savedPosition)
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  },
   routes: [
     {
       path: '/',
@@ -19,17 +31,20 @@ const router =  new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: resolve => require(['./views/About.vue'], resolve)
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/About.vue'], resolve)
     },
     {
       path: '/good',
       name: 'good',
-      component: () => import('./views/good/item.vue')
+      component: (resolve) => require(['./views/good/item.vue'], resolve),
+      meta: {
+        title: '商品详情'
+      }
     },
     {
       path: '/index',
       name: 'index',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Index.vue'],resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Index.vue'], resolve),
       meta: {
         title: '首页'
       }
@@ -37,7 +52,7 @@ const router =  new Router({
     {
       path: '/clz',
       name: 'clz',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Clz.vue'],resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Clz.vue'], resolve),
       meta: {
         title: '分类'
       }
@@ -45,7 +60,7 @@ const router =  new Router({
     {
       path: '/showMore',
       name: 'showMore',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/ShowMore.vue'],resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/ShowMore.vue'], resolve),
       meta: {
         title: '更多'
       }
@@ -53,7 +68,7 @@ const router =  new Router({
     {
       path: '/cart',
       name: 'cart',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Clz.vue'],resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Cart.vue'], resolve),
       meta: {
         title: '购物车'
       }

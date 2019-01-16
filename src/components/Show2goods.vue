@@ -1,7 +1,7 @@
 <!--每行显示2个商品-->
 <template>
   <div class="goods">
-    <div class="good" v-for="(item,index) in goods" :key="item.id">
+    <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
       <div class="good-img-div">
         <img style="width: 100%;height: auto" v-lazy="item.img">
       </div>
@@ -48,7 +48,12 @@
       goods: Array
     },
     methods:{
+      //商品详情页面
+      goodDetail(goodId){
+        this.$router.push({path:this.goodDetailUrl,query:{goodId:goodId}})
+      }
     }
+
   }
 
 </script >

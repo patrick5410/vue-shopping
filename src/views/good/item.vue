@@ -2,7 +2,7 @@
     <div class="good_item">
         <!-- 商品轮播图 -->
         <div class="item">
-            <img class="back" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png"/>
+            <img class="back" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png" @click="$router.back()"/>
             <img class="home" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_homeNormal.png"/>
             <Swipe :auto="3000">
                 <SwipeItem v-for="item in itemList" :key="item">
@@ -130,7 +130,11 @@ export default {
             setTimeout(()=>{
                 that.add_num = !that.add_num;
             },1500)
-        }
+        },
+      backTo(){
+        console.log('返回上一页');
+        this.$route.go(-1);
+      }
     }
 }
 </script>
@@ -154,6 +158,7 @@ export default {
         color: #222;
         font-size: 28px;
         .mint-swipe{
+          z-index: 1;
             img{
                 // width: 100%;
                 height: 211px;
@@ -165,14 +170,16 @@ export default {
             left: 0; 
             height: 48px;
             width: 48px;    
-            transform: rotateX(180deg);       
+            transform: rotateX(180deg);
+            z-index: 2;
         }
         .home{
             position: absolute;
             top: 0;
             right: 0;
             height: 48px;
-            width: 48px;            
+            width: 48px;
+            z-index: 2;
         }
     }
     // 商品价格及介绍

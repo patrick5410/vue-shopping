@@ -1,6 +1,6 @@
 <!--底部菜单-->
 <template>
-  <div>
+  <div id="showMore">
     <!--<ToShowMore/>-->
     <!--头部-->
     <div class="head" id="head">
@@ -131,6 +131,10 @@
 </script>
 
 <style lang="scss" scoped>
+  #showMore{
+    background-color: white;
+  }
+
   .head{
     display: flex;
     height: 36px;
