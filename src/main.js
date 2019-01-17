@@ -6,6 +6,7 @@ import 'lib-flexible'
 import 'mint-ui/lib/style.css'
 
 Vue.config.productionTip = false
+Vue.prototype.goodDetailUrl = '/good'
 
 new Vue({
   router,
