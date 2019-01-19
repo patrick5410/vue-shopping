@@ -2,56 +2,50 @@
   <div class="index">
     <!--顶部搜索-->
     <Header/>
-    <div class="container">
-      <!--积分-->
-      <Credit></Credit>
-      <!--推荐商品类型-->
-      <div class="recommend-good">
-        <div class="re-class">
-          <div class="re-className">{{recommendClass}}</div>
-          <div class="re-more" @click="toRecommendClass">更多</div>
+
+    <scroller lock-x :scroll-bottom-offset="0"  height="15.22rem" @on-scroll-bottom="loadMore" class="scroller-container">
+      <div class="container">
+        <!--积分-->
+        <Credit></Credit>
+        <!--推荐商品类型-->
+        <div class="recommend-good">
+          <div class="re-class">
+            <div class="re-className">{{recommendClass}}</div>
+            <div class="re-more" @click="toRecommendClass">更多</div>
+          </div>
+          <img class="re-classImg" :src="recommendImgUrl"/>
         </div>
-        <img class="re-classImg" :src="recommendImgUrl"/>
-      </div>
 
-      <!--商品列表-->
-      <div class="goods-container">
-
-        <div class="goods" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-          <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
-            <div class="good-img">
-              <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
-              <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
-              <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
-                <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
+        <!--商品列表-->
+        <div class="goods-container">
+          <div class="goods" >
+            <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
+              <div class="good-img">
+                <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
+                <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
+                <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
+                  <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
+                </div>
+              </div>
+              <div class="good-bottom">
+                <div>{{item.name}}</div>
+                <div style="color:#995454">¥{{item.price}}</div>
               </div>
             </div>
-            <div class="good-bottom">
-              <div>{{item.name}}</div>
-              <div style="color:#995454">¥{{item.price}}</div>
+            <div class="loading" v-show="loading">
+              <!--<mt-spinner :size="60"></mt-spinner>-->
+              <img  class="loading-img" src="/img/loading.gif"/>
+              加载中...
             </div>
-          </div>
-          <div class="loading" v-show="loading">
-            <!--<mt-spinner :size="60"></mt-spinner>-->
-            <img  class="loading-img" src="/img/loading.gif"/>
-            加载中...
-          </div>
-          <!--<div class="sigma-content" v-show="isFinish">-->
-            <!--<div class="sigma-middle-line">-->
-              <!--<span class="sigma-line-text">我是有底线滴</span>-->
-            <!--</div>-->
-          <!--</div>-->
-          <div v-show="isFinish" class="bottom-line">
-            <divider >我是有底线滴</divider>
+            <div v-show="isFinish" class="bottom-line">
+              <divider >我是有底线滴</divider>
+            </div>
           </div>
         </div>
 
-
       </div>
 
-
-
-    </div>
+    </scroller>
 
     <!--底部菜单-->
     <Menu/>
@@ -63,31 +57,8 @@
 import Menu from '@/components/Menu'
 import Header from '@/components/head/Header'
 import Credit from '@/components/Credit'
-import { Divider } from 'vux'
-// import { Scroll } from 'iview'
-// import { InfiniteScroll, Spinner } from 'mint-ui'
-//
-// import VueLazyLoad from 'vue-lazyload'
-//
-// import Vue from 'vue'
-//
-// Vue.use(InfiniteScroll)
-// Vue.component(Spinner.name, Spinner);
-// Vue.use(VueLazyLoad,{
-//   error:'/img/good/加载失败.png',
-//   loading:'/img/good/加载.png',
-//   adapter: {
-//     loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
-//       // do something here
-//       // example for call LoadedHandler
-//       // console.log("图片加载完毕",el,naturalHeight,naturalWidth,src,$parent,Init);
-//       // if(naturalHeight>naturalWidth){
-//       //   console.log("高度比宽度大",el);
-//       // }
-//
-//     }
-//   }
-// })
+import { Divider,Scroller } from 'vux'
+
 
 export default {
   name: 'index',
@@ -95,7 +66,8 @@ export default {
     Menu,
     Header,
     Credit,
-    Divider
+    Divider,
+    Scroller
   },
   data: function () {
     return {
@@ -114,6 +86,8 @@ export default {
       // vm.$Lazyload.$once('loaded', function ({ el, src }) {
       //   console.log(el, src)
       // })
+      //加载商品
+      this.loadMore ()
     })
   },
   methods: {
@@ -123,7 +97,7 @@ export default {
     //加载更多
     loadMore () {
       let that = this;
-      if(!that.isFinish){
+      if(!that.isFinish && !this.loading ){
         this.loading = true
         setTimeout(() => {
           let last = this.goods[this.goods.length - 1]
@@ -179,10 +153,10 @@ export default {
 <style lang="scss" scoped>
   .container{
     width: 375px;
-    height: 230px;
+    /*height: 230px;*/
     background-color: white;
-    margin-top: 36px;
-    margin-bottom: 65px;
+    /*margin-top: 36px;*/
+    /*margin-bottom: 65px;*/
   }
 
 
@@ -240,7 +214,9 @@ export default {
     display: flex;
     width: 375px;
     background-color: white;
-    padding-bottom: 60px;
+    /*padding-bottom: 60px;*/
+
+    /*border: 1px solid blue;*/
   }
 
   .goods{
@@ -318,33 +294,14 @@ export default {
     margin: 10px;
   }
 
-  /*底部横线样式*/
-  .sigma-content{
+  .scroller-container{
+    /*height :10px;*/
+    margin-top: 36px;
     width: 100%;
-    margin: 10px;
-    text-align: center;
-    background-color: #fff;
+    /*height: 600px;*/
+    /*border: 1px solid yellow;*/
+  }
 
-  }
-  .sigma-middle-line:before{
-    content: '';
-    display: block;
-    height: 1px;
-    width: 100%;
-    /*width: 375px;*/
-    background-color: #999;/*颜色需与主题大背景色一致*/
-    position: relative;
-    top: 10px;/*调节线高*/
-    left: 0;
-  }
-  .sigma-line-text{
-    display: inline-block;
-    background: #fff;
-    padding: 0 18px 0 18px;
-    position: relative;
-    font-size: 14px;
-    font-weight: 500;
-    color: #808080;
-  }
+
 
 </style>

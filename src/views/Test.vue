@@ -28,7 +28,7 @@
     <!--</scroller>-->
 
     <divider>竖向 scroller scrollTop: {{scrollTop}}</divider>
-    <scroller lock-x :scroll-bottom-offset="5"  height="-2rem" @on-scroll-bottom="loadMore" class="scroller-container">
+    <scroller lock-x :scroll-bottom-offset="5"  height="10rem" @on-scroll-bottom="loadMore" class="scroller-container">
       <div class="goods-container">
         <div class="goods" >
           <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
@@ -53,8 +53,6 @@
             <divider >我是有底线滴</divider>
           </div>
         </div>
-
-
       </div>
     </scroller>
 
@@ -320,7 +318,7 @@
 
   .scroller-container{
     /*height :10px;*/
-
+    height: 600px;
     border: 1px solid yellow;
   }
 
