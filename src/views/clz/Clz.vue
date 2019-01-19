@@ -64,28 +64,28 @@
   import Header from '@/components/head/Header'
   import BScroll from 'better-scroll'
 
-  import VueLazyLoad from 'vue-lazyload'
-
-  import Vue from 'vue'
-
-
-  // Vue.use(InfiniteScroll)
-  // Vue.component(Spinner.name, Spinner);
-  Vue.use(VueLazyLoad,{
-    error:'/img/good/加载失败.png',
-    loading:'/img/good/加载.png',
-    adapter: {
-      loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
-        // do something here
-        // example for call LoadedHandler
-        // console.log("图片加载完毕",el,naturalHeight,naturalWidth,src,$parent,Init);
-        // if(naturalHeight>naturalWidth){
-        //   console.log("高度比宽度大",el);
-        // }
-
-      }
-    }
-  })
+  // import VueLazyLoad from 'vue-lazyload'
+  //
+  // import Vue from 'vue'
+  //
+  //
+  // // Vue.use(InfiniteScroll)
+  // // Vue.component(Spinner.name, Spinner);
+  // Vue.use(VueLazyLoad,{
+  //   error:'/img/good/加载失败.png',
+  //   loading:'/img/good/加载.png',
+  //   adapter: {
+  //     loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
+  //       // do something here
+  //       // example for call LoadedHandler
+  //       // console.log("图片加载完毕",el,naturalHeight,naturalWidth,src,$parent,Init);
+  //       // if(naturalHeight>naturalWidth){
+  //       //   console.log("高度比宽度大",el);
+  //       // }
+  //
+  //     }
+  //   }
+  // })
 
 
   export default {

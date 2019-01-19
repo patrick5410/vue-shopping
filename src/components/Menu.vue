@@ -33,7 +33,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
   .menu{
     display: flex;
     flex-direction:row;
@@ -45,6 +45,7 @@ export default {
     height: 60px;
     background-color: white;
     border-top: 1px solid #e5e5e5;
+    font-size: 14px;
   }
   .menu>div{
     display: inline-flex;

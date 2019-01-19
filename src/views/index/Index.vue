@@ -16,6 +16,7 @@
 
       <!--商品列表-->
       <div class="goods-container">
+
         <div class="goods" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
           <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
             <div class="good-img">
@@ -35,13 +36,21 @@
             <img  class="loading-img" src="/img/loading.gif"/>
             加载中...
           </div>
-          <div class="sigma-content" v-show="isFinish">
-            <div class="sigma-middle-line">
-              <span class="sigma-line-text">我是有底线滴</span>
-            </div>
+          <!--<div class="sigma-content" v-show="isFinish">-->
+            <!--<div class="sigma-middle-line">-->
+              <!--<span class="sigma-line-text">我是有底线滴</span>-->
+            <!--</div>-->
+          <!--</div>-->
+          <div v-show="isFinish" class="bottom-line">
+            <divider >我是有底线滴</divider>
           </div>
         </div>
+
+
       </div>
+
+
+
     </div>
 
     <!--底部菜单-->
@@ -54,37 +63,39 @@
 import Menu from '@/components/Menu'
 import Header from '@/components/head/Header'
 import Credit from '@/components/Credit'
+import { Divider } from 'vux'
 // import { Scroll } from 'iview'
-import { InfiniteScroll, Spinner } from 'mint-ui'
-
-import VueLazyLoad from 'vue-lazyload'
-
-import Vue from 'vue'
-
-Vue.use(InfiniteScroll)
-Vue.component(Spinner.name, Spinner);
-Vue.use(VueLazyLoad,{
-  error:'/img/good/加载失败.png',
-  loading:'/img/good/加载.png',
-  adapter: {
-    loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
-      // do something here
-      // example for call LoadedHandler
-      // console.log("图片加载完毕",el,naturalHeight,naturalWidth,src,$parent,Init);
-      // if(naturalHeight>naturalWidth){
-      //   console.log("高度比宽度大",el);
-      // }
-
-    }
-  }
-})
+// import { InfiniteScroll, Spinner } from 'mint-ui'
+//
+// import VueLazyLoad from 'vue-lazyload'
+//
+// import Vue from 'vue'
+//
+// Vue.use(InfiniteScroll)
+// Vue.component(Spinner.name, Spinner);
+// Vue.use(VueLazyLoad,{
+//   error:'/img/good/加载失败.png',
+//   loading:'/img/good/加载.png',
+//   adapter: {
+//     loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
+//       // do something here
+//       // example for call LoadedHandler
+//       // console.log("图片加载完毕",el,naturalHeight,naturalWidth,src,$parent,Init);
+//       // if(naturalHeight>naturalWidth){
+//       //   console.log("高度比宽度大",el);
+//       // }
+//
+//     }
+//   }
+// })
 
 export default {
   name: 'index',
   components: {
     Menu,
     Header,
-    Credit
+    Credit,
+    Divider
   },
   data: function () {
     return {
@@ -300,6 +311,11 @@ export default {
     height: 22px;
     width: 22px;
     margin-right: 10px;
+  }
+
+  .bottom-line{
+    width: 100%;
+    margin: 10px;
   }
 
   /*底部横线样式*/
