@@ -9,19 +9,14 @@
       <tab-item  @on-item-click="onItemClick">退款订单</tab-item>
     </tab>
 
-
-    <tab  prevent-default @on-before-index-change="switchTabItem">
-      <tab-item selected>已发货</tab-item>
-      <tab-item>未发货</tab-item>
-      <tab-item>全部订单</tab-item>
-    </tab>
   </div>
+
 </template>
 
 <script>
-  import { Tab, TabItem } from 'vux'
+  import { Tab, TabItem,LoadingPlugin } from 'vux'
   import Vue from 'vue'
-  import  { LoadingPlugin } from 'vux'
+
   Vue.use(LoadingPlugin)
   export default {
     components: {
