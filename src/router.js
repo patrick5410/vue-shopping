@@ -88,6 +88,14 @@ const router = new Router({
       meta: {
         title: '我的订单'
       }
+    },
+    {
+      path: '/payPage',
+      name: 'payPage',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/pay/Pay.vue'], resolve),
+      meta: {
+        title: '确认信息'
+      }
     }
   ]
 })

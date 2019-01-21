@@ -5,7 +5,7 @@
         <div class="order" v-for="(item,orderIndex) in orders">
             <div class="order-head">
                 <div class="head-date" style="color: #808080">{{item.orderDate}}</div>
-                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==6  ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
+                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==6 || item.orderState==8 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
             </div>
 
             <!--一种商品-->
@@ -28,21 +28,31 @@
             <!--订单底部-->
             <div class="order-bottom">
                 <!--待支付-->
-                <div class="order-bottom-button" v-show="item.orderState == 1">
-                    <div>取消</div>
-                    <div style="color: #995454;border-color: #995454">去支付</div>
+                <div  v-show="item.orderState == 1" style="display: flex;justify-content: space-between">
+                    <div style="display: flex;align-items: center">
+                        <span  v-show="getCancelTime(item)<120" style="color: #995454">
+                            <Countdown :value="getCancelTime(item)" @on-finish="finishCancel"></Countdown>
+                        </span>
+                        <span v-if="getCancelTime(item)<120">秒后订单将取消</span>
+                        <span v-else>{{Math.floor(getCancelTime(item) / 60)}}分钟后订单将取消</span>
+
+                    </div>
+                    <div class="order-bottom-button">
+                        <div>取消</div>
+                        <div style="color: #995454;border-color: #995454">去支付</div>
+                    </div>
                 </div>
 
                 <!--待收货-->
                 <div class="order-bottom-button" v-show="item.orderState == 2 || item.orderState == 3 || item.orderState == 4">
-                    <div>申请退款</div>
-                    <div>物流查询</div>
+                    <div v-if="item.orderState == 2">申请退款</div>
+                    <div v-else>物流查询</div>
                     <div style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
                 </div>
 
                 <!--已收货-->
                 <div class="order-bottom-button" v-show="item.orderState == 5">
-                    <div>申请退款</div>
+                    <div>申请退货</div>
                 </div>
 
             </div>
@@ -54,9 +64,13 @@
 </template>
 
 <script>
+    import { Countdown } from 'vux'
     export default {
         props: {
-            orders: Array//所有订单 orderState:0,//0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款
+            orders: Array//所有订单 orderState:0,//0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款 8：退货中 9：已退货
+        },
+        components: {
+            Countdown
         },
         data: function () {
             return {
@@ -67,8 +81,16 @@
             console.log("orders",this.orders)
         },
         methods: {
-            onItemClick (index) {
-                console.log('on item click:', index)
+            // 获取订单取消剩余时间，单位是秒
+            getCancelTime(order){
+                let seconds = 3600 - (new Date() - new Date(order.orderDate))/1000;
+                // console.log("时间差",seconds,order.orderDate);
+                return Math.floor(seconds);
+            },
+            finishCancel(){
+                // 需要重新获取订单数据
+                console.log("重新获取订单数据")
+
             }
         }
     }

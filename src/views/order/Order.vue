@@ -4,7 +4,10 @@
     <div class="order-head" id="order-head">
       <tab custom-bar-width="1rem" active-color="#3d7a99"  :scroll-threshold="5" >
         <tab-item selected @on-item-click="onItemClick">全部订单</tab-item>
-        <tab-item @on-item-click="onItemClick">待付款</tab-item>
+        <tab-item @on-item-click="onItemClick" style="position: relative">
+          待付款
+          <Badge :text="unPayCount" class="pay-count" v-show="unPayCount>0"></Badge>
+        </tab-item>
         <tab-item @on-item-click="onItemClick">待收货</tab-item>
         <tab-item @on-item-click="onItemClick">已收货</tab-item>
         <tab-item  @on-item-click="onItemClick">退款订单</tab-item>
@@ -23,7 +26,7 @@
 
 <script>
   import OrderCom from '@/components/OrderCom'
-  import { Tab, TabItem,LoadingPlugin } from 'vux'
+  import { Tab, TabItem,LoadingPlugin,Badge  } from 'vux'
   import Vue from 'vue'
 
 
@@ -32,13 +35,15 @@
     components: {
       Tab,
       TabItem,
-      OrderCom
+      OrderCom,
+      Badge
     },
     data: function () {
       return {
         orders:[],//所有订单 orderState:0,//0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款
         showOrders:[],//显示的订单
-        contentPaddingTop:0,
+        contentPaddingTop:0,//头部高度
+        unPayCount:2,//未付款数量
       }
     },
     mounted: function () {
@@ -52,7 +57,7 @@
           orderId: 12,
           orderState:1,//订单状态
           orderStateStr:'待付款',//订单状态描述
-          orderDate:'2019-01-21 16:08:21',//下单时间
+          orderDate:'2019-01-21 21:51:21',//下单时间
           paymentAmount:9106,//支付金额
           goodCount:6,//商品件数
           goods:[{
@@ -78,7 +83,7 @@
           orderId: 13,
           orderState:1,//订单状态
           orderStateStr:'待付款',//订单状态描述
-          orderDate:'2019-01-21 16:08:21',//下单时间
+          orderDate:'2019-01-21 21:46:21',//下单时间
           paymentAmount:4980,//支付金额
           goodCount:4,//商品件数
           goods:[{
@@ -131,7 +136,7 @@
             name: '华为手机',
             originalPrice:1108,
             price: 1245,
-            buyCount:2,
+            buyCount:0,
             img: '/img/good/3.jpg'
           }]
         });
@@ -226,8 +231,54 @@
           }]
         });
 
+        this.orders.push({
+          orderId: 19,
+          orderState:8,//订单状态
+          orderStateStr:'退货中',//订单状态描述
+          orderDate:'2019-01-21 16:08:21',//下单时间
+          paymentAmount:1245,//支付金额
+          goodCount:1,//商品件数
+          goods:[{
+            id: 256,
+            name: '华为手机',
+            originalPrice:1108,
+            price: 1245,
+            buyCount:1,
+            img: '/img/good/3.jpg'
+          }]
+        });
 
+        this.orders.push({
+          orderId: 19,
+          orderState:9,//订单状态
+          orderStateStr:'已退货',//订单状态描述
+          orderDate:'2019-01-21 16:08:21',//下单时间
+          paymentAmount:1245,//支付金额
+          goodCount:1,//商品件数
+          goods:[{
+            id: 256,
+            name: '华为手机',
+            originalPrice:1108,
+            price: 1245,
+            buyCount:1,
+            img: '/img/good/3.jpg'
+          }]
+        });
+
+
+
+
+        //显示的订单
         this.showOrders = this.orders;
+
+        //计算未付款订单数量
+        this.unPayCount = 0
+        this.orders.forEach((item)=>{
+          if(item.orderState == 1){
+            this.unPayCount++
+          }
+        })
+
 
         this.$vux.loading.show({
           text: '加载中'
@@ -242,7 +293,7 @@
     methods: {
       onItemClick (index) {
         console.log('on item click:', index)
-        // orderState://0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款
+        // orderState://0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款 8：退货中 9：已退货
         this.showOrders = [];
         switch (index) {
           case 1:
@@ -272,7 +323,7 @@
           case 4:
             //退款订单
             this.orders.forEach((item)=>{
-              if(item.orderState == 6 || item.orderState == 7){
+              if(item.orderState >=6 && item.orderState <= 9){
                 this.showOrders.push(item)
               }
             })
@@ -307,18 +358,25 @@
 
   }
 
-
+  .pay-count{
+    position: absolute;
+    left: 55px;
+    top: 7px;
+  }
 
 
 </style>
 
 <style lang="less" scoped>
-  @import '~vux/src/styles/1px.less';
-  @import '~vux/src/styles/center.less';
+  /*@import '~vux/src/styles/1px.less';*/
+  /*@import '~vux/src/styles/center.less';*/
 
   .order-container .vux-tab .vux-tab-item{
     font-size: 15px;
   }
 
 
+  .order-container .vux-badge{
+    background-color: #995454;
+  }
 </style>
