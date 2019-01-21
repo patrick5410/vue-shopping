@@ -3,49 +3,52 @@
     <!--顶部搜索-->
     <Header/>
 
-    <scroller lock-x :scroll-bottom-offset="0"  height="15.22rem" @on-scroll-bottom="loadMore" class="scroller-container">
-      <div class="container">
-        <!--积分-->
-        <Credit></Credit>
-        <!--推荐商品类型-->
-        <div class="recommend-good">
-          <div class="re-class">
-            <div class="re-className">{{recommendClass}}</div>
-            <div class="re-more" @click="toRecommendClass">更多</div>
+    <RemainSpace>
+      <scroller lock-x :scroll-bottom-offset="0"  height="100%" @on-scroll-bottom="loadMore" class="scroller-container">
+        <div class="container">
+          <!--积分-->
+          <Credit></Credit>
+          <!--推荐商品类型-->
+          <div class="recommend-good">
+            <div class="re-class">
+              <div class="re-className">{{recommendClass}}</div>
+              <div class="re-more" @click="toRecommendClass">更多</div>
+            </div>
+            <img class="re-classImg" :src="recommendImgUrl"/>
           </div>
-          <img class="re-classImg" :src="recommendImgUrl"/>
-        </div>
 
-        <!--商品列表-->
-        <div class="goods-container">
-          <div class="goods" >
-            <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
-              <div class="good-img">
-                <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
-                <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
-                <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
-                  <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
+          <!--商品列表-->
+          <div class="goods-container">
+            <div class="goods" >
+              <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
+                <div class="good-img">
+                  <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
+                  <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
+                  <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
+                    <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
+                  </div>
+                </div>
+                <div class="good-bottom">
+                  <div>{{item.name}}</div>
+                  <div style="color:#995454">¥{{item.price}}</div>
                 </div>
               </div>
-              <div class="good-bottom">
-                <div>{{item.name}}</div>
-                <div style="color:#995454">¥{{item.price}}</div>
+              <div class="loading" v-show="loading">
+                <!--<mt-spinner :size="60"></mt-spinner>-->
+                <img  class="loading-img" src="/img/loading.gif"/>
+                加载中...
+              </div>
+              <div v-show="isFinish" class="bottom-line">
+                <divider >我是有底线滴</divider>
               </div>
             </div>
-            <div class="loading" v-show="loading">
-              <!--<mt-spinner :size="60"></mt-spinner>-->
-              <img  class="loading-img" src="/img/loading.gif"/>
-              加载中...
-            </div>
-            <div v-show="isFinish" class="bottom-line">
-              <divider >我是有底线滴</divider>
-            </div>
           </div>
+
         </div>
 
-      </div>
+      </scroller>
+    </RemainSpace>
 
-    </scroller>
 
     <!--底部菜单-->
     <Menu/>
@@ -57,6 +60,7 @@
 import Menu from '@/components/Menu'
 import Header from '@/components/head/Header'
 import Credit from '@/components/Credit'
+import RemainSpace from '@/components/RemainSpace'
 import { Divider,Scroller } from 'vux'
 
 
@@ -67,7 +71,8 @@ export default {
     Header,
     Credit,
     Divider,
-    Scroller
+    Scroller,
+    RemainSpace
   },
   data: function () {
     return {
@@ -300,6 +305,7 @@ export default {
     width: 100%;
     /*height: 600px;*/
     /*border: 1px solid yellow;*/
+    background-color: white;
   }
 
 
