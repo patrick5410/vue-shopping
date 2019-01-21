@@ -26,6 +26,14 @@ const router = new Router({
       component: Home
     },
     {
+      path: '/test',
+      name: 'test',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Test.vue'], resolve),
+      meta: {
+        title: '临时测试页面'
+      }
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -44,7 +52,7 @@ const router = new Router({
     {
       path: '/index',
       name: 'index',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Index.vue'], resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/index/Index.vue'], resolve),
       meta: {
         title: '首页'
       }
@@ -52,7 +60,7 @@ const router = new Router({
     {
       path: '/clz',
       name: 'clz',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Clz.vue'], resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/clz/Clz.vue'], resolve),
       meta: {
         title: '分类'
       }
@@ -60,7 +68,7 @@ const router = new Router({
     {
       path: '/showMore',
       name: 'showMore',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/ShowMore.vue'], resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/showMore/ShowMore.vue'], resolve),
       meta: {
         title: '更多'
       }
@@ -68,9 +76,17 @@ const router = new Router({
     {
       path: '/cart',
       name: 'cart',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Cart.vue'], resolve),
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/cart/Cart.vue'], resolve),
       meta: {
         title: '购物车'
+      }
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/order/Order.vue'], resolve),
+      meta: {
+        title: '我的订单'
       }
     }
   ]
