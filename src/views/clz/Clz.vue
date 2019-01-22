@@ -166,7 +166,7 @@
             }
           })
 
-          console.log("clzId",clzId)
+          // console.log("clzId",clzId)
           if(clzId != -1){
             this.currentClzId = clzId;
           }
