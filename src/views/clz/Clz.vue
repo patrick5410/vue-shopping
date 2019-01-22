@@ -142,28 +142,34 @@
         this.goodScroll.on('scroll', (pos) => {
           // console.log("pos",pos,this.goodScroll.maxScrollY);
           //防止每次都查询所有的元素
-          // if(this.clzSigns.length==0){
-          //   this.clzSigns = this.$refs.wrapperGood.querySelectorAll(".clz-sign");
-          // }
+          if(this.clzSigns.length==0){
+            this.clzSigns = this.$refs.wrapperGood.querySelectorAll(".clz-sign");
+          }
 
 
           //不需要遍历
-          let maxScrollY = Math.abs(this.goodScroll.maxScrollY);
-          let index = Math.floor(Math.abs(pos.y)/maxScrollY*this.goods.length);
-          if(index>this.goods.length-1){
-            index = this.goods.length-1;
-          }
-          // console.log("index",index,Math.abs(pos.y),maxScrollY);
-          this.currentClzId = this.goods[index].clzId;
+          // let maxScrollY = Math.abs(this.goodScroll.maxScrollY);
+          // let index = Math.floor(Math.abs(pos.y)/maxScrollY*this.goods.length);
+          // if(index>this.goods.length-1){
+          //   index = this.goods.length-1;
+          // }
+          // // console.log("index",index,Math.abs(pos.y),maxScrollY);
+          // this.currentClzId = this.goods[index].clzId;
 
           // console.log("clzSigns",this.clzSigns);
-          // this.clzSigns.forEach((item,index)=>{
-          //   // console.log("item",item);
-          //   if(this.menuIndexChange && Math.abs(Math.round(pos.y))>= item.offsetTop - window.document.getElementById("wrapper_good").clientHeight/2 ){
-          //     this.currentClzId = this.goods[index].clzId;
-          //   }
-          // })
+          let clzId = -1;
+          this.clzSigns.forEach((item,index)=>{
+            // console.log("item",item);
+            if( Math.abs(Math.round(pos.y))>= item.offsetTop - window.document.getElementById("wrapper_good").clientHeight/3 ){
+              // this.currentClzId = this.goods[index].clzId;
+              clzId = this.goods[index].clzId;
+            }
+          })
 
+          console.log("clzId",clzId)
+          if(clzId != -1){
+            this.currentClzId = clzId;
+          }
 
         })
 
@@ -175,7 +181,7 @@
         let that = this;
         for (var i=0;i<8;i++){
           let gs =  [];
-          for(var j=0;j<36;j++){
+          for(var j=0;j<i*6+3;j++){
             gs.push({
               id: that.num++,
               name: '车载配件' + i,
