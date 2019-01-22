@@ -30,12 +30,11 @@
                 <!--待支付-->
                 <div  v-show="item.orderState == 1" style="display: flex;justify-content: space-between">
                     <div style="display: flex;align-items: center">
-                        <span  v-show="getCancelTime(item)<120" style="color: #995454">
+                        <span  v-if="getCancelTime(item)<120 && item.orderState == 1" style="color: #995454">
                             <Countdown :value="getCancelTime(item)" @on-finish="finishCancel"></Countdown>
                         </span>
                         <span v-if="getCancelTime(item)<120">秒后订单将取消</span>
                         <span v-else>{{Math.floor(getCancelTime(item) / 60)}}分钟后订单将取消</span>
-
                     </div>
                     <div class="order-bottom-button">
                         <div>取消</div>
