@@ -66,6 +66,22 @@ const router = new Router({
       }
     },
     {
+      path: '/personal',
+      name: 'personal',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/Personal.vue'], resolve),
+      meta: {
+        title: '盟友淘'
+      }
+    },
+    {
+      path: '/personalData',
+      name: 'personalData',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/PersonalData.vue'], resolve),
+      meta: {
+        title: '个人资料'
+      }
+    },
+    {
       path: '/showMore',
       name: 'showMore',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/showMore/ShowMore.vue'], resolve),
@@ -95,6 +111,22 @@ const router = new Router({
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/address/AddressManage.vue'], resolve),
       meta: {
         title: '地址管理'
+      }
+    },
+    {
+      path: '/payPage',
+      name: 'payPage',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/pay/Pay.vue'], resolve),
+      meta: {
+        title: '确认信息'
+      }
+    },
+    {
+      path: '/payResult',
+      name: 'payResult',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/pay/PayResult.vue'], resolve),
+      meta: {
+        title: '支付结果'
       }
     }
   ]

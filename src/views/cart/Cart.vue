@@ -22,7 +22,7 @@
           <swipeout>
             <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in goods" >
               <div slot="right-menu">
-                <swipeout-button @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="150">移至收藏</swipeout-button>
+                <swipeout-button @click.native="collectGood(item)" type="primary" background-color="#ff9600">收藏</swipeout-button>
                 <swipeout-button @click.native="deleteGood(item)" type="warn">删除</swipeout-button>
               </div>
               <div slot="content" class="demo-content vux-1px-t cart-good-swipe">

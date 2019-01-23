@@ -1,86 +1,6 @@
 <template>
-  <div>
-    <!--<group>-->
-      <!--<cell is-link title="pullup" link="/component/pullup">Pullup</cell>-->
-      <!--<cell is-link title="pulldown" link="/component/pulldown">Pulldown</cell>-->
-      <!--<cell is-link title="pulldownpullup" link="/component/pulldown-pullup">PulldownPullup</cell>-->
-    <!--</group>-->
-
-    <!--<divider>不带滚动条的水平</divider>-->
-    <!--<scroller lock-y :scrollbar-x=false>-->
-      <!--<div class="box1">-->
-        <!--<div class="box1-item" v-for="i in 7"><span>{{' ' + i + ' '}}</span></div>-->
-      <!--</div>-->
-    <!--</scroller>-->
-
-    <!--<divider>显示滚动条的水平</divider>-->
-    <!--<scroller lock-y scrollbar-x>-->
-      <!--<div class="box1">-->
-        <!--<div class="box1-item" v-for="i in 7"><span>{{' ' + i + ' '}}</span></div>-->
-      <!--</div>-->
-    <!--</scroller>-->
-
-    <!--<divider>没有边缘回滚效果的水平</divider>-->
-    <!--<scroller lock-y scrollbar-x :bounce=false>-->
-      <!--<div class="box1">-->
-        <!--<div class="box1-item" v-for="i in 7"><span>{{' ' + i + ' '}}</span></div>-->
-      <!--</div>-->
-    <!--</scroller>-->
-
-    <divider>竖向 scroller scrollTop: {{scrollTop}}</divider>
-    <scroller lock-x :scroll-bottom-offset="5"  height="10rem" @on-scroll-bottom="loadMore" class="scroller-container">
-      <div class="goods-container">
-        <div class="goods" >
-          <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
-            <div class="good-img">
-              <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
-              <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
-              <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
-                <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
-              </div>
-            </div>
-            <div class="good-bottom">
-              <div>{{item.name}}</div>
-              <div style="color:#995454">¥{{item.price}}</div>
-            </div>
-          </div>
-          <div class="loading" v-show="loading">
-            <!--<mt-spinner :size="60"></mt-spinner>-->
-            <img  class="loading-img" src="/img/loading.gif"/>
-            加载中...
-          </div>
-          <div v-show="isFinish" class="bottom-line">
-            <divider >我是有底线滴</divider>
-          </div>
-        </div>
-      </div>
-    </scroller>
-
-
-    <!--底部菜单-->
-    <Menu/>
-    <!--<x-button type="primary" @click.native="$refs.scrollerEvent.reset({top:0})">reset</x-button>-->
-
-    <!--<divider>竖向 scroller</divider>-->
-    <!--<scroller lock-x height="200px" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">-->
-      <!--<div class="box2">-->
-        <!--<p v-for="i in bottomCount">placeholder {{i}}</p>-->
-        <!--<load-more tip="loading"></load-more>-->
-      <!--</div>-->
-    <!--</scroller>-->
-
-    <!--<divider>竖向 scroller</divider>-->
-    <!--<scroller lock-x scrollbar-y height="200px" ref="scroller">-->
-      <!--<div class="box2">-->
-        <!--<p v-for="i in 20" v-if="showList1">placeholder {{ i + '' + i }}</p>-->
-        <!--<p v-for="i in 10" v-if="!showList1">placeholder {{ i }}</p>-->
-        <!--<x-button style="margin:10px 0;" type="primary" @click.native="onClickButton">竖向 scroller</x-button>-->
-        <!--<group>-->
-          <!--<cell @click.native="onCellClick" title="Title" value="Value"></cell>-->
-        <!--</group>-->
-      <!--</div>-->
-    <!--</scroller>-->
-    <!--<x-button @click.native="changeList" type="primary">竖向 scroller</x-button>-->
+  <div class="test-container">
+    <CheckIcon :value.sync="isFinish">默认</CheckIcon>
   </div>
 </template>
 
@@ -104,7 +24,7 @@
 </i18n>
 
 <script>
-  import {Scroller, Divider, Spinner, XButton, Group, Cell, LoadMore} from 'vux'
+  import {Scroller, Divider, Spinner, XButton, Group, Cell, LoadMore,CheckIcon } from 'vux'
   import Menu from '@/components/Menu'
   import Header from '@/components/head/Header'
   import Credit from '@/components/Credit'
@@ -122,6 +42,7 @@
       Menu,
       Header,
       Credit,
+      CheckIcon
     },
     data() {
       return {
@@ -142,9 +63,6 @@
     mounted() {
       this.$nextTick(() => {
         // this.$refs.scrollerEvent.reset({top: 0})
-      })
-      this.$nextTick(() => {
-        // this.$refs.scrollerBottom.reset({top: 0})
       })
     },
     methods: {
@@ -231,33 +149,7 @@
   }
 </script>
 
-<style scoped>
-  .box1 {
-    height: 100px;
-    position: relative;
-    width: 1490px;
-  }
 
-  .box1-item {
-    width: 200px;
-    height: 100px;
-    background-color: #ccc;
-    display: inline-block;
-    margin-left: 15px;
-    float: left;
-    text-align: center;
-    line-height: 100px;
-  }
-
-  .box1-item:first-child {
-    margin-left: 0;
-  }
-
-  .box2-wrap {
-    height: 300px;
-    overflow: hidden;
-  }
-</style>
 
 <style lang="scss" scoped>
   .container{
@@ -434,6 +326,44 @@
     font-size: 14px;
     font-weight: 500;
     color: #808080;
+  }
+
+</style>
+
+
+<style lang="less" scoped>
+  @import '~vux/src/styles/variable.less';
+  /*@import '~vux/src/styles/1px.less';*/
+  /*@import '~vux/src/styles/center.less';*/
+
+  .box1 {
+    height: 100px;
+    position: relative;
+    width: 1490px;
+  }
+
+  .box1-item {
+    width: 200px;
+    height: 100px;
+    background-color: #ccc;
+    display: inline-block;
+    margin-left: 15px;
+    float: left;
+    text-align: center;
+    line-height: 100px;
+  }
+
+  .box1-item:first-child {
+    margin-left: 0;
+  }
+
+  .box2-wrap {
+    height: 300px;
+    overflow: hidden;
+  }
+
+  .test-container>.vux-check-icon > .weui-icon-success:before{
+    color: @check-icon-color-checked;
   }
 
 </style>

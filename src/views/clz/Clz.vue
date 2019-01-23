@@ -50,6 +50,8 @@
 
             </div>
           </li>
+          <!--占位li，防止最后一个高度小，左边的滚动菜单滚动不到最后一个分类-->
+          <li :style="{height: placeholderHeight}"></li>
         </ul>
       </section>
     </div>
@@ -105,16 +107,22 @@
         num:0,//商品累计数，待删
         clzSigns:[],//记录各个类型商品的offsetTop值，用于滚动(右边)
         menuIndexChange: false,//menuIndexChange解决运动时listenScroll依然监听的bug
+        placeholderHeight:'0px',// 占位li高度
       }
+    },
+    created(){
+
     },
     mounted: function () {
 
-      //自适应高度
-      console.log("屏幕高度",window.innerHeight);
-      this.containerHeight =  window.innerHeight - window.document.getElementById('header').clientHeight -window.document.getElementById('menu').clientHeight ;
-      console.log("containerHeight",this.containerHeight)
+
 
       this.$nextTick(function () {
+        //自适应高度
+        console.log("屏幕高度",window.innerHeight);
+        this.containerHeight =  window.innerHeight - window.document.getElementById('header').clientHeight -window.document.getElementById('menu').clientHeight ;
+        console.log("containerHeight",this.containerHeight)
+
         //商品类型滚动框
         this.wrapperMenuScroll = new BScroll(this.$refs.wrapperMenu, {
           probeType: 0,
@@ -141,29 +149,44 @@
 
         this.goodScroll.on('scroll', (pos) => {
           // console.log("pos",pos,this.goodScroll.maxScrollY);
-          //防止每次都查询所有的元素
-          // if(this.clzSigns.length==0){
-          //   this.clzSigns = this.$refs.wrapperGood.querySelectorAll(".clz-sign");
-          // }
+
+            //防止每次都查询所有的元素
+          if(this.clzSigns.length==0){
+            //这一步放到mounted时，clzs长度为0，只能放在这里
+            let clzs = window.document.getElementsByClassName("clz-sign");
+            // console.log("滚动时",clzs.length,clzs.item(0),window.document.getElementById("wrapper_good").clientHeight)
+            if(clzs[clzs.length-1].clientHeight<window.document.getElementById("wrapper_good").clientHeight/3*2){
+              this.placeholderHeight = window.document.getElementById("wrapper_good").clientHeight/2+"px"
+            }
+
+            this.clzSigns = this.$refs.wrapperGood.querySelectorAll(".clz-sign");
+            // console.log("最后一个元素高度",this.clzSigns[this.clzSigns.length-1].clientHeight,window.document.getElementById("wrapper_good").clientHeight/3*2)
+          }
 
 
           //不需要遍历
-          let maxScrollY = Math.abs(this.goodScroll.maxScrollY);
-          let index = Math.floor(Math.abs(pos.y)/maxScrollY*this.goods.length);
-          if(index>this.goods.length-1){
-            index = this.goods.length-1;
-          }
-          // console.log("index",index,Math.abs(pos.y),maxScrollY);
-          this.currentClzId = this.goods[index].clzId;
+          // let maxScrollY = Math.abs(this.goodScroll.maxScrollY);
+          // let index = Math.floor(Math.abs(pos.y)/maxScrollY*this.goods.length);
+          // if(index>this.goods.length-1){
+          //   index = this.goods.length-1;
+          // }
+          // // console.log("index",index,Math.abs(pos.y),maxScrollY);
+          // this.currentClzId = this.goods[index].clzId;
 
           // console.log("clzSigns",this.clzSigns);
-          // this.clzSigns.forEach((item,index)=>{
-          //   // console.log("item",item);
-          //   if(this.menuIndexChange && Math.abs(Math.round(pos.y))>= item.offsetTop - window.document.getElementById("wrapper_good").clientHeight/2 ){
-          //     this.currentClzId = this.goods[index].clzId;
-          //   }
-          // })
+          let clzId = -1;
+          this.clzSigns.forEach((item,index)=>{
+            // console.log("item",item);
+            if( Math.abs(Math.round(pos.y))>= item.offsetTop - window.document.getElementById("wrapper_good").clientHeight/3 ){
+              // this.currentClzId = this.goods[index].clzId;
+              clzId = this.goods[index].clzId;
+            }
+          })
 
+          // console.log("clzId",clzId)
+          if(clzId != -1){
+            this.currentClzId = clzId;
+          }
 
         })
 
@@ -175,7 +198,7 @@
         let that = this;
         for (var i=0;i<8;i++){
           let gs =  [];
-          for(var j=0;j<36;j++){
+          for(var j=0;j<i*6+3;j++){
             gs.push({
               id: that.num++,
               name: '车载配件' + i,
