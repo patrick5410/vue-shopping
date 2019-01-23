@@ -8,6 +8,11 @@ import 'mint-ui/lib/style.css'
 import { InfiniteScroll, Spinner } from 'mint-ui'
 import VueLazyLoad from 'vue-lazyload'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
+
 Vue.config.productionTip = false
 
 // 商品详情路径

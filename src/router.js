@@ -88,6 +88,14 @@ const router = new Router({
       meta: {
         title: '我的订单'
       }
+    },
+    {
+      path: '/addressManage',
+      name: 'addressManage',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/address/AddressManage.vue'], resolve),
+      meta: {
+        title: '地址管理'
+      }
     }
   ]
 })
