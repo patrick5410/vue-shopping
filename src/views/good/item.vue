@@ -267,14 +267,23 @@ export default {
             margin-left: 10px;
             width: 24px;
             height: 41px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
         }
         .collection{
             width: 24px;
             height: 41px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
         }
         .cart{
             width: 36px;
-            height: 41px;   
+            height: 41px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;   
             .add_num{
                 position: absolute;
                 padding: 2px 3px;
