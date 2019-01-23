@@ -336,7 +336,7 @@
 </style>
 
 <style lang="less" scoped>
-  .weui-icon-success{
-    color: #995454;
-  }
+  @import '~vux/src/styles/weui/icon/weui_icon_font';
+
+  @icon-success-color:#995454;
 </style>

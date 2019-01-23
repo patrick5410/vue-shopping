@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     toRecommendClass () {
-      this.$router.push({path:this.recommendClassUrl,query:{clzName:this.recommendClass}})
+      this.$router.push({name:'showMore',query:{clzName:this.recommendClass}})
     },
     //加载更多
     loadMore () {
