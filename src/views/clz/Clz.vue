@@ -20,7 +20,7 @@
             <div class="clz-container">
               <!--<div>{{index}}</div>-->
               <!--商品类型主题图片-->
-              <div class="clzImg-div">
+              <div class="clzImg-div" @click="toShowClz(item.clzId)">
                 <img src="/img/banner.png" style="width: 100%;height: 100%"  ref='itemImg' />
               </div>
 
@@ -236,8 +236,11 @@
       },
       //商品详情页面
       goodDetail(goodId){
-        this.$router.push({path:this.goodDetailUrl,query:{goodId:goodId}})
-      }
+        this.$router.push({name:'good',query:{goodId:goodId}})
+      },
+      toShowClz (clzId) {
+        this.$router.push({name:'showMore',query:{clzName:clzId}})
+      },
 
     },
     watch:{

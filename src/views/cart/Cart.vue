@@ -33,11 +33,11 @@
                 </div>
                 <!--右边商品-->
                 <div class="good-one-right">
-                  <div class="good-img">
+                  <div class="good-img" @click="goodDetail(item.id)">
                     <img :src="item.img" style="width: 100%;height: auto">
                   </div>
                   <div class="good-info">
-                    <div class="goodName">{{item.name}}</div>
+                    <div class="goodName" @click="goodDetail(item.id)">{{item.name}}</div>
                     <div class="goodPrice">¥{{item.price}}元</div>
                     <div class="buyCount">
                       <div class="buyCount-cut" @click="item.buyCount>1?item.buyCount--:1">-</div>
@@ -77,7 +77,7 @@
           合计：
           <span style="color: #995454">{{totalPrice.toFixed(2)}}元</span>
         </div>
-        <div class="pay">
+        <div class="pay" @click="toPayPage">
           结算({{parseInt(selectCount)}})
         </div>
       </div>
@@ -136,7 +136,7 @@
     methods: {
       toClz() {
         //跳转到分类
-        this.$router.push('/clz')
+        this.$router.push({name:'clz'})
       },
       collectGood(item){
         //移至收藏
@@ -161,6 +161,14 @@
               item.isSelected = false;
             }
           })
+      },
+      //商品详情页面
+      goodDetail(goodId){
+        this.$router.push({name:'good',query:{goodId:goodId}})
+      },
+      toPayPage(){
+        //这里不用传选中商品id，直接存储在store中
+        this.$router.push({name:'payPage'})
       }
 
     },

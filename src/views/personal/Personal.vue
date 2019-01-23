@@ -16,26 +16,26 @@
     <div class="orders">
       <div class="orders-head">
         <div class="orders-head-left">我的订单</div>
-        <div class="orders-head-right">
+        <div class="orders-head-right" @click="toOrder(0)">
           <div>全部订单</div>
           <img style="height: 100%;width: auto;margin-left: .4rem" src="/img/forward_right.png">
         </div>
       </div>
 
       <div class="common">
-        <div>
+        <div @click="toOrder(1)">
           <img src="/img/unpay.png">
           <div>待付款</div>
         </div>
-        <div>
+        <div  @click="toOrder(2)">
           <img src="/img/unreceive.png">
           <div>待收货</div>
         </div>
-        <div>
+        <div  @click="toOrder(3)">
           <img src="/img/evaluate.png">
           <div>已收货</div>
         </div>
-        <div>
+        <div  @click="toOrder(4)">
           <img src="/img/after_sale.png">
           <div>退款/货</div>
         </div>
@@ -44,7 +44,7 @@
 
     <div class="other-entrance">
       <div class="common">
-        <div>
+        <div @click="toAddressManage">
           <img src="/img/address_management.png">
           <div>地址管理</div>
         </div>
@@ -77,7 +77,16 @@
     },
     methods:{
       toPersonalData() {
+        //跳转到个人资料
         this.$router.push({name:'personalData'})
+      },
+      toOrder(index){
+        //跳转到订单管理
+        this.$router.push({name:'order',query:{index:index}})
+      },
+      toAddressManage(){
+        //跳转到地址管理
+        this.$router.push({name:'addressManage'})
       }
     }
 

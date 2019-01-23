@@ -50,7 +50,7 @@
     methods:{
       //商品详情页面
       goodDetail(goodId){
-        this.$router.push({path:this.goodDetailUrl,query:{goodId:goodId}})
+        this.$router.push({name:'good',query:{goodId:goodId}})
       }
     }
 

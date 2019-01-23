@@ -3,11 +3,11 @@
         <!-- 商品轮播图 -->
         <div class="item">
             <img class="back" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png" @click="$router.back()"/>
-            <img class="home" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_homeNormal.png"/>
+            <img class="home" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_homeNormal.png" @click="toIndex"/>
             <Swipe :auto="3000">
                 <SwipeItem v-for="item in itemList" :key="item">
                     <img :src="item" alt="item">
-                </SwipeItem>                
+                </SwipeItem>
             </Swipe>
         </div>
         <!-- 商品简单介绍 -->
@@ -28,7 +28,7 @@
         </div>
         <!-- 商品详情 -->
         <div class="details" >
-            <img v-for="item in list" :key="item" :src="item" alt="item">          
+            <img v-for="item in list" :key="item" :src="item" alt="item">
         </div>
         <!-- 底部工具栏 -->
         <div class="bottom_tool">
@@ -44,9 +44,9 @@
                 </div>
                 <span>收藏</span>
             </div>
-            <div class="cart">
+            <div class="cart" @click="toCart">
                 <span class="add_num" :class="add_num?'add_num_show':''" id="popone">+1</span>
-                <Badge :value="1">                    
+                <Badge :value="1">
                     <div class="img">
                         <img src="/img/cart_item.png" alt="cart">
                     </div>
@@ -77,7 +77,7 @@
                     <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="maxNum"></InputNumber>
                 </div>
                 <div class="button">
-                    <div class="buy">
+                    <div class="buy" @click="toPayPage">
                         立即购买
                     </div>
                     <div class="toCart" @click="turn_add_num">
@@ -131,10 +131,19 @@ export default {
                 that.add_num = !that.add_num;
             },1500)
         },
-      backTo(){
-        console.log('返回上一页');
-        this.$route.go(-1);
-      }
+        toPayPage(){
+          //这里不用传选中商品id，直接存储在store中
+          this.$router.push({name:'payPage'})
+        },
+        toIndex(){
+          //返回首页
+          this.$router.push({name:'index'})
+        },
+        toCart(){
+          //跳转到购物车
+          this.$router.push({name:'cart'})
+        }
+
     }
 }
 </script>
@@ -162,14 +171,14 @@ export default {
             img{
                 // width: 100%;
                 height: 211px;
-            }            
-        }        
+            }
+        }
         .back{
             position: absolute;
             top: 0;
-            left: 0; 
+            left: 0;
             height: 48px;
-            width: 48px;    
+            width: 48px;
             transform: rotateX(180deg);
             z-index: 2;
         }
@@ -188,7 +197,7 @@ export default {
         flex-direction: column;
         align-items: flex-start;
         background-color: #fff;
-        height: 58px; 
+        height: 58px;
         padding: 10px;
         .name{
             font-size: 14px;
@@ -223,7 +232,7 @@ export default {
             right: 0;
             width: 35px;
             height: 35px;
-            transform: rotateY(180deg)  
+            transform: rotateY(180deg)
         }
     }
     //商品说明
@@ -232,14 +241,14 @@ export default {
         margin-bottom: 10px;
         height: 77px;
         background-color: #fff;
-        padding: 10px; 
+        padding: 10px;
         display: flex;
         font-size: 14px;
     }
     //商品详情图
-    .details{ 
-        padding-bottom: 49px; 
-             
+    .details{
+        padding-bottom: 49px;
+
         img{
             width: 100%;
             border: 0 none;
@@ -283,7 +292,7 @@ export default {
             height: 41px;
             display: inline-flex;
             flex-direction: column;
-            align-items: center;   
+            align-items: center;
             .add_num{
                 position: absolute;
                 padding: 2px 3px;
@@ -293,23 +302,23 @@ export default {
                 display: none;
                 font-size: 18px;
                 pointer-events: none;
-                z-index: 30;                    
+                z-index: 30;
             }
             .add_num_show{
                 display: block;
                 opacity: 0;
                 -webkit-animation: de_add_num 2s;
             }
-                  
+
         }
-        
+
         .buy{
             width: 100px;
             height: 32px;
             line-height: 32px;
             color: #fff;
-            background-color: rgb(153,84,84); 
-            border-radius: 10px;           
+            background-color: rgb(153,84,84);
+            border-radius: 10px;
         }
         .takein{
             margin-right: 10px;
@@ -318,7 +327,7 @@ export default {
             line-height: 32px;
             color: #fff;
             background-color:rgb(61,122,153);
-            border-radius: 10px;           
+            border-radius: 10px;
         }
     }
     //点击立即购买弹出层
@@ -336,7 +345,7 @@ export default {
             margin: 10px;
             .good{
                 display: flex;
-                flex-direction: row;                
+                flex-direction: row;
                 img{
                     width: 50px;
                     height: 50px;
@@ -344,20 +353,20 @@ export default {
                     box-sizing: border-box;
                 }
                 .text{
-                    margin-left: 10px; 
+                    margin-left: 10px;
                     font-size: 16px;
                     text-align: left;
                     .name{color: rgb(51, 51, 51);}
-                    .price{color: rgb(153, 84, 84);}               
+                    .price{color: rgb(153, 84, 84);}
                 }
                 .kucun{
-                    margin-left: 10px; 
+                    margin-left: 10px;
                     font-size: 14px;
                     color: rgb(128, 128, 128)
                 }
             }
             .numSelect{
-                margin-top: 10px; 
+                margin-top: 10px;
                 text-align: left;
                 font-size: 14px;
                 color: rgb(51,51,51);
@@ -378,7 +387,7 @@ export default {
                     height: 32px;
                     border-radius: 10px;
                     line-height: 32px;
-                    background-color: rgb(153,84,84); 
+                    background-color: rgb(153,84,84);
                 }
                 .toCart{
                     width: 150px;

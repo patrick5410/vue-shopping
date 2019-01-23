@@ -82,7 +82,7 @@
     <!--支付按钮-->
     <div class="pay-div">
       <div class="pay-money">合计：<span style="color: #995454">¥{{order.paymentAmount.toFixed(2)}}</span></div>
-        <div class="pay-button">去支付</div>
+        <div class="pay-button" @click="pay">去支付</div>
     </div>
 
   </div>
@@ -152,6 +152,15 @@
 
 
       })
+    },
+    methods:{
+      pay(){
+        //请求后台，更新订单：收货信息以及留言，然后向微信发起预支付订单，并返回
+
+        //跳转到支付结果页面
+        this.$router.push({name:'payResult',query:{payResult:"success"}})
+
+      }
     }
   }
 
