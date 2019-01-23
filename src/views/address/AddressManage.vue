@@ -5,24 +5,24 @@
                 <div class="name_phone">{{item.name}}&emsp;&emsp;{{item.phone}}</div>
                 <div class="address">{{item.address}}</div>
             </div>
-            <div class="container_bottom">   
+            <div class="container_bottom">
                 <div class="check" @click="changechecked(item)">
-                    <check-icon :value.sync="item.checked">默认地址</check-icon>      
-                </div> 
+                    <check-icon :value.sync="item.checked">默认地址</check-icon>
+                </div>
                 <div class="button">
-                    <div class="edit"> 
+                    <div class="edit">
                         <img src="/img/addressManage/edit.png" alt="编辑"><div>编辑</div>
                     </div>
                     <div class="delete">
                         <img src="/img/addressManage/delete.png" alt="删除"><div>删除</div>
                     </div>
-                </div>          
-                                
+                </div>
+
             </div>
         </div>
         <!-- 添加收货地址 -->
-        <div class="addAddress" @click="getAddress">新增收货地址</div>
-    </div>    
+        <div class="addAddress" @click="addAddress">新增收货地址</div>
+    </div>
 </template>
 <script>
 import { CheckIcon } from 'vux'
@@ -48,9 +48,9 @@ export default {
                     phone: '132489873192',
                     address: '广东省佛山市禅城区季华二路国家火炬创新创业园',
                     checked: false
-                }                
+                }
             ]
-            
+
         }
     },
     computed: {
@@ -64,26 +64,31 @@ export default {
     methods: {
         getAddress () {
             let that = this
-            let promise = new Promise((resolve, reject) => {                
+            let promise = new Promise((resolve, reject) => {
                 that.axios.get('/api/?ak=2khXIrm9hxmyO7VKEWSrcisX&location=23.1095,113.586502&output=json')
                     .then((res)=>{
                         console.log(res.data.result)
                         let index = 1;
                         resolve(index,res.data.result)}
-                    )            
+                    )
             })
             promise.then((index,res)=>{
                 console.log('res',res)
-                console.log('index',index);                                
+                console.log('index',index);
             })
         },
         changechecked (item) {
             console.log(item)
+        },
+        addAddress(){
+          //跳转到添加地址页面
+          this.$router.push({name:'addressEdit',query:{clzName:'faf'}})
+
         }
     }
 }
 </script>
-<style lang='less'>    
+<style lang='less'>
     .addressManage{
         width: 100vw;
         background-color: #e5e5e5;
@@ -94,7 +99,7 @@ export default {
             height: 100px;
             padding: 0 10px;
             background-color: #fff;
-            margin: 10px 0; 
+            margin: 10px 0;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;

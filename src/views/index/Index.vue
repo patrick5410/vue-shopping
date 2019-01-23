@@ -95,6 +95,9 @@ export default {
       this.loadMore ()
     })
   },
+  beforeDestroy: function() {
+    // console.log("页面跳转之前");
+  },
   methods: {
     toRecommendClass () {
       this.$router.push({name:'showMore',query:{clzName:this.recommendClass}})

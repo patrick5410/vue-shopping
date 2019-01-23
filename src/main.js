@@ -15,9 +15,6 @@ Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
 
-// 商品详情路径
-Vue.prototype.goodDetailUrl = '/good'
-
 new Vue({
   router,
   store,

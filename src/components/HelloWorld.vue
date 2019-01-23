@@ -1,14 +1,14 @@
 <template>
   <div class="hello">
-    <inline-x-number></inline-x-number>
-    <Checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</Checkbox>
-    <div style="margin: 15px 0;"></div>
-    <CheckboxGroup v-model="checkedCities" @change="handleCheckedCitiesChange">
-      <Checkbox v-for="city in cities" :label="city" :key="city">{{city}}</Checkbox>
-    </CheckboxGroup>
+    <!--<inline-x-number></inline-x-number>-->
+    <!--<Checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</Checkbox>-->
+    <!--<div style="margin: 15px 0;"></div>-->
+    <!--<CheckboxGroup v-model="checkedCities" @change="handleCheckedCitiesChange">-->
+      <!--<Checkbox v-for="city in cities" :label="city" :key="city">{{city}}</Checkbox>-->
+    <!--</CheckboxGroup>-->
 
-    <!--测试嵌套-->
-    <slot></slot>
+    <!--&lt;!&ndash;测试嵌套&ndash;&gt;-->
+    <!--<slot></slot>-->
   </div>
 </template>
 
@@ -21,11 +21,11 @@ export default {
   },
   data(){
     return{
-      
+      checkedCities:[]
     }
   },
   methods:{
-    
+
   }
 }
 </script>

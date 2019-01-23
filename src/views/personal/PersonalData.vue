@@ -86,6 +86,10 @@
         margin-left: 15px;
       }
 
+      div:nth-child(2){
+        color: #808080;
+      }
+
     }
 
     .head-img-div{

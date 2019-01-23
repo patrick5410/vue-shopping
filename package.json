@@ -58,7 +58,7 @@
   "devServer": {
     "proxy": {
       "/api": {
-        "target": "http://api.map.baidu.com/geocoder/v2",
+        "target": "http://passer-by.com/data_location/town/",
         "changeOrigin": true,
         "pathRewrite": {
           "^/api": ""

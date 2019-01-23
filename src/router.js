@@ -114,6 +114,14 @@ const router = new Router({
       }
     },
     {
+      path: '/addressEdit',
+      name: 'addressEdit',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/address/AddressEdit.vue'], resolve),
+      meta: {
+        title: '收货地址'
+      }
+    },
+    {
       path: '/payPage',
       name: 'payPage',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/pay/Pay.vue'], resolve),
