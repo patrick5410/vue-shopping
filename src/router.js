@@ -66,6 +66,22 @@ const router = new Router({
       }
     },
     {
+      path: '/personal',
+      name: 'personal',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/Personal.vue'], resolve),
+      meta: {
+        title: '盟友淘'
+      }
+    },
+    {
+      path: '/personalData',
+      name: 'personalData',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/PersonalData.vue'], resolve),
+      meta: {
+        title: '个人资料'
+      }
+    },
+    {
       path: '/showMore',
       name: 'showMore',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/showMore/ShowMore.vue'], resolve),

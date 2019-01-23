@@ -4,7 +4,7 @@
       <div class="m-index" @click="toIndex" :class="{indexActive: $route.path.indexOf('index') !== -1}">首页</div>
       <div class="m-clz" @click="toClz"  :class="{clzActive: $route.path.indexOf('clz') !== -1}">分类</div>
       <div class="m-cart" @click="toCart"  :class="{cartActive: $route.path.indexOf('cart') !== -1}">购物车</div>
-      <div class="m-personal" :class="{personalActive: $route.path.indexOf('personal') !== -1}">我的</div>
+      <div class="m-personal" @click="toPersonal" :class="{personalActive: $route.path.indexOf('personal') !== -1}">我的</div>
   </div>
 </template>
 
@@ -14,15 +14,19 @@ export default {
   methods: {
     toIndex () {
       //跳转到首页
-      this.$router.push('/index')
+      this.$router.push({name:'index'})
     },
     toClz () {
       //跳转到分类
-      this.$router.push('/clz')
+      this.$router.push({name:'clz'})
     },
     toCart(){
       //跳转到购物车
-      this.$router.push('/cart')
+      this.$router.push({name:'cart'})
+    },
+    toPersonal(){
+      //跳转到个人中心
+      this.$router.push({name:'personal'})
     }
   },
   created () {
