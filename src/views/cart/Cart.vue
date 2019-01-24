@@ -41,7 +41,7 @@
                     <div class="goodPrice">¥{{item.price}}元</div>
                     <div class="buyCount">
                       <div class="buyCount-cut" @click="item.buyCount>1?item.buyCount--:1">-</div>
-                      <input class="buyCount-input" type="number" v-model="item.buyCount"></input>
+                      <input class="buyCount-input" type="number" v-model="item.buyCount" @blur="changeCount(item)"></input>
                       <div class="buyCount-add" @click="item.buyCount<item.maxNum?item.buyCount++:item.maxNum">+</div>
                     </div>
                   </div>
@@ -169,6 +169,12 @@
       toPayPage(){
         //这里不用传选中商品id，直接存储在store中
         this.$router.push({name:'payPage'})
+      },
+      changeCount(item){
+        console.log("item",item)
+        if (item.buyCount || item.buyCount == ''){
+          item.buyCount = 1
+        }
       }
 
     },
@@ -176,7 +182,7 @@
       goods: {
         handler(val, oldVal){
          //开启深度监听，用于监听商品是否被选中和输入数量
-         //  console.log("商品变化",val)
+          console.log("商品变化",val)
           this.selectCount = 0;
           this.totalPrice = 0;
           let selectKind = 0;//选中商品种类

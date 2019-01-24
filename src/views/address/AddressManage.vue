@@ -1,16 +1,16 @@
 <template>
     <div class="addressManage" :style="{height: getHeight + 'px'}">
         <div class="addressCard" v-for="item in address" :key="item.phone">
-            <div class="container_top">
+            <div class="container_top" @click="selectAdress(item)">
                 <div class="name_phone">{{item.name}}&emsp;&emsp;{{item.phone}}</div>
-                <div class="address">{{item.address}}</div>
+                <div class="address">{{item.addressArea+item.addressDetail}}</div>
             </div>
             <div class="container_bottom">
                 <div class="check" @click="changechecked(item)">
                     <check-icon :value.sync="item.checked">默认地址</check-icon>
                 </div>
                 <div class="button">
-                    <div class="edit">
+                    <div class="edit" @click="editAddress(item)">
                         <img src="/img/addressManage/edit.png" alt="编辑"><div>编辑</div>
                     </div>
                     <div class="delete">
@@ -32,24 +32,31 @@ export default {
         return {
             address: [
                 {
-                    name: '某某某',
+                    addressId:1,
+                    name: '张三',
                     phone: '132489873190',
-                    address: '广东省佛山市禅城区季华二路国家火炬创新创业园',
+                    addressArea:'广东省佛山市禅城区石湾街道',//所在地区
+                    addressDetail: '岭南天地',//详细地址
                     checked: true
                 },
                 {
-                    name: '某某某',
+                    addressId:2,
+                    name: '李四',
                     phone: '132489873191',
-                    address: '广东省佛山市禅城区季华二路国家火炬创新创业园',
+                    addressArea:'广东省佛山市禅城区石湾街道',//所在地区
+                    addressDetail: '建新路',//详细地址
                     checked: false
                 },
                 {
-                    name: '某某某',
+                    addressId:3,
+                    name: '王五',
                     phone: '132489873192',
-                    address: '广东省佛山市禅城区季华二路国家火炬创新创业园',
+                    addressArea:'广东省佛山市禅城区石湾街道',//所在地区
+                    addressDetail: '祖庙',//详细地址
                     checked: false
                 }
-            ]
+            ],
+          // isBacktoOrder:false,//是否返回上个页面
 
         }
     },
@@ -82,8 +89,21 @@ export default {
         },
         addAddress(){
           //跳转到添加地址页面
-          this.$router.push({name:'addressEdit',query:{clzName:'faf'}})
-
+          this.$store.state.choosedAddress = null;
+          this.$router.push({name:'addressEdit'})
+        },
+        editAddress(item){
+          //编辑地址
+          this.$store.state.choosedAddress = item;
+          this.$router.push({name:'addressEdit'})
+        },
+        selectAdress(item){
+          //判断上个地址是否是订单页面
+          if(this.$store.state.order != null){
+            //选择该地址作为订单地址
+            this.$store.state.choosedAddress = item;
+            this.$router.push({name:'payPage'})
+          }
         }
     }
 }

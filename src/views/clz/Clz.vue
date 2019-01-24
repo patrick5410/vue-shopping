@@ -20,7 +20,7 @@
             <div class="clz-container">
               <!--<div>{{index}}</div>-->
               <!--商品类型主题图片-->
-              <div class="clzImg-div" @click="toShowClz(item.clzId)">
+              <div class="clzImg-div" @click="toShowClz(item)">
                 <img src="/img/banner.png" style="width: 100%;height: 100%"  ref='itemImg' />
               </div>
 
@@ -119,9 +119,9 @@
 
       this.$nextTick(function () {
         //自适应高度
-        console.log("屏幕高度",window.innerHeight);
+        // console.log("屏幕高度",window.innerHeight);
         this.containerHeight =  window.innerHeight - window.document.getElementById('header').clientHeight -window.document.getElementById('menu').clientHeight ;
-        console.log("containerHeight",this.containerHeight)
+        // console.log("containerHeight",this.containerHeight)
 
         //商品类型滚动框
         this.wrapperMenuScroll = new BScroll(this.$refs.wrapperMenu, {
@@ -133,7 +133,7 @@
         })
 
         this.wrapperMenuScroll.on('scroll', (pos) => {
-          console.log("pos",pos,this.wrapperMenuScroll.maxScrollY);
+          // console.log("pos",pos,this.wrapperMenuScroll.maxScrollY);
 
         })
 
@@ -213,7 +213,7 @@
           })
 
         }
-        console.log("goos",this.goods);
+        // console.log("goos",this.goods);
 
         //初始化当前选中的商品类型
         this.currentClzId = this.goods[0].clzId;
@@ -238,8 +238,8 @@
       goodDetail(goodId){
         this.$router.push({name:'good',query:{goodId:goodId}})
       },
-      toShowClz (clzId) {
-        this.$router.push({name:'showMore',query:{clzName:clzId}})
+      toShowClz (item) {
+        this.$router.push({name:'showMore',query:{clzName:item.clzName}})
       },
 
     },

@@ -93,11 +93,13 @@
         paymentAmount:9106,//支付金额
         goodCount:6,//商品件数
         leaveWord:'',//留言
-        addressId:1,//地址Id
-        addressSelect:'广东省佛山市禅城区张槎街道',//选择地址（从省份到街道）
-        addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
-        receiveName:'李世虎',// 收货人
-        receivePhone:'13425816985',//收货手机号
+        addressInfo: {
+          addressId:1,//地址Id
+          addressArea:'广东省佛山市禅城区张槎街道',//所在地区（从省份到街道）
+          addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
+          receiveName:'李世虎',// 收货人
+          receivePhone:'13425816985',//收货手机号
+        },
         goods:[{
           id: 125,
           name: '华为手机',
@@ -118,6 +120,12 @@
 
 
     },
+    beforeDestroy() {
+      // console.log("页面跳转之前");
+      //页面关闭前把当前订单设为null
+      this.$store.state.order = null
+    },
+
     methods: {
       // 获取订单取消剩余时间，单位是分钟
       getCancelTime(order){

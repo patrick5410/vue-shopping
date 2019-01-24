@@ -3,13 +3,13 @@
   <div class="pay-container">
     <div class="receive-info">
       <div class="receive-info-left">
-        <div>{{addressInfo.receiveName}}</div>
-        <div>{{addressInfo.addressSelect}}</div>
+        <div>{{order.addressInfo.receiveName}}</div>
+        <div>{{order.addressInfo.addressArea}}</div>
       </div>
 
       <div class="receive-info-right">
-        <div style="margin-right: .25rem">{{addressInfo.receivePhone}}</div>
-        <div style="align-items: center;">
+        <div style="margin-right: .25rem">{{order.addressInfo.receivePhone}}</div>
+        <div style="align-items: center;" @click="toAddressManage">
           <img class="forward_right" src="/img/forward_right.png">
         </div>
       </div>
@@ -33,7 +33,7 @@
       <div class="good" v-for="(item,index) in order.goods">
         <div class="good-left">
           <div class="good-img">
-            <img style="width: 100%;height: auto" src="/img/good/1.jpg">
+            <img style="width: 100%;height: auto" :src="item.img">
           </div>
           <div class="good-left-info">
             <div>{{item.name}}</div>
@@ -77,7 +77,7 @@
 
     <!--详细地址-->
     <div class="detail-address">
-      配送至：{{addressInfo.addressDetail}}
+      配送至：{{order.addressInfo.addressDetail}}
     </div>
     <!--支付按钮-->
     <div class="pay-div">
@@ -90,6 +90,10 @@
 
 <script>
   import {  Box,Icon} from 'vux'
+  import Vue from 'vue'
+  import { ToastPlugin } from 'vux'
+
+  Vue.use(ToastPlugin)
 
   export default {
     components: {
@@ -99,52 +103,92 @@
     data: function () {
       return {
         order:{},//订单中有地址，但未填写，在付款后地址才补全
-        addressInfo:{},//地址信息，含有手机号码等信息
+        // addressInfo:{},//地址信息，含有手机号码等信息
 
       }
     },
     created(){
-      //模拟订单数据
-      this.order = {
-        orderId: 12,
-        orderState:1,//订单状态
-        orderStateStr:'待付款',//订单状态描述
-        orderDate:'2019-01-21 21:51:21',//下单时间
-        totalPrice:9106,//总价（不含运费）
-        deliveryMoney:0,//运费
-        paymentAmount:9106,//支付金额
-        goodCount:6,//商品件数
-        leaveWord:'',//留言
-        addressId:1,//地址Id
-        addressSelect:'',//选择地址（从省份到街道）
-        addressDetail:'',//详细地址
-        receiveName:'李世虎',// 收货人
-        receivePhone:'13425816985',//收货手机号
-        goods:[{
-          id: 125,
-          name: '华为手机',
-          originalPrice:1108,
-          price: 1058,
-          buyCount:5,
-          img: '/img/good/1.jpg'
-        },
-          {
-            id: 128,
-            name: '戴尔电脑',
-            originalPrice:3855,
-            price: 3566,
-            buyCount:1,
-            img: '/img/good/2.jpg'
-          }]
-      };
 
-      this.addressInfo = {
-        addressId:1,//地址Id
-        addressSelect:'广东省佛山市禅城区张槎街道',//选择地址（从省份到街道）
-        addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
-        receiveName:'李世虎',// 收货人
-        receivePhone:'13425816985',//收货手机号
+
+
+      if(this.$store.state.order == null){
+        //正常情况提示错误，并返回上个页面
+        // this.$vux.toast.show({
+        //   text: '订单确认信息页面出错，即将返回上个页面',
+        //   type:'warn',
+        //   width:'10em'
+        // })
+        // this.$router.back();
+
+
+        //模拟订单数据
+        this.$store.state.order = {
+          orderId: 12,
+          orderState:1,//订单状态
+          orderStateStr:'待付款',//订单状态描述
+          orderDate:'2019-01-21 21:51:21',//下单时间
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          paymentAmount:9106,//支付金额
+          goodCount:6,//商品件数
+          leaveWord:'',//留言
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省佛山市禅城区张槎街道',//所在地区（从省份到街道）
+            addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
+            receiveName:'李世虎',// 收货人
+            receivePhone:'13425816985',//收货手机号
+          },
+          goods:[{
+            id: 125,
+            name: '华为手机',
+            originalPrice:1108,
+            price: 1058,
+            buyCount:5,
+            img: '/img/good/1.jpg'
+          },
+            {
+              id: 128,
+              name: '戴尔电脑',
+              originalPrice:3855,
+              price: 3566,
+              buyCount:1,
+              img: '/img/good/2.jpg'
+            }]
+        };
       }
+
+
+      //这个页面this.$store.state.order一定会存在
+      this.order = this.$store.state.order
+      console.log("order",this.order)
+
+      if(this.$store.state.choosedAddress){
+        //管理地址页面选择地址后跳转回来
+        let address = this.$store.state.choosedAddress;
+        this.$store.state.order.addressInfo = {
+          addressId:address.addressId,//地址Id
+          addressArea:address.addressArea,//所在地区（从省份到街道）
+          addressDetail:address.addressDetail,//详细地址
+          receiveName:address.name,// 收货人
+          receivePhone:address.phone,//收货手机号
+        }
+      }else{
+        //没有选择的地址，需要从后台请求
+        // this.$store.state.order.addressInfo = {
+        //   addressId:1,//地址Id
+        //   addressArea:'广东省佛山市禅城区张槎街道',//所在地区（从省份到街道）
+        //   addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
+        //   receiveName:'李世虎',// 收货人
+        //   receivePhone:'13425816985',//收货手机号
+        // }
+
+      }
+
+
+
+
+
     },
     mounted() {
       this.$nextTick(() => {
@@ -160,7 +204,13 @@
         //跳转到支付结果页面
         this.$router.push({name:'payResult',query:{payResult:"success"}})
 
+      },
+      toAddressManage(){
+        //跳转到选择地址页面（管理地址）
+        this.$store.state.choosedAddress = null
+        this.$router.push({name:'addressManage'})
       }
+
     }
   }
 

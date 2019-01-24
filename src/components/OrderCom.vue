@@ -5,7 +5,7 @@
         <div class="order" v-for="(item,orderIndex) in orders">
             <div class="order-head">
                 <div class="head-date" style="color: #808080">{{item.orderDate}}</div>
-                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==6 || item.orderState==8 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
+                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==5 || item.orderState==7 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
             </div>
 
             <!--一种商品-->
@@ -38,19 +38,19 @@
                     </div>
                     <div class="order-bottom-button">
                         <div>取消</div>
-                        <div style="color: #995454;border-color: #995454">去支付</div>
+                        <div style="color: #995454;border-color: #995454" @click="toPayPage(item)">去支付</div>
                     </div>
                 </div>
 
                 <!--待收货-->
-                <div class="order-bottom-button" v-show="item.orderState == 2 || item.orderState == 3 || item.orderState == 4">
+                <div class="order-bottom-button" v-show="item.orderState == 2 || item.orderState == 3">
                     <div v-if="item.orderState == 2">申请退款</div>
                     <div v-else>物流查询</div>
-                    <div style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
+                    <div v-show="item.orderState == 3" style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
                 </div>
 
                 <!--已收货-->
-                <div class="order-bottom-button" v-show="item.orderState == 5">
+                <div class="order-bottom-button" v-show="item.orderState == 4">
                     <div>申请退货</div>
                 </div>
 
@@ -66,7 +66,7 @@
     import { Countdown } from 'vux'
     export default {
         props: {
-            orders: Array//所有订单 orderState:0,//0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款 8：退货中 9：已退货
+            orders: Array//0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：退货中 8：已退货 9：订单取消（超时或用户主动取消）
         },
         components: {
             Countdown
@@ -90,6 +90,13 @@
                 // 需要重新获取订单数据
                 console.log("重新获取订单数据")
 
+            },
+            toPayPage(item){
+                console.log("item",item)
+                //如果该页面的订单信息不详细，则需要根据id去请求再跳转
+                this.$store.state.order = item
+                //跳转到支付页面
+                this.$router.push({name:'payPage'})
             }
         }
     }

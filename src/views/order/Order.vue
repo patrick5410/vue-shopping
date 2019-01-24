@@ -40,7 +40,7 @@
     },
     data: function () {
       return {
-        orders:[],//所有订单 orderState:0,//0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款
+        orders:[],//0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：退货中 8：已退货 9：订单取消（超时或用户主动取消）
         showOrders:[],//显示的订单
         contentPaddingTop:0,//头部高度
         unPayCount:2,//未付款数量
@@ -60,13 +60,24 @@
           orderDate:'2019-01-21 21:51:21',//下单时间
           paymentAmount:9106,//支付金额
           goodCount:6,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 125,
             name: '华为手机',
             originalPrice:1108,
             price: 1058,
             buyCount:5,
-            img: '/img/good/1.jpg'
+            img: '/img/good/4.jpg'
           },
           {
             id: 128,
@@ -74,7 +85,7 @@
             originalPrice:3855,
             price: 3566,
             buyCount:1,
-            img: '/img/good/2.jpg'
+            img: '/img/good/5.jpg'
           }]
         });
 
@@ -86,6 +97,17 @@
           orderDate:'2019-01-21 21:46:21',//下单时间
           paymentAmount:4980,//支付金额
           goodCount:4,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省佛山市禅城区石湾镇街道',//所在地区（从省份到街道）
+            addressDetail:'石湾隔田坊60号青年创客人才公寓4栋562',//详细地址
+            receiveName:'刘惠仪',// 收货人
+            receivePhone:'13318668929',//收货手机号
+          },
           goods:[{
             id: 256,
             name: '华为手机',
@@ -144,8 +166,8 @@
 
         this.orders.push({
           orderId: 16,
-          orderState:4,//订单状态
-          orderStateStr:'待收货',//订单状态描述
+          orderState:3,//订单状态
+          orderStateStr:'已发货',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:4624,//支付金额
           goodCount:2,//商品件数
@@ -171,7 +193,7 @@
 
         this.orders.push({
           orderId: 17,
-          orderState:5,//订单状态
+          orderState:4,//订单状态
           orderStateStr:'已收货',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:2490,//支付金额
@@ -189,7 +211,7 @@
 
         this.orders.push({
           orderId: 18,
-          orderState:6,//订单状态
+          orderState:5,//订单状态
           orderStateStr:'退款中',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:6890,//支付金额
@@ -216,7 +238,7 @@
 
         this.orders.push({
           orderId: 19,
-          orderState:7,//订单状态
+          orderState:6,//订单状态
           orderStateStr:'已退款',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:1245,//支付金额
@@ -233,7 +255,7 @@
 
         this.orders.push({
           orderId: 19,
-          orderState:8,//订单状态
+          orderState:7,//订单状态
           orderStateStr:'退货中',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:1245,//支付金额
@@ -250,7 +272,7 @@
 
         this.orders.push({
           orderId: 19,
-          orderState:9,//订单状态
+          orderState:8,//订单状态
           orderStateStr:'已退货',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:1245,//支付金额
@@ -300,7 +322,8 @@
     methods: {
       onItemClick (index) {
         console.log('on item click:', index)
-        // orderState://0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款 8：退货中 9：已退货
+        // orderState://0：全部 1：待付款  2：待发货 3：已发货  4:待收货  5：已收货 6：退款中 7：已退款 8：退货中 9：已退货（这个状态不对）
+        // orderState://0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：退货中 8：已退货 9：订单取消（超时或用户主动取消）
         this.showOrders = [];
         switch (index) {
           case 1:
@@ -314,7 +337,7 @@
           case 2:
             //待收货
             this.orders.forEach((item)=>{
-              if(item.orderState == 2 || item.orderState == 3 || item.orderState == 4){
+              if(item.orderState == 2 || item.orderState == 3 ){
                 this.showOrders.push(item)
               }
             })
@@ -322,7 +345,7 @@
           case 3:
             //已收货
             this.orders.forEach((item)=>{
-              if(item.orderState == 5){
+              if(item.orderState == 4){
                 this.showOrders.push(item)
               }
             })
@@ -330,7 +353,7 @@
           case 4:
             //退款订单
             this.orders.forEach((item)=>{
-              if(item.orderState >=6 && item.orderState <= 9){
+              if(item.orderState >=5 && item.orderState <= 8){
                 this.showOrders.push(item)
               }
             })

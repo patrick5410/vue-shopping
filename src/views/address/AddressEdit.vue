@@ -5,20 +5,20 @@
       <div class="good-common">
         <div>收货人</div>
         <div>
-          <input class="input-word"  type="text" maxlength="10"  placeholder="姓名">
+          <input class="input-word"  type="text" maxlength="10"  placeholder="姓名" v-model="address.name">
         </div>
       </div>
       <div class="good-common">
         <div>联系方式</div>
         <div>
-          <input class="input-word"  type="text" maxlength="11"  placeholder="手机号码">
+          <input class="input-word"  type="text" maxlength="11"  placeholder="手机号码" v-model="address.phone">
         </div>
       </div>
       <div class="good-common">
         <div>所在地区</div>
         <div class="selectAddress">
           <label for="Addr" id="areaLabel" class="address" style="border: 0">
-            <input type="text" name="Addr" id="Addr" style="width: 7.7rem;height: 1rem;font-size: .37rem;border: 0" readonly placeholder="请选择地区" v-model="address">
+            <input type="text" name="Addr" id="Addr" style="width: 7.7rem;height: 1rem;font-size: .37rem;border: 0" readonly placeholder="请选择地区"  v-model="address.addressArea">
           </label>
         </div>
       </div>
@@ -26,12 +26,12 @@
       <div class="good-common">
         <div>详细地址</div>
         <div>
-          <input class="input-word" type="text" placeholder="详细地址需填写楼栋楼层或房间号">
+          <input class="input-word" type="text" placeholder="详细地址需填写楼栋楼层或房间号" v-model="address.addressDetail">
         </div>
       </div>
 
       <div class="confirm" @click="confirm">
-        确认
+        {{address.addressId == -1?'确认添加':'确认修改'}}
       </div>
     </div>
 
@@ -64,63 +64,108 @@
 
 <script>
   import '../../css/address.css'
+  import Vue from 'vue'
+  import { ToastPlugin } from 'vux'
+
+  Vue.use(ToastPlugin)
 
   export default {
     data(){
       return{
-        address:'123'
+        address:{
+          addressId:-1,
+          name: '',
+          phone: '',
+          addressArea:'',//所在地区
+          addressDetail: '',//详细地址
+          checked: false
+        }
       }
+    },
+    computed:{
+      //获取所在地区
+      getAddressArea:function () {
+        if(this.$store.state.choosedAddress){
+          return this.$store.state.choosedAddress.addressArea
+        }
+        return ""
+      }
+    },
+    watch:{
+
+    },
+    created(){
+      if(this.$store.state.choosedAddress){
+        this.address =  this.$store.state.choosedAddress
+      }
+    },
+    mounted: function () {
+      this.$nextTick(function () {
+        // 地址选择器遮罩层打开与关闭
+        $("#areaLabel").click(function (e) {
+          // console.log("弹出地址框");
+          $("#addressSelectWrapper").show();
+          e.stopPropagation();
+        });
+        $(document).click(function () {
+          $("#addressSelectWrapper").hide();
+        });
+        $("#cancel").click(function () {
+          $("#addressSelectWrapper").hide();
+        });
+        $("#addressSelect").click(function (e) {
+          e.stopPropagation();
+        });
+
+        this.initAddress();
+      })
+    },
+    beforeDestroy() {
+      // console.log("页面跳转之前");
+      this.$store.state.choosedAddress = null
     },
     methods:{
       confirm:function () {
-        console.log("address",this.address,window.document.getElementById("Addr").value)
+        this.address.addressArea = window.document.getElementById("Addr").value;
+        console.log("提交前的address",this.address)
+
+        if(this.address.name=="" || this.address.phone == "" ||this.address.addressArea =="" || this.address.addressDetail ==""){
+          //收货信息不能为空
+          // 显示
+          this.$vux.toast.show({
+            text: '请完善收货信息',
+            type:'warn',
+            width:'10em'
+          })
+          return
+        }
+        if(this.address.addressId == -1){
+          //添加
+
+        }else {
+          //修改
+
+        }
+
+      },
+      //初始化地址选择
+      initAddress:function () {
+        $("#Addr").cityLinkage({
+          containerId: "addressSelectWrapper",
+          getSelectedCode: function () {
+            return $("#Addr").data("code");
+          },
+          callback: function (data) {
+            $("#Addr").val(data.addr).data("code", data.code);
+          }
+        });
+      },
+      addressChange(val){
+        console.log("val",val)
       }
 
     }
   }
-
-
-
-
-
-
-
-
-
-
-  //初始化地址选择
-  function initAddress() {
-    $("#Addr").cityLinkage({
-      containerId: "addressSelectWrapper",
-      getSelectedCode: function () {
-        return $("#Addr").data("code");
-      },
-      callback: function (data) {
-        $("#Addr").val(data.addr).data("code", data.code);
-      }
-    });
-  }
-
-  $(function () {
-    // 地址选择器遮罩层打开与关闭
-    $("#areaLabel").click(function (e) {
-      // console.log("弹出地址框");
-      $("#addressSelectWrapper").show();
-      e.stopPropagation();
-    });
-    $(document).click(function () {
-      $("#addressSelectWrapper").hide();
-    });
-    $("#cancel").click(function () {
-      $("#addressSelectWrapper").hide();
-    });
-    $("#addressSelect").click(function (e) {
-      e.stopPropagation();
-    });
-
-    initAddress();
-
-  });
 
 </script>
 
@@ -148,15 +193,21 @@
       }
 
       .input-word{
+        display: block;
         width: 290px;
-        height: 20px;
+        /*height: 20px;*/
+        /*line-height: 20px;*/
         font-size: 14px;
-        line-height: 20px;
         vertical-align:middle;
         outline: none;
         border: 0;
         margin: auto 0;
+        padding: .1rem 0;
+        /*padding-top: 0.1rem;*/
       }
+
+
+
     }
 
     /*.selectAddress{*/
