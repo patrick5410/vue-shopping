@@ -58,6 +58,22 @@ const router = new Router({
       }
     },
     {
+      path: '/search',
+      name: 'search',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/search/Search.vue'], resolve),
+      meta: {
+        title: '搜索'
+      }
+    },
+    {
+      path: '/searchResult',
+      name: 'searchResult',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/search/SearchResult.vue'], resolve),
+      meta: {
+        title: '搜索'
+      }
+    },
+    {
       path: '/clz',
       name: 'clz',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/clz/Clz.vue'], resolve),

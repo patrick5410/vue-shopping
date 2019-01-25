@@ -2,22 +2,24 @@
 <template>
   <div id="showMore">
     <!--<ToShowMore/>-->
-    <!--头部-->
-    <div class="head" id="head">
-      <div :class="{headActive: sortIndex == 0}" @click="selectDefault">综合</div>
-      <div :class="{headActive: sortIndex == 1}" @click="selectPrice">
-        价格
-        <div class="sort-div" v-show="sortIndex == 1">
+    <!--为了给SearchResul复用-->
+    <div :class="{isChange:isChange}">
+      <!--头部-->
+      <div class="head" id="head">
+        <div :class="{headActive: sortIndex == 0}" @click="selectDefault">综合</div>
+        <div :class="{headActive: sortIndex == 1}" @click="selectPrice">
+          价格
+          <div class="sort-div" v-show="sortIndex == 1">
             <!--升序-->
             <div class="sort-add" :class="{priceSOrtActive: isSortAdd}"></div>
             <!--降序-->
             <div class="sort-cut" :class="{priceSOrtActive: !isSortAdd}"></div>
+          </div>
         </div>
+        <div :class="{headActive: sortIndex == 3}" @click="selectSellCount">销量</div>
       </div>
-      <div :class="{headActive: sortIndex == 3}" @click="selectSellCount">销量</div>
+      <Show2goods :goods="goods" class="goods"></Show2goods>
     </div>
-    <Show2goods :goods="goods"></Show2goods>
-
   </div>
 </template>
 
@@ -30,6 +32,10 @@
     components: {
       // ToShowMore,
       Show2goods
+    },
+    props: {
+      isChange: false,//是否改变样式，把整个页面向下移
+      pGoods:null//是否有参数
     },
     data: function () {
       return {
@@ -48,11 +54,16 @@
 
 
     },
+    created(){
+
+    },
     mounted:function () {
       this.$nextTick(function () {
         // Code that will run only after the
         // entire view has been rendered
         // console.log("测试组件变量",Show2goods.props);
+
+
 
         for (let i=0;i<8;i++){
           this.goods.push({
@@ -73,14 +84,17 @@
           that.org_goods.push(item);
         })
 
+        if(this.pGoods != null){
+          console.log("this.pGoods != null")
+          //如果属性不为null就赋值
+          this.goods = this.pGoods
+          console.log("this.goods ",this.goods,this.pGoods )
+        }
+
 
       })
 
       // this.org_goods = this.goods;
-
-
-
-
 
     },
     methods:{
@@ -133,66 +147,85 @@
 <style lang="scss" scoped>
   #showMore{
     background-color: white;
+
+    .head{
+      display: flex;
+      height: 36px;
+      width: 375px;
+      justify-content: space-around;
+      align-items: center;
+      border-bottom: 1px solid #e5e5e5;
+      font-size: 15px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      background-color: white;
+    }
+
+    .head>div{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 100%;
+    }
+
+    .sort-div{
+      width: 10px;
+    }
+
+    .sort-add{
+      border-style: dashed dashed solid dashed;
+      border-width: 8px 8px 8px 8px;
+      border-color:transparent transparent #6c6c6c transparent ;
+      width: 0;
+      height: 0;
+    }
+
+    .sort-cut{
+      /*border-style: solid dashed dashed dashed;*/
+      /*border-width: 8px 8px 8px 8px;*/
+      /*border-color:#6c6c6c transparent transparent transparent ;*/
+      /*width: 0;*/
+      /*height: 0;*/
+
+      border-style: dashed dashed solid dashed;
+      border-width: 8px 8px 8px 8px;
+      border-color:transparent transparent #6c6c6c transparent ;
+      width: 0;
+      height: 0;
+      transform:rotate(180deg);
+    }
+
+
+    .headActive{
+      color: #3d7a99;
+    }
+
+    .priceSOrtActive{
+      border-color:transparent transparent #000 transparent ;
+    }
+
+
+
+
+
+    .isChange{
+
+      .goods{
+        margin-top: 36px;
+      }
+      .head{
+        top:36px;
+      }
+
+    }
+
+
   }
 
-  .head{
-    display: flex;
-    height: 36px;
-    width: 375px;
-    justify-content: space-around;
-    align-items: center;
-    border-bottom: 1px solid #e5e5e5;
-    font-size: 15px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    background-color: white;
-  }
 
-  .head>div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 100%;
-  }
-
-  .sort-div{
-    width: 10px;
-  }
-
-  .sort-add{
-    border-style: dashed dashed solid dashed;
-    border-width: 8px 8px 8px 8px;
-    border-color:transparent transparent #6c6c6c transparent ;
-    width: 0;
-    height: 0;
-  }
-
-  .sort-cut{
-    /*border-style: solid dashed dashed dashed;*/
-    /*border-width: 8px 8px 8px 8px;*/
-    /*border-color:#6c6c6c transparent transparent transparent ;*/
-    /*width: 0;*/
-    /*height: 0;*/
-
-    border-style: dashed dashed solid dashed;
-    border-width: 8px 8px 8px 8px;
-    border-color:transparent transparent #6c6c6c transparent ;
-    width: 0;
-    height: 0;
-    transform:rotate(180deg);
-  }
-
-
-  .headActive{
-    color: #3d7a99;
-  }
-
-  .priceSOrtActive{
-    border-color:transparent transparent #000 transparent ;
-  }
 </style>
 
 

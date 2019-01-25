@@ -5,7 +5,7 @@
         <div class="order" v-for="(item,orderIndex) in orders">
             <div class="order-head">
                 <div class="head-date" style="color: #808080">{{item.orderDate}}</div>
-                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==5 || item.orderState==7 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
+                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==2 ||item.orderState==5 || item.orderState==7 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
             </div>
 
             <!--一种商品-->
