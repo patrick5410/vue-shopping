@@ -13,7 +13,7 @@
                 <div class="good-left">
                     <div class="good-img">
                         <img v-lazy="good.img" style="width: 100%;height: auto"  ref='itemImg' />
-                        <!--<img  src="/img/good/1.jpg" style="width: 100%;height: auto" >-->
+                        <!--<img  src="../assets/img/good/1.jpg" style="width: 100%;height: auto" >-->
                     </div>
                     <div>{{good.name}}</div>
                 </div>

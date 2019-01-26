@@ -33,7 +33,7 @@
             originalPrice: 1558,
             price: 1058 + Math.floor(Math.random() * 500),
             sellCount: Math.floor(Math.random() * 500),
-            img: '/img/good/' + (i + 1) + '.jpg'
+            img: 'img/good/' + (i + 1) + '.jpg'
           })
         }
       })

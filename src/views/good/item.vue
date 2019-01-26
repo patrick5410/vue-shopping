@@ -34,13 +34,13 @@
         <div class="bottom_tool">
             <div class="service">
                 <div class="img">
-                    <img src="/img/service.png" alt="service">
+                    <img src="../../assets/img/service.png" alt="service">
                 </div>
                 <span>客服</span>
             </div>
             <div class="collection">
                 <div class="img">
-                    <img src="/img/collection.png" alt="collection">
+                    <img src="../../assets/img/collection.png" alt="collection">
                 </div>
                 <span>收藏</span>
             </div>
@@ -48,7 +48,7 @@
                 <span class="add_num" :class="add_num?'add_num_show':''" id="popone">+1</span>
                 <Badge :value="1">
                     <div class="img">
-                        <img src="/img/cart_item.png" alt="cart">
+                        <img src="../../assets/img/cart_item.png" alt="cart">
                     </div>
                 </Badge>
                 <p>购物车</p>
@@ -63,7 +63,7 @@
         <Popup v-model="popupVisible" position="bottom" class="toBuy">
             <div class="toBuy_container">
                 <div class="good">
-                    <div><img src="/img/logo.png" alt="logo" /></div>
+                    <div><img src="../../assets/img/logo.png" alt="logo" /></div>
                     <div class="text">
                         <div class="name">{{ name }}</div>
                         <div class="price">¥{{ price }}</div>
@@ -116,10 +116,10 @@ export default {
     created(){
         let that = this;
         for (let i = 0; i < 20; i++){
-            that.list.push('/img/item/item_' + i + '.jpg')
+            that.list.push('img/item/item_' + i + '.JPG')
         }
         for (let i = 1; i < 4; i++){
-            that.itemList.push('/img/item/item/item_' + i + '.jpg')
+            that.itemList.push('img/item/item_' + i + '.JPG')
         }
     },
     methods:{

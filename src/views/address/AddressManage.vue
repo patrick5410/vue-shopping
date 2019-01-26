@@ -11,10 +11,10 @@
                 </div>
                 <div class="button">
                     <div class="edit" @click="editAddress(item)">
-                        <img src="/img/addressManage/edit.png" alt="编辑"><div>编辑</div>
+                        <img src="../../assets/img/addressManage/edit.png" alt="编辑"><div>编辑</div>
                     </div>
                     <div class="delete">
-                        <img src="/img/addressManage/delete.png" alt="删除"><div>删除</div>
+                        <img src="../../assets/img/addressManage/delete.png" alt="删除"><div>删除</div>
                     </div>
                 </div>
 

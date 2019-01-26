@@ -106,7 +106,7 @@
           originalPrice:1108,
           price: 1058,
           buyCount:5,
-          img: '/img/good/1.jpg'
+          img: '../../assets/img/good/1.jpg'
         },
           {
             id: 128,
@@ -114,7 +114,7 @@
             originalPrice:3855,
             price: 3566,
             buyCount:1,
-            img: '/img/good/2.jpg'
+            img: '../../assets/img/good/2.jpg'
           }]
       };
 
@@ -164,13 +164,13 @@
       }
 
       .pay-success{
-        background-image: url("/img/paySuccess.png");
+        background-image: url("../../assets/img/paySuccess.png");
         color: #3d998a;
       }
 
 
       .pay-fail{
-        background-image: url("/img/payFail.png");
+        background-image: url("../../assets/img/payFail.png");
         color: #995454;
       }
 
@@ -254,7 +254,7 @@
       .weixin{
         display: flex;
         width: 100px;
-        background-image: url("/img/weixin.png");
+        background-image: url("../../assets/img/weixin.png");
         background-repeat: no-repeat;
         background-position: left center;
         background-size: 25px 22px;

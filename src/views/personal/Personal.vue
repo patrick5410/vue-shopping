@@ -4,7 +4,7 @@
     <div class="head">
       <div class="content">
         <div class="head-img-div">
-          <img class="head-img" src="/img/good/1.jpg">
+          <img class="head-img" src="../../assets/img/good/1.jpg">
           <div class="nickname">微信昵称</div>
         </div>
 
@@ -18,25 +18,25 @@
         <div class="orders-head-left">我的订单</div>
         <div class="orders-head-right" @click="toOrder(0)">
           <div>全部订单</div>
-          <img style="height: 100%;width: auto;margin-left: .4rem" src="/img/forward_right.png">
+          <img style="height: 100%;width: auto;margin-left: .4rem" src="../../assets/img/forward_right.png">
         </div>
       </div>
 
       <div class="common">
         <div @click="toOrder(1)">
-          <img src="/img/unpay.png">
+          <img src="../../assets/img/unpay.png">
           <div>待付款</div>
         </div>
         <div  @click="toOrder(2)">
-          <img src="/img/unreceive.png">
+          <img src="../../assets/img/unreceive.png">
           <div>待收货</div>
         </div>
         <div  @click="toOrder(3)">
-          <img src="/img/receive.png">
+          <img src="../../assets/img/receive.png">
           <div>已收货</div>
         </div>
         <div  @click="toOrder(4)">
-          <img src="/img/after_sale.png">
+          <img src="../../assets/img/after_sale.png">
           <div>退款/货</div>
         </div>
       </div>
@@ -45,19 +45,19 @@
     <div class="other-entrance">
       <div class="common">
         <div @click="toAddressManage">
-          <img src="/img/address_management.png">
+          <img src="../../assets/img/address_management.png">
           <div>地址管理</div>
         </div>
         <div>
-          <img src="/img/collect.png">
+          <img src="../../assets/img/collect.png">
           <div>收藏</div>
         </div>
         <div>
-          <img src="/img/help.png">
+          <img src="../../assets/img/help.png">
           <div>帮助</div>
         </div>
         <div>
-          <img src="/img/service2.png">
+          <img src="../../assets/img/service2.png">
           <div>联系客服</div>
         </div>
       </div>
@@ -106,7 +106,7 @@
     display: flex;
     width: 100%;
     height: 175px;
-    background-image: url("/img/personalHeadBg.png");
+    background-image: url("../../assets/img/personalHeadBg.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
     align-items: center;
@@ -147,7 +147,7 @@
         right: 10px;
         width: 12px;
         height: 20px;
-        background-image: url("/img/personalForwardRight.png");
+        background-image: url("../../assets/img/personalForwardRight.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
 

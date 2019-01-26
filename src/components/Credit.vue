@@ -5,7 +5,7 @@
                 <div class="text" id="text">
                     <vue-count-up :start-value="start" :end-value="end" />
                 </div>
-                <img src="/img/credit.png" alt="积分"/>
+                <img src="../assets/img/credit.png" alt="积分"/>
             </div>
             <div class="back">
 
@@ -18,7 +18,7 @@
                 <div class="text" id="text">
                     <vue-count-up :start-value="start" :end-value="end" />
                 </div>
-                <img src="/img/credit.png" alt="积分"/>
+                <img src="../assets/img/credit.png" alt="积分"/>
             </div>
             <div class="back">
                 <div class="text"> beimian</div>
@@ -42,10 +42,10 @@ export default {
     created(){
         this.end = 5555;
     },
-    methods:{        
+    methods:{
         fanzhuan(){
             console.log(this.$refs.credit);
-            
+
         }
     }
 }
@@ -77,7 +77,7 @@ export default {
         align-items: center;
         border-bottom: 1px solid #e5e5e5;
         box-sizing: border-box;
-        top: 36px; 
+        top: 36px;
         height: $height;
         line-height: $height;
         background-color: #fff;
@@ -86,20 +86,20 @@ export default {
         .content{
             position: relative;
             height: 210px;
-            width: 325px; 
+            width: 325px;
             transition: 0.6s;
-	        transform-style: preserve-3d;  
+	        transform-style: preserve-3d;
             .text{
-                position: absolute; 
+                position: absolute;
                 color: #DEC678;
                 font-size: 28px;
                 font-style: italic;
                 width: 100%;
-            }       
+            }
             img{
                 height: 210px;
                 width: 325px;
-            }  
+            }
             .back,.front{
                 position: absolute;
                 backface-visibility: hidden;
@@ -111,7 +111,7 @@ export default {
                 border-radius: 3px;
                 background-color: #323436;
             }
-        }   
+        }
     }
 
 	.credit.flip .content {
@@ -124,7 +124,7 @@ export default {
 
     .back {
         transform: rotateY(180deg);
-        
+
     }
 </style>
 

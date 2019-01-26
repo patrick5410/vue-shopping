@@ -77,7 +77,7 @@
             originalPrice:1108,
             price: 1058,
             buyCount:5,
-            img: '/img/good/4.jpg'
+            img: 'img/good/4.jpg'
           },
           {
             id: 128,
@@ -85,7 +85,7 @@
             originalPrice:3855,
             price: 3566,
             buyCount:1,
-            img: '/img/good/5.jpg'
+            img: 'img/good/5.jpg'
           }]
         });
 
@@ -114,7 +114,7 @@
             originalPrice:1108,
             price: 1245,
             buyCount:4,
-            img: '/img/good/3.jpg'
+            img: 'img/good/3.jpg'
           }]
         });
 
@@ -132,7 +132,7 @@
             originalPrice:1108,
             price: 1058,
             buyCount:1,
-            img: '/img/good/1.jpg'
+            img: 'img/good/1.jpg'
           },
             {
               id: 128,
@@ -140,7 +140,7 @@
               originalPrice:3855,
               price: 3566,
               buyCount:1,
-              img: '/img/good/2.jpg'
+              img: 'img/good/2.jpg'
             }]
         });
 
@@ -159,7 +159,7 @@
             originalPrice:1108,
             price: 1245,
             buyCount:0,
-            img: '/img/good/3.jpg'
+            img: 'img/good/3.jpg'
           }]
         });
 
@@ -177,7 +177,7 @@
             originalPrice:1108,
             price: 1058,
             buyCount:1,
-            img: '/img/good/1.jpg'
+            img: 'img/good/1.jpg'
           },
             {
               id: 128,
@@ -185,7 +185,7 @@
               originalPrice:3855,
               price: 3566,
               buyCount:1,
-              img: '/img/good/2.jpg'
+              img: 'img/good/2.jpg'
             }]
         });
 
@@ -204,7 +204,7 @@
             originalPrice:1108,
             price: 1245,
             buyCount:2,
-            img: '/img/good/3.jpg'
+            img: 'img/good/3.jpg'
           }]
         });
 
@@ -222,7 +222,7 @@
             originalPrice:1108,
             price: 1058,
             buyCount:3,
-            img: '/img/good/1.jpg'
+            img: 'img/good/1.jpg'
           },
             {
               id: 128,
@@ -230,7 +230,7 @@
               originalPrice:3855,
               price: 3566,
               buyCount:1,
-              img: '/img/good/2.jpg'
+              img: 'img/good/2.jpg'
             }]
         });
 
@@ -249,7 +249,7 @@
             originalPrice:1108,
             price: 1245,
             buyCount:1,
-            img: '/img/good/3.jpg'
+            img: 'img/good/3.jpg'
           }]
         });
 
@@ -266,7 +266,7 @@
             originalPrice:1108,
             price: 1245,
             buyCount:1,
-            img: '/img/good/3.jpg'
+            img: 'img/good/3.jpg'
           }]
         });
 
@@ -283,7 +283,7 @@
             originalPrice:1108,
             price: 1245,
             buyCount:1,
-            img: '/img/good/3.jpg'
+            img: 'img/good/3.jpg'
           }]
         });
 

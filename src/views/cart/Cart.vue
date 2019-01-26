@@ -3,7 +3,7 @@
   <div id="cart">
     <div class="myCart">
       <div v-if="goods==null || goods.length<=0">
-        <img @click="toClz" src="/img/cart_empty.png" style="width: 100%;height: 100%">
+        <img @click="toClz" src="../../assets/img/cart_empty.png" style="width: 100%;height: 100%">
       </div>
       <div v-else>
         <!--购物车头部-->
@@ -121,7 +121,7 @@
             originalPrice: 1500,
             price: 1058 + Math.floor(Math.random() * 200),
             sellCount: Math.floor(Math.random() * 200),
-            img: '/img/good/' + (i + 1) + '.jpg',
+            img: 'img/good/' + (i + 1) + '.jpg',
             isSelected:false,
             buyCount:1,//购买数量
             maxNum:200,//单件购买最大数量

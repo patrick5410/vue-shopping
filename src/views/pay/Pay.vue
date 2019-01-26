@@ -10,7 +10,7 @@
       <div class="receive-info-right">
         <div style="margin-right: .25rem">{{order.addressInfo.receivePhone}}</div>
         <div style="align-items: center;" @click="toAddressManage">
-          <img class="forward_right" src="/img/forward_right.png">
+          <img class="forward_right" src="../../assets/img/forward_right.png">
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@
             originalPrice:1108,
             price: 1058,
             buyCount:5,
-            img: '/img/good/1.jpg'
+            img: '../../assets/img/good/1.jpg'
           },
             {
               id: 128,
@@ -153,7 +153,7 @@
               originalPrice:3855,
               price: 3566,
               buyCount:1,
-              img: '/img/good/2.jpg'
+              img: '../../assets/img/good/2.jpg'
             }]
         };
       }
@@ -271,7 +271,7 @@
     .receive-bottom{
       width: 100%;
       height: 3px;
-      background-image: url("/img/receive_bottom.png");
+      background-image: url("../../assets/img/receive_bottom.png");
       background-repeat: no-repeat;
       background-size: 375px 3px;
 
@@ -289,7 +289,7 @@
       .weixin{
         display: flex;
         width: 100px;
-        background-image: url("/img/weixin.png");
+        background-image: url("../../assets/img/weixin.png");
         background-repeat: no-repeat;
         background-position: left center;
         background-size: 25px 22px;

@@ -103,7 +103,7 @@
         width: 330px;
         font-size: 12px;
         background-color: #e5e5e5;
-        background-image: url('/img/search.png');
+        background-image: url('../../assets/img/search.png');
         background-repeat: no-repeat;
         background-size: 16px 16px;
         background-position-x: 5px;

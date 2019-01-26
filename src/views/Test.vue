@@ -53,7 +53,7 @@
         creditSort: 425, // 用户积分
         recommendClass: '车载配件', // 推荐商品类型
         recommendClassUrl: '/showMore', // 推荐商品链接
-        recommendImgUrl: '/img/banner.png', // 推荐商品图片
+        recommendImgUrl: '../assets/img/banner.png', // 推荐商品图片
         loading: false, // 加载
         isFinish:false,
         goods: [],
@@ -114,7 +114,7 @@
                   name: '车载配件' + i,
                   originalPrice: 1108,
                   price: 1058,
-                  img: '/img/good/' + i + '.jpg'
+                  img: 'img/good/' + i + '.jpg'
                 })
               } else if (i % 3 == 1) {
                 this.goods.push({
@@ -122,7 +122,7 @@
                   name: '车载配件' + i,
                   originalPrice: 1304,
                   price: 1058,
-                  img: '/img/good/' + i + '.jpg'
+                  img: 'img/good/' + i + '.jpg'
                 })
               } else {
                 this.goods.push({
@@ -130,7 +130,7 @@
                   name: '车载配件' + i,
                   originalPrice: 1406,
                   price: 1058,
-                  img: '/img/good/' + i + '.jpg'
+                  img: 'img/good/' + i + '.jpg'
                 })
               }
 
@@ -193,7 +193,7 @@
     width: 50px;
     right: 0;
     color: #808080;
-    background-image: url("/img/箭头.png");
+    background-image: url("../assets/img/foward.png");
     background-size: 17px 17px;
     background-position: right;
     background-repeat: no-repeat;

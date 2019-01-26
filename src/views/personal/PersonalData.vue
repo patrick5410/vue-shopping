@@ -5,7 +5,7 @@
     <div class="content">
       <div>头像</div>
       <div class="head-img-div">
-        <img class="head-img" src="/img/head-img.jpg">
+        <img class="head-img" src="../../assets/img/head-img.jpg">
       </div>
     </div>
     <div class="content">

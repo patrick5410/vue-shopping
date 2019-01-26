@@ -22,8 +22,8 @@
   import Vue from 'vue'
 
   Vue.use(VueLazyLoad,{
-    error:'/img/good/加载失败.png',
-    loading:'/img/good/加载.png',
+    error:'../assets/img/good/加载失败.png',
+    loading:'../assets/img/good/加载.png',
     adapter: {
       loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
         // do something here

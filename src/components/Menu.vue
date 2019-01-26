@@ -63,38 +63,38 @@ export default {
   }
 
   .m-index{
-    background-image: url("/img/index.png");
+    background-image: url("../assets/img/index.png");
   }
 
   .indexActive{
-    background-image: url("/img/index2.png");
+    background-image: url("../assets/img/index2.png");
     color: #3d7a99;
   }
 
   .m-clz{
-    background-image: url("/img/clz.png");
+    background-image: url("../assets/img/clz.png");
   }
 
   .clzActive{
-    background-image: url("/img/clz2.png");
+    background-image: url("../assets/img/clz2.png");
     color: #3d7a99;
   }
 
   .m-cart{
-    background-image: url("/img/cart.png");
+    background-image: url("../assets/img/cart.png");
   }
 
   .cartActive{
-    background-image: url("/img/cart2.png");
+    background-image: url("../assets/img/cart2.png");
     color: #3d7a99;
   }
 
   .m-personal{
-    background-image: url("/img/personal.png");
+    background-image: url("../assets/img/personal.png");
   }
 
   .personalActive{
-    background-image: url("/img/personal2.png");
+    background-image: url("../assets/img/personal2.png");
     color: #3d7a99;
   }
 

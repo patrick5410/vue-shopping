@@ -21,7 +21,7 @@
               <!--<div>{{index}}</div>-->
               <!--商品类型主题图片-->
               <div class="clzImg-div" @click="toShowClz(item)">
-                <img src="/img/banner.png" style="width: 100%;height: 100%"  ref='itemImg' />
+                <img src="../../assets/img/banner.png" style="width: 100%;height: 100%"  ref='itemImg' />
               </div>
 
               <!--商品类型主题-->
@@ -74,8 +74,8 @@
   // // Vue.use(InfiniteScroll)
   // // Vue.component(Spinner.name, Spinner);
   // Vue.use(VueLazyLoad,{
-  //   error:'/img/good/加载失败.png',
-  //   loading:'/img/good/加载.png',
+  //   error:'../../assets/img/good/加载失败.png',
+  //   loading:'../../assets/img/good/加载.png',
   //   adapter: {
   //     loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
   //       // do something here
@@ -204,7 +204,7 @@
               name: '车载配件' + i,
               originalPrice:1708,
               price: 1058,
-              img: '/img/good/'+(j%9+1)+'.png'
+              img: 'img/good/'+(j%9+1)+'.png'
             })
           }
           this.goods.push({
