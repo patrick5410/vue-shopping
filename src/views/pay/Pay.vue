@@ -145,7 +145,7 @@
             originalPrice:1108,
             price: 1058,
             buyCount:5,
-            img: '../../assets/img/good/1.jpg'
+            img: 'img/good/1.jpg'
           },
             {
               id: 128,
@@ -153,7 +153,7 @@
               originalPrice:3855,
               price: 3566,
               buyCount:1,
-              img: '../../assets/img/good/2.jpg'
+              img: 'img/good/2.jpg'
             }]
         };
       }
