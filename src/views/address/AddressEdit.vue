@@ -5,13 +5,13 @@
       <div class="good-common">
         <div>收货人</div>
         <div>
-          <input class="input-word"  type="text" maxlength="10"  placeholder="姓名" v-model="address.name">
+          <input class="input-word"  type="text" maxlength="10"  placeholder="姓名" v-model.trim="address.name">
         </div>
       </div>
       <div class="good-common">
         <div>联系方式</div>
         <div>
-          <input class="input-word"  type="text" maxlength="11"  placeholder="手机号码" v-model="address.phone">
+          <input class="input-word"  type="text" maxlength="11"  placeholder="手机号码" v-model.trim="address.phone">
         </div>
       </div>
       <div class="good-common">
@@ -26,7 +26,7 @@
       <div class="good-common">
         <div>详细地址</div>
         <div>
-          <input class="input-word" type="text" placeholder="详细地址需填写楼栋楼层或房间号" v-model="address.addressDetail">
+          <input class="input-word" type="text" placeholder="详细地址需填写楼栋楼层或房间号" v-model.trim="address.addressDetail">
         </div>
       </div>
 
@@ -126,10 +126,9 @@
     },
     methods:{
       confirm:function () {
-        this.address.addressArea = window.document.getElementById("Addr").value;
-        console.log("提交前的address",this.address)
+        // this.address.addressArea = window.document.getElementById("Addr").value;
 
-        if(this.address.name=="" || this.address.phone == "" ||this.address.addressArea =="" || this.address.addressDetail ==""){
+        if(this.address.name =="" || this.address.phone == "" ||this.address.addressArea =="" || this.address.addressDetail ==""){
           //收货信息不能为空
           // 显示
           this.$vux.toast.show({
@@ -139,6 +138,9 @@
           })
           return
         }
+
+        console.log("提交前的address",this.address)
+
         if(this.address.addressId == -1){
           //添加
 
@@ -150,12 +152,15 @@
       },
       //初始化地址选择
       initAddress:function () {
+        let that = this
         $("#Addr").cityLinkage({
           containerId: "addressSelectWrapper",
           getSelectedCode: function () {
             return $("#Addr").data("code");
           },
           callback: function (data) {
+            console.log("data.addr",data.addr)
+            that.address.addressArea = data.addr
             $("#Addr").val(data.addr).data("code", data.code);
           }
         });

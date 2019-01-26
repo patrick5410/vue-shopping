@@ -1,8 +1,10 @@
 const vuxLoader = require('vux-loader')
 module.exports = {
+  publicPath: '/shopping',
   configureWebpack: config => {
     vuxLoader.merge(config, {
-      plugins: ['vux-ui']
+      plugins: ['vux-ui'],
+      assetsPublicPath: '/shopping'
     })
   },
   css: {

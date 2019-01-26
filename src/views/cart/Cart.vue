@@ -58,7 +58,7 @@
     </div>
 
     <!--猜你喜欢-->
-    <div class="guess-like">
+    <div class="guess-like" :style="selectCount>0?'paddingBottom:3rem':''">
       <div class="guess-like-title">可能您会喜欢</div>
       <Show2goods :goods="guessGoods" style="padding: 0"></Show2goods>
     </div>

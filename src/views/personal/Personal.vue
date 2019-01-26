@@ -32,7 +32,7 @@
           <div>待收货</div>
         </div>
         <div  @click="toOrder(3)">
-          <img src="/img/evaluate.png">
+          <img src="/img/receive.png">
           <div>已收货</div>
         </div>
         <div  @click="toOrder(4)">
@@ -205,8 +205,8 @@
     font-size: 13px;
 
     img{
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
     }
 
   }
