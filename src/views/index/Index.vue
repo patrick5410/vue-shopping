@@ -79,7 +79,7 @@ export default {
       creditSort: 425, // 用户积分
       recommendClass: '车载配件', // 推荐商品类型
       recommendClassUrl: '/showMore', // 推荐商品链接
-      recommendImgUrl: 'img/banner.png', // 推荐商品图片
+      recommendImgUrl: 'img/good/banner.png', // 推荐商品图片
       loading: false, // 加载
       isFinish:false,
       goods: [],

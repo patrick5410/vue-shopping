@@ -22,8 +22,9 @@
           <swipeout>
             <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in goods" >
               <div slot="right-menu">
-                <swipeout-button @click.native="collectGood(item)" type="primary" background-color="#ff9600">收藏</swipeout-button>
-                <swipeout-button @click.native="deleteGood(item)" type="warn">删除</swipeout-button>
+                <swipeout-button v-if="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#d7d6da" :width="130/750*containerWidth">已收藏</swipeout-button>
+                <swipeout-button v-else="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="130/750*containerWidth">收藏</swipeout-button>
+                <swipeout-button @click.native="deleteGood(item)" type="warn" :width="110/750*containerWidth">删除</swipeout-button>
               </div>
               <div slot="content" class="demo-content vux-1px-t cart-good-swipe">
                 <!--左边勾选框-->
@@ -105,6 +106,7 @@
     },
     data: function () {
       return {
+        containerWidth:750,//容器高度
         goods: [{}], //商品
         guessGoods: [],//可能喜欢商品
         isSelectAll:false,
@@ -114,6 +116,10 @@
     },
     mounted: function () {
       this.$nextTick(function () {
+        this.containerWidth = window.innerWidth
+        console.log("containerHeight",this.containerWidth)
+
+
         for (let i = 0; i < 8; i++) {
           this.guessGoods.push({
             id: i,
@@ -125,6 +131,7 @@
             isSelected:false,
             buyCount:1,//购买数量
             maxNum:200,//单件购买最大数量
+            isCollect:i%2==1,//是否已收藏
           })
 
         }

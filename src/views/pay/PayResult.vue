@@ -25,8 +25,8 @@
         <div>{{order.paymentAmount.toFixed(2)}}元</div>
         <div>{{order.orderId}}</div>
         <div class="receive-info">
-          <div>{{order.addressSelect+order.addressDetail}}</div>
-          <div>{{order.receiveName}}&nbsp;&nbsp;&nbsp; {{order.receivePhone}}</div>
+          <div>{{order.addressInfo.addressArea+order.addressInfo.addressDetail}}</div>
+          <div>{{order.addressInfo.receiveName}}&nbsp;&nbsp;&nbsp; {{order.addressInfo.receivePhone}}</div>
         </div>
       </div>
     </div>

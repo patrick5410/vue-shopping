@@ -3,7 +3,11 @@
   <div class="personal-container">
     <div class="head">
       <div class="content">
-        <div class="head-img-div">
+        <div v-if="$store.state.userInfo.wechatInfo" class="head-img-div">
+          <img class="head-img" :src="$store.state.userInfo.wechatInfo.headimgurl">
+          <div class="nickname">{{$store.state.userInfo.wechatInfo.nickname}}</div>
+        </div>
+        <div v-else class="head-img-div">
           <img class="head-img" src="../../assets/img/good/1.jpg">
           <div class="nickname">微信昵称</div>
         </div>

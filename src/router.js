@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import store from './store'
 
 Vue.use(Router)
 
@@ -22,8 +23,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: { name: 'index' }
     },
     {
       path: '/test',
@@ -157,6 +157,24 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log('to路径', to)
+  // console.log('code值', to.query.code)
+  console.log('from路径', from)
+  // 在切换页面时，都要检查userInfo，如果没有的话，得发起微信授权
+  var code = to.query.code
+  if (code) {
+    // 有微信code值
+    console.log('有code值', code)
+  } else {
+    // 没有的话，需判断是否已经获取微信相关信息了
+    if (!store.state.userInfo.wechatInfo) {
+      // 需要微信授权获取用户信息
+      let fromUrl = window.location.href
+      console.log('需要微信访问路径', fromUrl)
+      window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(fromUrl) + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect'
+    }
+  }
+
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
     document.title = to.meta.title

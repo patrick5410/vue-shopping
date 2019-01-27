@@ -10,8 +10,9 @@ import VueLazyLoad from 'vue-lazyload'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import api from './api/install'
 
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios, api)
 
 Vue.config.productionTip = false
 
@@ -39,3 +40,41 @@ Vue.use(VueLazyLoad, {
     }
   }
 })
+
+// 这部分已经移至到router.js
+// console.log(encodeURIComponent('http://www.tdxiov.com/shopping/index'))
+// 获取微信用户信息
+// console.log(store.state.userInfo, router.history)
+// var getRequerst = function () {
+//   var url = window.location.search
+//   var theRequest = new Object()
+//   var strs = []
+//   if (url.indexOf('?') != -1) {
+//     var str = url.substr(1)
+//     strs = str.split('&')
+//     for (var i = 0; i < strs.length; i++) {
+//       theRequest[strs[i].split('=')[0]] = (strs[i].split('=')[1])
+//     }
+//   }
+//   return theRequest
+// }
+//
+// var Request = new Object()
+// Request = getRequerst()
+// var code = Request['code']
+// console.log('code', code)
+// if (code) {
+//   // 有微信code值
+//   console.log('有code值', code)
+//   alert('有code值:' + code)
+// } else {
+//   // 没有的话，需判断是否已经获取微信相关信息了
+//   if (!store.state.userInfo.wechatInfo) {
+//     // 需要微信授权获取用户信息
+//     let fromUrl = window.location.href
+//     console.log('需要微信访问路径', fromUrl)
+//     window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(fromUrl) + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect'
+//   }
+// }
+//
+// // router.push({name:'cart'})

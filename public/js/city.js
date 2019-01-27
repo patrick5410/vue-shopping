@@ -4,7 +4,7 @@
   var cityObj = function (el, option) {
     // 默认参数
     this.defaultOptions = {
-      dataUrl: '/js/area.json', // 数据库地址
+      dataUrl: 'js/area.json', // 数据库地址
       provinceField: 'province', // 省份字段名
       cityField: 'city', // 城市字段名
       areaField: 'area', // 地区字段名
