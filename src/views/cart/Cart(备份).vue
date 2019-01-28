@@ -106,151 +106,148 @@
 </template>
 
 <script>
-  import Show2goods from '@/components/Show2goods'
-  import Menu from '@/components/Menu'
-  // import {Checkbox, CheckboxGroup,InputNumber} from 'element-ui'
-  import {CellSwipe } from 'mint-ui';
-  // // import {InputNumber} from 'iview'
-  // // import 'iview/dist/styles/iview.css'
-  import { Checklist   } from 'vux'
-  //
-  //
-  //
-  // Vue.component(Checklist.name, Checklist);
-  Vue.component(CellSwipe.name, CellSwipe);
-  //
-  // // import { Checklist } from 'mint-ui';
-  import Vue from 'vue'
-  //
-  //
-  // Vue.component(Checkbox.name, Checkbox);
-  // Vue.component(CheckboxGroup.name, CheckboxGroup);
+import Show2goods from '@/components/Show2goods'
+import Menu from '@/components/Menu'
+// import {Checkbox, CheckboxGroup,InputNumber} from 'element-ui'
+import {CellSwipe } from 'mint-ui';
+// // import {InputNumber} from 'iview'
+// // import 'iview/dist/styles/iview.css'
+import { Checklist } from 'vux'
+//
+//
+//
+// Vue.component(Checklist.name, Checklist);
+Vue.component(CellSwipe.name, CellSwipe);
+//
+// // import { Checklist } from 'mint-ui';
+import Vue from 'vue'
+//
+//
+// Vue.component(Checkbox.name, Checkbox);
+// Vue.component(CheckboxGroup.name, CheckboxGroup);
 
-  export default {
-    name: 'cart',
-    components: {
-      Show2goods,
-      Menu,
-      Checklist,
-      // InputNumber,
-      // XNumber,
-      // InlineXNumber
-    },
-    data: function () {
-      return {
-        goods: [{}], //商品
-        guessGoods: [],//可能喜欢商品
-        selectGoods: [],//选中商品
-        // selectGood: [],
-        isSelectAll:false,
-        selectCount:0,//已选中数量
-        totalPrice:0,//选中商品总价
-      }
-    },
-    mounted: function () {
-      this.$nextTick(function () {
-
-
-        for (let i = 0; i < 8; i++) {
-          this.guessGoods.push({
-            id: i,
-            name: '车载配件' + i,
-            originalPrice: 1500,
-            price: 1058 + Math.floor(Math.random() * 200),
-            sellCount: Math.floor(Math.random() * 200),
-            img: '/img/good/' + (i + 1) + '.jpg',
-            isSelected:true,
-            buyCount:1,//购买数量
-            maxNum:200,//单件购买最大数量
-          })
-
-        }
-
-        this.goods = this.guessGoods;
+export default {
+  name: 'cart',
+  components: {
+    Show2goods,
+    Menu,
+    Checklist
+    // InputNumber,
+    // XNumber,
+    // InlineXNumber
+  },
+  data: function () {
+    return {
+      goods: [{}], //商品
+      guessGoods: [],//可能喜欢商品
+      selectGoods: [],//选中商品
+      // selectGood: [],
+      isSelectAll:false,
+      selectCount:0,//已选中数量
+      totalPrice:0//选中商品总价
+    }
+  },
+  mounted: function () {
+    this.$nextTick(function () {
 
 
-
-      })
-    },
-    methods: {
-      toClz() {
-        //跳转到分类
-        this.$router.push('/clz')
-      },
-      selectGood(){
-        console.log("选中商品",this.goods);
-      },
-      deleteGood(index){
-        //删除购物车商品
-        this.goods.splice(index,1)
-      },
-      add(item){
-        item.buyCount<item.maxNum?item.buyCount++:item.maxNum;
-        this.calculateBuyInfo();
-      },
-      cut(item){
-        item.buyCount>1?item.buyCount--:1
-        this.calculateBuyInfo();
-      },
-      countInputListen(index){
-        let item = this.goods[index];
-        // console.log("输入商品数量事件",item);
-        if(item.buyCount<0){
-          item.buyCount = 0
-        }
-        if(item.buyCount>item.maxNum){
-          // console.log("进入最大值")
-          item.buyCount = item.maxNum
-
-        }
-        this.calculateBuyInfo();
-      },
-      calculateBuyInfo(){
-        // console.log("执行该计算函数");
-        if(this.selectGoods.length>0){
-          //有商品被选中
-          this.selectCount = 0;
-          this.totalPrice = 0;
-          this.selectGoods.forEach((item)=>{
-            // console.log("选中的商品",item);
-            this.selectCount += item.buyCount;
-            this.totalPrice += item.buyCount*item.price;
-          })
-        }
-      }
-
-    },
-    watch: {
-      selectGoods: function (val) {
-        // console.log("已选中商品", val);
-        //每次改变，重新结算价格
-        this.calculateBuyInfo();
-
-        if(val.length == this.goods.length){
-          this.isSelectAll = true;
-        }else{
-          this.isSelectAll = false;
-        }
-      },
-      isSelectAll: function (val) {
-        console.log("全选",val)
-        if(val){
-          this.selectGoods = [];
-          this.selectGoods = this.goods;
-        }else {
-          if(this.selectGoods.length == this.goods.length){
-            this.selectGoods = [];
-          }
-        }
+      for (let i = 0; i < 8; i++) {
+        this.guessGoods.push({
+          id: i,
+          name: '车载配件' + i,
+          originalPrice: 1500,
+          price: 1058 + Math.floor(Math.random() * 200),
+          sellCount: Math.floor(Math.random() * 200),
+          img: '/img/good/' + (i + 1) + '.jpg',
+          isSelected:true,
+          buyCount:1,//购买数量
+          maxNum:200//单件购买最大数量
+        })
 
       }
 
+      this.goods = this.guessGoods;
 
+
+    })
+  },
+  methods: {
+    toClz() {
+      //跳转到分类
+      this.$router.push('/clz')
+    },
+    selectGood(){
+      console.log('选中商品',this.goods);
+    },
+    deleteGood(index){
+      //删除购物车商品
+      this.goods.splice(index,1)
+    },
+    add(item){
+      item.buyCount<item.maxNum?item.buyCount++:item.maxNum;
+      this.calculateBuyInfo();
+    },
+    cut(item){
+      item.buyCount>1?item.buyCount--:1
+      this.calculateBuyInfo();
+    },
+    countInputListen(index){
+      let item = this.goods[index];
+      // console.log("输入商品数量事件",item);
+
+      if(item.buyCount<0){
+        item.buyCount = 0
+      }
+      if(item.buyCount>item.maxNum){
+        // console.log("进入最大值")
+        item.buyCount = item.maxNum
+
+      }
+      this.calculateBuyInfo();
+    },
+    calculateBuyInfo(){
+      // console.log("执行该计算函数");
+      if(this.selectGoods.length>0){
+        //有商品被选中
+        this.selectCount = 0;
+        this.totalPrice = 0;
+        this.selectGoods.forEach((item)=>{
+          // console.log("选中的商品",item);
+          this.selectCount += item.buyCount;
+          this.totalPrice += item.buyCount*item.price;
+        })
+      }
+    }
+
+  },
+  watch: {
+    selectGoods: function (val) {
+      // console.log("已选中商品", val);
+      //每次改变，重新结算价格
+      this.calculateBuyInfo();
+
+      if(val.length == this.goods.length){
+        this.isSelectAll = true;
+      }else{
+        this.isSelectAll = false;
+      }
+    },
+    isSelectAll: function (val) {
+      console.log('全选',val)
+      if(val){
+        this.selectGoods = [];
+        this.selectGoods = this.goods;
+      }else if(this.selectGoods.length == this.goods.length){
+        this.selectGoods = [];
+      }
 
     }
 
 
   }
+
+
+}
 
 </script>
 
@@ -331,7 +328,6 @@
         }
 
 
-
         .good-one-right{
           /*display: flex;*/
           margin: auto 0;
@@ -385,7 +381,6 @@
               }
 
 
-
               .buyCount-cut,.buyCount-add{
                 width: 20px;
                 height: 100%;
@@ -424,9 +419,6 @@
 
 
       }
-
-
-
 
 
     }
@@ -483,7 +475,6 @@
     }
 
   }
-
 
 
   .guess-like {

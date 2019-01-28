@@ -4,13 +4,12 @@
     <div class="head">
       <div class="content">
         <div class="head-img-div">
-          <img class="head-img" src="/img/good/1.jpg">
+          <img class="head-img" src="/img/good/1.jpg" />
           <div class="nickname">微信昵称</div>
         </div>
 
         <div class="head-right" @click="toPersonalData"></div>
       </div>
-
     </div>
 
     <div class="orders">
@@ -18,25 +17,28 @@
         <div class="orders-head-left">我的订单</div>
         <div class="orders-head-right">
           <div>全部订单</div>
-          <img style="height: 100%;width: auto;margin-left: .4rem" src="/img/forward_right.png">
+          <img
+            style="height: 100%;width: auto;margin-left: .4rem"
+            src="/img/forward_right.png"
+          />
         </div>
       </div>
 
       <div class="common">
         <div>
-          <img src="/img/unpay.png">
+          <img src="/img/unpay.png" />
           <div>待付款</div>
         </div>
         <div>
-          <img src="/img/unreceive.png">
+          <img src="/img/unreceive.png" />
           <div>待收货</div>
         </div>
         <div>
-          <img src="/img/evaluate.png">
+          <img src="/img/evaluate.png" />
           <div>已收货</div>
         </div>
         <div>
-          <img src="/img/after_sale.png">
+          <img src="/img/after_sale.png" />
           <div>退款/货</div>
         </div>
       </div>
@@ -45,19 +47,19 @@
     <div class="other-entrance">
       <div class="common">
         <div>
-          <img src="/img/address_management.png">
+          <img src="/img/address_management.png" />
           <div>地址管理</div>
         </div>
         <div>
-          <img src="/img/collect.png">
+          <img src="/img/collect.png" />
           <div>收藏</div>
         </div>
         <div>
-          <img src="/img/help.png">
+          <img src="/img/help.png" />
           <div>帮助</div>
         </div>
         <div>
-          <img src="/img/service2.png">
+          <img src="/img/service2.png" />
           <div>联系客服</div>
         </div>
       </div>
@@ -69,40 +71,37 @@
 </template>
 
 <script>
-  import Menu from '@/components/Menu'
+import Menu from '@/components/Menu'
 
-  export default {
-    components: {
-      Menu
-    },
-    methods:{
-      toPersonalData() {
-        this.$router.push({name:'personalData'})
-      }
+export default {
+  components: {
+    Menu
+  },
+  methods: {
+    toPersonalData() {
+      this.$router.push({ name: 'personalData' })
     }
-
   }
-
+}
 </script>
 
-
 <style lang="less" scoped>
-.personal-container{
+.personal-container {
   position: relative;
   width: 100%;
   height: 100vh;
   background-color: #e5e5e5;
 
-  .head{
+  .head {
     display: flex;
     width: 100%;
     height: 175px;
-    background-image: url("/img/personalHeadBg.png");
+    background-image: url('/img/personalHeadBg.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     align-items: center;
 
-    .content{
+    .content {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -111,7 +110,7 @@
       padding: 0 10px;
       /*background-color: white;*/
 
-      .head-img-div{
+      .head-img-div {
         display: flex;
         height: 60px;
         width: 250px;
@@ -119,47 +118,43 @@
         justify-content: flex-start;
         align-items: center;
 
-        .head-img{
+        .head-img {
           height: 100%;
           width: 60px;
           border-radius: 100%;
         }
 
-        .nickname{
+        .nickname {
           margin-left: 10px;
           color: white;
           font-size: 16px;
         }
-
       }
 
-      .head-right{
+      .head-right {
         position: absolute;
         right: 10px;
         width: 12px;
         height: 20px;
-        background-image: url("/img/personalForwardRight.png");
+        background-image: url('/img/personalForwardRight.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
-
       }
-
     }
   }
 
-
-  .orders{
+  .orders {
     width: 355px;
     height: 105px;
     background-color: white;
     border: 1px solid white;
     position: absolute;
-    top:145px;
+    top: 145px;
     left: 10px;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.4);
     border-radius: 10px;
 
-    .orders-head{
+    .orders-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -167,11 +162,11 @@
       height: 30px;
       padding: 0 10px;
 
-      .orders-head-left{
+      .orders-head-left {
         font-size: 14px;
       }
 
-      .orders-head-right{
+      .orders-head-right {
         display: flex;
         width: 150px;
         height: 14px;
@@ -179,15 +174,11 @@
         align-items: center;
         font-size: 12px;
         color: #808080;
-
       }
-
-
     }
-
   }
 
-  .common{
+  .common {
     display: flex;
     width: 355px;
     height: 70px;
@@ -195,14 +186,13 @@
     align-items: center;
     font-size: 13px;
 
-    img{
+    img {
       width: 40px;
       height: 40px;
     }
-
   }
 
-  .other-entrance{
+  .other-entrance {
     display: flex;
     width: 100%;
     height: 100px;
@@ -210,12 +200,8 @@
     align-items: center;
     background-color: white;
     position: absolute;
-    top:260px;
+    top: 260px;
     left: 0;
-
   }
-
 }
-
-
 </style>

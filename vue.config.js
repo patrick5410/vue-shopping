@@ -1,6 +1,7 @@
 const vuxLoader = require('vux-loader')
+
 module.exports = {
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     vuxLoader.merge(config, {
       plugins: ['vux-ui']
     })

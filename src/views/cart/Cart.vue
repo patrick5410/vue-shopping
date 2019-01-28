@@ -89,107 +89,109 @@
 </template>
 
 <script>
-  import Show2goods from '@/components/Show2goods'
-  import Menu from '@/components/Menu'
-  import { Swipeout, SwipeoutItem, SwipeoutButton,Checklist } from 'vux'
+import Show2goods from '@/components/Show2goods'
+import Menu from '@/components/Menu'
+import { Swipeout, SwipeoutItem, SwipeoutButton,Checklist } from 'vux'
 
-  export default {
-    name: 'cart',
-    components: {
-      Show2goods,
-      Menu,
-      Checklist,
-      Swipeout,
-      SwipeoutItem,
-      SwipeoutButton,
+export default {
+  name: 'cart',
+  components: {
+    Show2goods,
+    Menu,
+    Checklist,
+    Swipeout,
+    SwipeoutItem,
+    SwipeoutButton
+  },
+  data: function () {
+    return {
+      goods: [{}], //商品
+      guessGoods: [],//可能喜欢商品
+      isSelectAll:false,
+      selectCount:0,//已选中总数量
+      totalPrice:0//选中商品总价
+    }
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      for (let i = 0; i < 8; i++) {
+        this.guessGoods.push({
+          id: i,
+          name: '车载配件' + i,
+          originalPrice: 1500,
+          price: 1058 + Math.floor(Math.random() * 200),
+          sellCount: Math.floor(Math.random() * 200),
+          img: '/img/good/' + (i + 1) + '.jpg',
+          isSelected:false,
+          buyCount:1,//购买数量
+          maxNum:200//单件购买最大数量
+        })
+
+      }
+
+      this.goods = this.guessGoods;
+
+    })
+  },
+  methods: {
+    toClz() {
+      //跳转到分类
+      this.$router.push('/clz')
     },
-    data: function () {
-      return {
-        goods: [{}], //商品
-        guessGoods: [],//可能喜欢商品
-        isSelectAll:false,
-        selectCount:0,//已选中总数量
-        totalPrice:0,//选中商品总价
+    collectGood(item){
+      //移至收藏
+      alert('收藏商品成功');
+      //删除商品
+      this.deleteGood(item);
+    },
+    deleteGood(item){
+      //删除购物车商品
+      let index = this.goods.indexOf(item)
+
+      if(index>-1){
+        this.goods.splice(index,1)
       }
     },
-    mounted: function () {
-      this.$nextTick(function () {
-        for (let i = 0; i < 8; i++) {
-          this.guessGoods.push({
-            id: i,
-            name: '车载配件' + i,
-            originalPrice: 1500,
-            price: 1058 + Math.floor(Math.random() * 200),
-            sellCount: Math.floor(Math.random() * 200),
-            img: '/img/good/' + (i + 1) + '.jpg',
-            isSelected:false,
-            buyCount:1,//购买数量
-            maxNum:200,//单件购买最大数量
-          })
-
+    selectAll(){
+      //选择所有的商品或取消所有的商品
+      this.isSelectAll = !this.isSelectAll;
+      this.goods.forEach((item)=>{
+        if(this.isSelectAll){
+          item.isSelected = true;
+        }else {
+          item.isSelected = false;
         }
-
-        this.goods = this.guessGoods;
-
       })
-    },
-    methods: {
-      toClz() {
-        //跳转到分类
-        this.$router.push('/clz')
-      },
-      collectGood(item){
-        //移至收藏
-        alert("收藏商品成功");
-        //删除商品
-        this.deleteGood(item);
-      },
-      deleteGood(item){
-        //删除购物车商品
-        let index = this.goods.indexOf(item)
-        if(index>-1){
-          this.goods.splice(index,1)
-        }
-      },
-      selectAll(){
-        //选择所有的商品或取消所有的商品
-        this.isSelectAll = !this.isSelectAll;
-          this.goods.forEach((item)=>{
-            if(this.isSelectAll){
-              item.isSelected = true;
-            }else {
-              item.isSelected = false;
-            }
-          })
-      }
-
-    },
-    watch: {
-      goods: {
-        handler(val, oldVal){
-         //开启深度监听，用于监听商品是否被选中和输入数量
-         //  console.log("商品变化",val)
-          this.selectCount = 0;
-          this.totalPrice = 0;
-          let selectKind = 0;//选中商品种类
-          val.forEach((item)=>{
-            if(item.isSelected){
-              this.selectCount += parseInt(item.buyCount);
-              this.totalPrice += parseInt(item.buyCount)*item.price.toFixed(2);
-              selectKind++;
-            }
-          })
-          //判断是否全选
-          this.isSelectAll = this.goods.length == selectKind
-
-        },
-        deep:true
-      }
-
     }
 
+  },
+  watch: {
+    goods: {
+      handler(val, oldVal){
+        //开启深度监听，用于监听商品是否被选中和输入数量
+        //  console.log("商品变化",val)
+        this.selectCount = 0;
+        this.totalPrice = 0;
+        let selectKind = 0;//选中商品种类
+
+        val.forEach((item)=>{
+          if(item.isSelected){
+            this.selectCount += parseInt(item.buyCount);
+            this.totalPrice += parseInt(item.buyCount)*item.price.toFixed(2);
+            selectKind++;
+          }
+        })
+        //判断是否全选
+        this.isSelectAll = this.goods.length == selectKind
+
+      },
+      deep:true
+    }
 
   }
+
+
+}
 
 </script>
 
@@ -272,7 +274,6 @@
         }
 
 
-
         .good-one-right{
           /*display: flex;*/
           /*margin: auto 0;*/
@@ -328,7 +329,6 @@
               }
 
 
-
               .buyCount-cut,.buyCount-add{
                 width: 20px;
                 height: 100%;
@@ -368,9 +368,6 @@
 
 
       }
-
-
-
 
 
     }
@@ -427,7 +424,6 @@
     }
 
   }
-
 
 
   .guess-like {
