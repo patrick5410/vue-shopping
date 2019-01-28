@@ -82,6 +82,61 @@
           <div v-if="item.orderState == 2">申请退款</div>
           <div v-else>物流查询</div>
           <div style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
+    <div class="orderCom-container">
+
+        <div class="order" v-for="(item,orderIndex) in orders">
+            <div class="order-head">
+                <div class="head-date" style="color: #808080">{{item.orderDate}}</div>
+                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==2 ||item.orderState==5 || item.orderState==7 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
+            </div>
+
+            <!--一种商品-->
+            <div class="order-good" v-for="(good,goodIndex) in item.goods">
+                <div class="good-left">
+                    <div class="good-img">
+                        <img v-lazy="good.img" style="width: 100%;height: auto"  ref='itemImg' />
+                        <!--<img  src="../assets/img/good/1.jpg" style="width: 100%;height: auto" >-->
+                    </div>
+                    <div>{{good.name}}</div>
+                </div>
+                <div class="good-right">
+                    <div>¥{{good.price}}</div>
+                    <div>x{{good.buyCount}}</div>
+                </div>
+            </div>
+
+            <!--订单合算-->
+            <div class="order-calInfo">共{{item.goodCount}}件商品，总金额<span style="color: #995454">¥{{item.paymentAmount}}元</span></div>
+            <!--订单底部-->
+            <div class="order-bottom">
+                <!--待支付-->
+                <div  v-show="item.orderState == 1" style="display: flex;justify-content: space-between">
+                    <div style="display: flex;align-items: center">
+                        <span  v-if="getCancelTime(item)<120 && item.orderState == 1" style="color: #995454">
+                            <Countdown :value="getCancelTime(item)" @on-finish="finishCancel"></Countdown>
+                        </span>
+                        <span v-if="getCancelTime(item)<120">秒后订单将取消</span>
+                        <span v-else>{{Math.floor(getCancelTime(item) / 60)}}分钟后订单将取消</span>
+                    </div>
+                    <div class="order-bottom-button">
+                        <div>取消</div>
+                        <div style="color: #995454;border-color: #995454" @click="toPayPage(item)">去支付</div>
+                    </div>
+                </div>
+
+                <!--待收货-->
+                <div class="order-bottom-button" v-show="item.orderState == 2 || item.orderState == 3">
+                    <div v-if="item.orderState == 2">申请退款</div>
+                    <div v-else>物流查询</div>
+                    <div v-show="item.orderState == 3" style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
+                </div>
+
+                <!--已收货-->
+                <div class="order-bottom-button" v-show="item.orderState == 4">
+                    <div>申请退货</div>
+                </div>
+
+            </div>
         </div>
 
         <!--已收货-->
@@ -123,7 +178,14 @@ export default {
     },
     finishCancel() {
       // 需要重新获取订单数据
-      console.log('重新获取订单数据')
+      console.log("重新获取订单数据")
+    },
+    toPayPage(item){
+      console.log("item",item)
+      //如果该页面的订单信息不详细，则需要根据id去请求再跳转
+      this.$store.state.order = item
+      //跳转到支付页面
+      this.$router.push({name:'payPage'})
     }
   }
 }

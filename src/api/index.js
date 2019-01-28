@@ -3,7 +3,7 @@ import axios from './axios'
 let instance = axios()
 
 export default {
-  get(url, params, headers) {
+  get (url, params, headers) {
     let options = {}
 
     if (params) {
@@ -14,7 +14,7 @@ export default {
     }
     return instance.get(url, options)
   },
-  post(url, params, headers, data) {
+  post (url, params, headers, data) {
     let options = {}
 
     if (params) {
@@ -25,7 +25,7 @@ export default {
     }
     return instance.post(url, data, options)
   },
-  put(url, params, headers) {
+  put (url, params, headers) {
     let options = {}
 
     if (headers) {
@@ -33,7 +33,7 @@ export default {
     }
     return instance.put(url, params, options)
   },
-  delete(url, params, headers) {
+  delete (url, params, headers) {
     let options = {}
 
     if (params) {

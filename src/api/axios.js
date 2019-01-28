@@ -29,8 +29,7 @@ service.interceptors.request.use(
 // 添加响应拦截器
 service.interceptors.response.use(
   (response) => {
-    let { data } = response
-
+    let { data } = Response
     return data
   },
   (error) => {
@@ -58,6 +57,6 @@ service.interceptors.response.use(
  * 创建统一封装过的 axios 实例
  * @return {AxiosInstance}
  */
-export default function() {
+export default function () {
   return service
 }

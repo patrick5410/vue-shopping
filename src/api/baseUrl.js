@@ -2,18 +2,14 @@ let baseUrl = '/api' // 本地代理
 
 switch (process.env.NODE_ENV) {
   case 'dev':
-    baseUrl = 'http://localhost:8080/' // 测试环境
+    baseUrl = 'https://www.tdxiov.com:28443/shopping' // 测试环境url
     break
   case 'pre':
-    baseUrl = 'http://localhost:8080/' // 预上线
+    baseUrl = 'https://www.tdxiov.com:28443/shopping' // 预上线环境url
     break
   case 'production':
-    baseUrl = 'http://localhost:8080/' // 生产环境
-    break
-  default:
+    baseUrl = 'https://www.tdxiov.com:28443/shopping' // 生产环境url
     break
 }
 
-export default {
-  baseUrl
-}
+export default baseUrl

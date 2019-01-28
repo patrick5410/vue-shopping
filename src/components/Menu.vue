@@ -60,6 +60,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+<<<<<<< HEAD
 .menu {
   display: flex;
   flex-direction: row;
@@ -114,6 +115,67 @@ export default {
 .m-personal {
   background-image: url('/img/personal.png');
 }
+=======
+  .menu{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    border-top: 1px solid #e5e5e5;
+    font-size: 14px;
+  }
+  .menu>div{
+    display: inline-flex;
+    width: 80px;
+    justify-content: space-around;
+    align-items:flex-end;
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: center 5px;
+    font-weight: bold;
+  }
+
+  .m-index{
+    background-image: url("../assets/img/index.png");
+  }
+
+  .indexActive{
+    background-image: url("../assets/img/index2.png");
+    color: #3d7a99;
+  }
+
+  .m-clz{
+    background-image: url("../assets/img/clz.png");
+  }
+
+  .clzActive{
+    background-image: url("../assets/img/clz2.png");
+    color: #3d7a99;
+  }
+
+  .m-cart{
+    background-image: url("../assets/img/cart.png");
+  }
+
+  .cartActive{
+    background-image: url("../assets/img/cart2.png");
+    color: #3d7a99;
+  }
+
+  .m-personal{
+    background-image: url("../assets/img/personal.png");
+  }
+
+  .personalActive{
+    background-image: url("../assets/img/personal2.png");
+    color: #3d7a99;
+  }
+>>>>>>> 46ffa023a6fc26c4908d484edd97a5dfb38e6ce3
 
 .personalActive {
   background-image: url('/img/personal2.png');

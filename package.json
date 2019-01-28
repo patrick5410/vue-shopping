@@ -16,6 +16,7 @@
     "countup.js": "^1.9.3",
     "element-ui": "^2.4.11",
     "iview": "^3.2.1",
+    "js-cookie": "^2.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "lib-flexible": "^0.3.2",
@@ -36,6 +37,7 @@
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
     "babel-plugin-import": "^1.11.0",
+    "compression-webpack-plugin": "^2.0.0",
     "eslint": "^5.12.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
@@ -60,7 +62,7 @@
   "devServer": {
     "proxy": {
       "/api": {
-        "target": "http://api.map.baidu.com/geocoder/v2",
+        "target": "http://passer-by.com/data_location/town/",
         "changeOrigin": true,
         "pathRewrite": {
           "^/api": ""

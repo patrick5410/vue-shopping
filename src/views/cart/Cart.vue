@@ -3,7 +3,7 @@
   <div id="cart">
     <div class="myCart">
       <div v-if="goods==null || goods.length<=0">
-        <img @click="toClz" src="/img/cart_empty.png" style="width: 100%;height: 100%">
+        <img @click="toClz" src="../../assets/img/cart_empty.png" style="width: 100%;height: 100%">
       </div>
       <div v-else>
         <!--购物车头部-->
@@ -22,8 +22,9 @@
           <swipeout>
             <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in goods" >
               <div slot="right-menu">
-                <swipeout-button @click.native="collectGood(item)" type="primary" background-color="#ff9600">收藏</swipeout-button>
-                <swipeout-button @click.native="deleteGood(item)" type="warn">删除</swipeout-button>
+                <swipeout-button v-if="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#d7d6da" :width="130/750*containerWidth">已收藏</swipeout-button>
+                <swipeout-button v-else="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="130/750*containerWidth">收藏</swipeout-button>
+                <swipeout-button @click.native="deleteGood(item)" type="warn" :width="110/750*containerWidth">删除</swipeout-button>
               </div>
               <div slot="content" class="demo-content vux-1px-t cart-good-swipe">
                 <!--左边勾选框-->
@@ -33,15 +34,15 @@
                 </div>
                 <!--右边商品-->
                 <div class="good-one-right">
-                  <div class="good-img">
+                  <div class="good-img" @click="goodDetail(item.id)">
                     <img :src="item.img" style="width: 100%;height: auto">
                   </div>
                   <div class="good-info">
-                    <div class="goodName">{{item.name}}</div>
+                    <div class="goodName" @click="goodDetail(item.id)">{{item.name}}</div>
                     <div class="goodPrice">¥{{item.price}}元</div>
                     <div class="buyCount">
                       <div class="buyCount-cut" @click="item.buyCount>1?item.buyCount--:1">-</div>
-                      <input class="buyCount-input" type="number" v-model="item.buyCount"></input>
+                      <input class="buyCount-input" type="number" v-model="item.buyCount" @blur="changeCount(item)"></input>
                       <div class="buyCount-add" @click="item.buyCount<item.maxNum?item.buyCount++:item.maxNum">+</div>
                     </div>
                   </div>
@@ -58,7 +59,7 @@
     </div>
 
     <!--猜你喜欢-->
-    <div class="guess-like">
+    <div class="guess-like" :style="selectCount>0?'paddingBottom:3rem':''">
       <div class="guess-like-title">可能您会喜欢</div>
       <Show2goods :goods="guessGoods" style="padding: 0"></Show2goods>
     </div>
@@ -77,7 +78,7 @@
           合计：
           <span style="color: #995454">{{totalPrice.toFixed(2)}}元</span>
         </div>
-        <div class="pay">
+        <div class="pay" @click="toPayPage">
           结算({{parseInt(selectCount)}})
         </div>
       </div>
@@ -89,67 +90,81 @@
 </template>
 
 <script>
-import Show2goods from '@/components/Show2goods'
-import Menu from '@/components/Menu'
-import { Swipeout, SwipeoutItem, SwipeoutButton,Checklist } from 'vux'
+  import Show2goods from '@/components/Show2goods'
+  import Menu from '@/components/Menu'
+  import { Swipeout, SwipeoutItem, SwipeoutButton,Checklist } from 'vux'
 
-export default {
-  name: 'cart',
-  components: {
-    Show2goods,
-    Menu,
-    Checklist,
-    Swipeout,
-    SwipeoutItem,
-    SwipeoutButton
-  },
-  data: function () {
-    return {
-      goods: [{}], //商品
-      guessGoods: [],//可能喜欢商品
-      isSelectAll:false,
-      selectCount:0,//已选中总数量
-      totalPrice:0//选中商品总价
-    }
-  },
-  mounted: function () {
-    this.$nextTick(function () {
-      for (let i = 0; i < 8; i++) {
-        this.guessGoods.push({
-          id: i,
-          name: '车载配件' + i,
-          originalPrice: 1500,
-          price: 1058 + Math.floor(Math.random() * 200),
-          sellCount: Math.floor(Math.random() * 200),
-          img: '/img/good/' + (i + 1) + '.jpg',
-          isSelected:false,
-          buyCount:1,//购买数量
-          maxNum:200//单件购买最大数量
-        })
-
+  export default {
+    name: 'cart',
+    components: {
+      Show2goods,
+      Menu,
+      Checklist,
+      Swipeout,
+      SwipeoutItem,
+      SwipeoutButton,
+    },
+    data: function () {
+      return {
+        containerWidth:750,//容器高度
+        goods: [{}], //商品
+        guessGoods: [],//可能喜欢商品
+        isSelectAll:false,
+        selectCount:0,//已选中总数量
+        totalPrice:0,//选中商品总价
       }
-
+    },
+    mounted: function () {
+      this.$nextTick(function () {
+        this.containerWidth = window.innerWidth
+        console.log("containerHeight",this.containerWidth)
+        for (let i = 0; i < 8; i++) {
+          this.guessGoods.push({
+            id: i,
+            name: '车载配件' + i,
+            originalPrice: 1500,
+            price: 1058 + Math.floor(Math.random() * 200),
+            sellCount: Math.floor(Math.random() * 200),
+            img: 'img/good/' + (i + 1) + '.jpg',
+            isSelected:false,
+            buyCount:1,//购买数量
+            maxNum:200,//单件购买最大数量
+            isCollect:i%2==1,//是否已收藏
+          })
+      }
       this.goods = this.guessGoods;
-
     })
   },
   methods: {
     toClz() {
       //跳转到分类
-      this.$router.push('/clz')
+      this.$router.push({name:'clz'})
     },
     collectGood(item){
       //移至收藏
-      alert('收藏商品成功');
+      alert("收藏商品成功");
       //删除商品
       this.deleteGood(item);
     },
     deleteGood(item){
       //删除购物车商品
       let index = this.goods.indexOf(item)
-
       if(index>-1){
         this.goods.splice(index,1)
+      }
+    },
+    //商品详情页面
+    goodDetail(goodId){
+      this.$router.push({name:'good',query:{goodId:goodId}})
+    },
+    toPayPage(){
+      //这里不用传选中商品id，直接存储在store中
+      this.$router.push({name:'payPage'})
+    },
+    changeCount(item){
+      console.log("item",item)
+      if (item.buyCount || item.buyCount == ''){
+        item.buyCount = 1
       }
     },
     selectAll(){
@@ -163,7 +178,6 @@ export default {
         }
       })
     }
-
   },
   watch: {
     goods: {
@@ -183,16 +197,11 @@ export default {
         })
         //判断是否全选
         this.isSelectAll = this.goods.length == selectKind
-
       },
       deep:true
     }
-
   }
-
-
 }
-
 </script>
 
 <style lang="scss" scoped>

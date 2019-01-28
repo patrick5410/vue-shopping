@@ -1,30 +1,15 @@
 <template>
-  <!-- <div class="credit">
-        <div class="content" ontouchstart="this.classList.toggle('click')">
-            <div class="front">
-                <div class="text" id="text">
-                    <vue-count-up :start-value="start" :end-value="end" />
-                </div>
-                <img src="/img/credit.png" alt="积分"/>
-            </div>
-            <div class="back">
-
-            </div>
-        </div>
-    </div> -->
-  <div
-    class="credit"
-    ref="credit"
-    ontouchstart="this.classList.toggle('flip');"
-  >
+  <div class="credit" ref="credit" ontouchstart="this.classList.toggle('flip');">
     <div class="content">
       <div class="front">
         <div class="text" id="text">
           <vue-count-up :start-value="start" :end-value="end" />
         </div>
-        <img src="/img/credit.png" alt="积分" />
+        <img src="../assets/img/credit.png" alt="积分"/>
       </div>
-      <div class="back"><div class="text">beimian</div></div>
+      <div class="back">
+        <div class="text"> beimian</div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,12 +26,12 @@ export default {
       end: 0
     }
   },
-  created() {
-    this.end = 5555
+  created(){
+      this.end = 5555;
   },
-  methods: {
-    fanzhuan() {
-      console.log(this.$refs.credit)
+  methods:{
+    fanzhuan(){
+      console.log(this.$refs.credit);
     }
   }
 }
@@ -101,21 +86,20 @@ $height: 230px;
       height: 210px;
       width: 325px;
     }
-    .back,
-    .front {
-      position: absolute;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      top: 0;
-      left: 0;
-      height: 210px;
-      width: 325px;
-      border-radius: 3px;
-      background-color: #323436;
-    }
+  }
+  .back,
+  .front {
+    position: absolute;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    height: 210px;
+    width: 325px;
+    border-radius: 3px;
+    background-color: #323436;
   }
 }
-
 .credit.flip .content {
   transform: rotateY(180deg);
 }
@@ -123,7 +107,6 @@ $height: 230px;
 .front {
   z-index: 2;
 }
-
 .back {
   transform: rotateY(180deg);
 }

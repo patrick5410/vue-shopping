@@ -5,7 +5,7 @@
     <div class="content">
       <div>头像</div>
       <div class="head-img-div">
-        <img class="head-img" src="/img/head-img.jpg" />
+        <img class="head-img" src="../../assets/img/head-img.jpg">
       </div>
     </div>
     <div class="content">
@@ -32,13 +32,13 @@
 </template>
 
 <script>
-import Menu from '@/components/Menu'
+import Menu from "@/components/Menu";
 
 export default {
   components: {
     Menu
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -72,6 +72,10 @@ export default {
     div:first-child {
       margin-left: 15px;
     }
+
+    div:nth-child(2) {
+      color: #808080;
+    }
   }
 
   .head-img-div {
@@ -87,10 +91,41 @@ export default {
       width: 40px;
       border-radius: 100%;
     }
-  }
 
-  .encrypted-data {
-    margin-top: 30px;
+    .content {
+      display: flex;
+      width: 355px;
+      height: 50px;
+      padding: 0 10px;
+      background-color: white;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      border-top: 1px solid #e5e5e5;
+
+      div:first-child {
+        margin-left: 15px;
+      }
+    }
+
+    .head-img-div {
+      /*height: 50px;*/
+      /*width: 50px;*/
+      /*!*background-color: blue;*!*/
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      .head-img {
+        height: 40px;
+        width: 40px;
+        border-radius: 100%;
+      }
+    }
+
+    .encrypted-data {
+      margin-top: 30px;
+    }
   }
 }
 </style>

@@ -4,18 +4,11 @@
     <Checkbox
       :indeterminate="isIndeterminate"
       v-model="checkAll"
-      @change="handleCheckAllChange"
-      >全选</Checkbox
-    >
+      @change="handleCheckAllChange">全选</Checkbox>
     <div style="margin: 15px 0;"></div>
     <CheckboxGroup v-model="checkedCities" @change="handleCheckedCitiesChange">
-      <Checkbox v-for="city in cities" :label="city" :key="city">{{
-        city
-      }}</Checkbox>
+      <Checkbox v-for="city in cities" :label="city" :key="city">{{ city }}</Checkbox>
     </CheckboxGroup>
-
-    <!--测试嵌套-->
-    <slot></slot>
   </div>
 </template>
 
@@ -27,7 +20,9 @@ export default {
     InlineXNumber
   },
   data() {
-    return {}
+    return {
+      checkedCities:[]
+      }
   },
   methods: {}
 }

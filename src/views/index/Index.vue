@@ -33,29 +33,10 @@
                 @click="goodDetail(item.id)"
               >
                 <div class="good-img">
-                  <!--<img :src="item.img" lowsrc="/img/good/加载失败.png" style="width: 100%;height: 100%">-->
-                  <img
-                    v-lazy="item.img"
-                    style="width: 100%;height: auto"
-                    ref="itemImg"
-                  />
-                  <div
-                    v-show="item.originalPrice > item.price"
-                    style="position: absolute;left: 0;bottom: 0"
-                  >
-                    <span
-                      class="cutPrice"
-                      :style="
-                        item.originalPrice - item.price > 100
-                          ? item.originalPrice - item.price > 300
-                            ? 'background-color:#995454'
-                            : 'background-color:#ffbf80'
-                          : 'background-color:#52992e'
-                      "
-                      >&nbsp;直降{{
-                        item.originalPrice - item.price
-                      }}元&nbsp;</span
-                    >
+                  <!--<img :src="item.img" lowsrc="../../assets/img/good/加载失败.png" style="width: 100%;height: 100%">-->
+                  <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
+                  <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
+                    <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
                   </div>
                 </div>
                 <div class="good-bottom">
@@ -65,7 +46,8 @@
               </div>
               <div class="loading" v-show="loading">
                 <!--<mt-spinner :size="60"></mt-spinner>-->
-                <img class="loading-img" src="/img/loading.gif" /> 加载中...
+                <img  class="loading-img" src="../../assets/img/loading.gif"/>
+                加载中...
               </div>
               <div v-show="isFinish" class="bottom-line">
                 <divider>我是有底线滴</divider>
@@ -103,7 +85,7 @@ export default {
       creditSort: 425, // 用户积分
       recommendClass: '车载配件', // 推荐商品类型
       recommendClassUrl: '/showMore', // 推荐商品链接
-      recommendImgUrl: '/img/banner.png', // 推荐商品图片
+      recommendImgUrl: 'img/good/banner.png', // 推荐商品图片
       loading: false, // 加载
       isFinish: false,
       goods: [],
@@ -118,6 +100,9 @@ export default {
       //加载商品
       this.loadMore()
     })
+  },
+  beforeDestroy: function() {
+    // console.log("页面跳转之前");
   },
   methods: {
     toRecommendClass() {
@@ -142,7 +127,7 @@ export default {
                 name: '车载配件' + i,
                 originalPrice: 1108,
                 price: 1058,
-                img: '/img/good/' + i + '.jpg'
+                img: 'img/good/'+i+'.jpg'
               })
             } else if (i % 3 == 1) {
               this.goods.push({
@@ -150,7 +135,7 @@ export default {
                 name: '车载配件' + i,
                 originalPrice: 1304,
                 price: 1058,
-                img: '/img/good/' + i + '.jpg'
+                img: 'img/good/'+i+'.jpg'
               })
             } else {
               this.goods.push({
@@ -158,7 +143,7 @@ export default {
                 name: '车载配件' + i,
                 originalPrice: 1406,
                 price: 1058,
-                img: '/img/good/' + i + '.jpg'
+                img: 'img/good/'+i+'.jpg'
               })
             }
           }
@@ -171,21 +156,70 @@ export default {
       }
     },
     //商品详情页面
-    goodDetail(goodId) {
-      this.$router.push({ path: this.goodDetailUrl, query: { goodId: goodId } })
+    goodDetail(goodId){
+      this.$router.push({name:'good',query:{goodId:goodId}})
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.container {
-  width: 375px;
-  /*height: 230px;*/
-  background-color: white;
-  /*margin-top: 36px;*/
-  /*margin-bottom: 65px;*/
-}
+  .container{
+    width: 375px;
+    /*height: 230px;*/
+    background-color: white;
+    /*margin-top: 36px;*/
+    /*margin-bottom: 65px;*/
+  }
+
+
+  /*推荐商品*/
+  .recommend-good{
+    display: flex;
+    width: 100%;
+    height: 120px;
+    background-color: white;
+    position: relative;
+  }
+
+  .re-class{
+    display: flex;
+    width: 355px;
+    margin: 5px 10px;
+    height: 20px;
+    position: relative;
+    /*justify-content: center;*/
+    align-items:center;
+  }
+
+  .re-className{
+    display: inline-flex;
+    font-size: 16px;
+  }
+
+  .re-more{
+    display: inline-flex;
+    position: absolute;
+    /*justify-content: center;*/
+    align-items: baseline;
+    width: 50px;
+    right: 0;
+    color: #808080;
+    background-image: url("../../assets/img/foward.png");
+    background-size: 17px 17px;
+    background-position: right;
+    background-repeat: no-repeat;
+    font-size: 14px;
+  }
+
+  .re-classImg{
+    width: 355px;
+    height: 80px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+  }
+
 
 /*推荐商品*/
 .recommend-good {

@@ -8,16 +8,11 @@ import 'mint-ui/lib/style.css'
 // 滚动监听
 import { InfiniteScroll, Spinner } from 'mint-ui'
 import VueLazyLoad from 'vue-lazyload'
-
 import axios from 'axios'
 
-Vue.use(axios)
-Vue.use(api)
+Vue.use(axios, api)
 
 Vue.config.productionTip = false
-
-// 商品详情路径
-Vue.prototype.goodDetailUrl = '/good'
 
 new Vue({
   router,
@@ -29,8 +24,8 @@ new Vue({
 Vue.use(InfiniteScroll)
 Vue.component(Spinner.name, Spinner)
 Vue.use(VueLazyLoad, {
-  error: '/img/good/加载失败.png',
-  loading: '/img/good/加载.png',
+  error: 'img/good/加载失败.png',
+  loading: 'img/good/加载.png',
   adapter: {
     loaded({
       bindType,
@@ -52,4 +47,3 @@ Vue.use(VueLazyLoad, {
     }
   }
 })
-console.log('加载')
