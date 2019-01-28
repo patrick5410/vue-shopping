@@ -161,6 +161,15 @@ const router = new Router({
       }
     },
     {
+      // 订单详情
+      path: '/orderDetail',
+      name: 'orderDetail',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/order/OrderDetail.vue'], resolve),
+      meta: {
+        title: '盟友淘'
+      }
+    },
+    {
       // 404页面，放在最后
       path: '*',
       name: '404',
