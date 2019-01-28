@@ -2,8 +2,9 @@ import apiList from './apiList'
 
 const install = function (Vue) {
   if (install.installed) {
-    return
-
+    // return
+  } else {
+    // console.log('未安装', Vue)
     install.installed = true
     Object.defineProperties(Vue.prototype, {
       $api: {

@@ -5,6 +5,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   publicPath: '/shopping',
+  outputDir: 'shopping',
   configureWebpack: config => {
     if (isProduction) {
       config.plugins.push(new CompressionWebpackPlugin({

@@ -8,8 +8,8 @@
           <div class="nickname">{{$store.state.userInfo.wechatInfo.nickname}}</div>
         </div>
         <div v-else class="head-img-div">
-          <img class="head-img" src="../../assets/img/good/1.jpg">
-          <div class="nickname">微信昵称</div>
+          <img class="head-img" src="../../assets/img/good/加载.png">
+          <div class="nickname">您的昵称</div>
         </div>
 
         <div class="head-right" @click="toPersonalData"></div>
@@ -52,7 +52,7 @@
           <img src="../../assets/img/address_management.png">
           <div>地址管理</div>
         </div>
-        <div>
+        <div @click="toCollect">
           <img src="../../assets/img/collect.png">
           <div>收藏</div>
         </div>
@@ -91,6 +91,10 @@
       toAddressManage(){
         //跳转到地址管理
         this.$router.push({name:'addressManage'})
+      },
+      toCollect(){
+        //跳转到收藏
+        this.$router.push({name:'collect'})
       }
     }
 

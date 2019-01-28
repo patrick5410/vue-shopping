@@ -12,7 +12,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import api from './api/install'
 
-Vue.use(VueAxios, axios, api)
+Vue.use(api)
+Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
 

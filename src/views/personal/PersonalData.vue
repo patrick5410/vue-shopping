@@ -5,7 +5,7 @@
     <div class="content">
       <div>头像</div>
       <div class="head-img-div">
-        <img class="head-img" src="../../assets/img/head-img.jpg">
+        <img v-if="$store.state.userInfo.wechatInfo" class="head-img" :src="$store.state.userInfo.wechatInfo.headimgurl">
       </div>
     </div>
     <div class="content">
@@ -17,7 +17,7 @@
     <div class="content">
       <div>昵称</div>
       <div>
-        盟友淘
+        {{$store.state.userInfo.wechatInfo?$store.state.userInfo.wechatInfo.nickname:''}}
       </div>
     </div>
 
@@ -31,8 +31,9 @@
       </div>
       <div class="content">
         <div>账号安全</div>
-        <div>
-          1234567890
+        <div class="security">
+          <img src="../../assets/img/lock.png">
+          &nbsp;安全
         </div>
       </div>
     </div>
@@ -88,6 +89,17 @@
 
       div:nth-child(2){
         color: #808080;
+      }
+
+      .security{
+        display: flex;
+        align-items: center;
+
+        img{
+          width: 25px;
+          height: auto;
+        }
+
       }
 
     }

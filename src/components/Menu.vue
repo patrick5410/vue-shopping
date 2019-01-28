@@ -56,7 +56,7 @@ export default {
     width: 80px;
     justify-content: space-around;
     align-items:flex-end;
-    background-size: 30px 30px;
+    background-size: 28px 28px;
     background-repeat: no-repeat;
     background-position: center 5px;
     font-weight: bold;

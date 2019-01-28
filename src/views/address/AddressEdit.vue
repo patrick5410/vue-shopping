@@ -98,6 +98,8 @@
       if(this.$store.state.choosedAddress){
         this.address =  this.$store.state.choosedAddress
       }
+
+      // this.matches();
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -167,6 +169,17 @@
       },
       addressChange(val){
         console.log("val",val)
+      },
+      async matches() {
+        // 这里用try catch包裹，请求失败的时候就执行catch里的
+        try {
+          console.log("api",this)
+          console.log("api",this.$api)
+          let res = await this.$api.user.getUserInfo({code:'huhfai'})
+          console.log('​getMatches -> res', res)
+        } catch (e) {
+          console.log('​catch -> e', e)
+        }
       }
 
     }

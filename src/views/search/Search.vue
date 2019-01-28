@@ -1,8 +1,8 @@
 <!--搜索页面-->
 <template>
-  <div class="search-container" :style="{height:containerHeight+'px'}">
+  <div class="search-container">
     <Header ref="header"></Header>
-    <div class="history-search">
+    <div class="history-search" style="height: 50vh">
       <div class="history-search-head">
         <div>最近搜索</div>
         <div style="color: #0b89dc" @click="clearHistorySearch">清除</div>

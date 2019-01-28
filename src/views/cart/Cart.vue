@@ -22,9 +22,9 @@
           <swipeout>
             <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in goods" >
               <div slot="right-menu">
-                <swipeout-button v-if="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#d7d6da" :width="130/750*containerWidth">已收藏</swipeout-button>
-                <swipeout-button v-else="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="130/750*containerWidth">收藏</swipeout-button>
-                <swipeout-button @click.native="deleteGood(item)" type="warn" :width="110/750*containerWidth">删除</swipeout-button>
+                <swipeout-button v-if="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#d7d6da" :width="parseInt(130*containerWidth/750)">已收藏</swipeout-button>
+                <swipeout-button v-else="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="parseInt(130*containerWidth/750)">收藏</swipeout-button>
+                <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(110*containerWidth/750)">删除</swipeout-button>
               </div>
               <div slot="content" class="demo-content vux-1px-t cart-good-swipe">
                 <!--左边勾选框-->
@@ -114,12 +114,12 @@
         totalPrice:0,//选中商品总价
       }
     },
+    created(){
+      this.containerWidth = window.innerWidth
+      console.log("containerHeight",this.containerWidth)
+    },
     mounted: function () {
       this.$nextTick(function () {
-        this.containerWidth = window.innerWidth
-        console.log("containerHeight",this.containerWidth)
-
-
         for (let i = 0; i < 8; i++) {
           this.guessGoods.push({
             id: i,
@@ -179,7 +179,7 @@
       },
       changeCount(item){
         console.log("item",item)
-        if (item.buyCount || item.buyCount == ''){
+        if (!item.buyCount || item.buyCount == ''){
           item.buyCount = 1
         }
       }

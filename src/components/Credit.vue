@@ -21,7 +21,8 @@
                 <img src="../assets/img/credit.png" alt="积分"/>
             </div>
             <div class="back">
-                <div class="text"> beimian</div>
+                <img src="../assets/img/headbackground.png" alt="积分规则"/>
+                <div class="text reverse-side">积分规则</div>
             </div>
         </div>
     </div>
@@ -110,6 +111,17 @@ export default {
                 width: 325px;
                 border-radius: 3px;
                 background-color: #323436;
+            }
+
+            .back{
+
+              .reverse-side{
+                position: absolute;
+                left: 0;
+                top: 0;
+                /*width: 100%;*/
+                /*height: 100%;*/
+              }
             }
         }
     }
