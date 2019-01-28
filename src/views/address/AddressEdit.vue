@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import '../../css/address.css'
+  import '../../assets/css/address.css'
   import Vue from 'vue'
   import { ToastPlugin } from 'vux'
 
