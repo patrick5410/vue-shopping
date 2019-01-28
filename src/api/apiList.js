@@ -1,4 +1,3 @@
-import user from './user'
+// 导入API文件夹
 export default {
-  user
 }

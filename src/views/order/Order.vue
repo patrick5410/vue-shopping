@@ -6,7 +6,11 @@
         <tab-item :selected="!($route.query.index>0 && $route.query.index<5)" @on-item-click="onItemClick">全部订单</tab-item>
         <tab-item @on-item-click="onItemClick" style="position: relative" :selected="$route.query.index == 1">
           待付款
-          <Badge :text="unPayCount" class="pay-count" v-show="unPayCount>0"></Badge>
+          <Badge
+            :text="unPayCount"
+            class="pay-count"
+            v-show="unPayCount > 0"
+          ></Badge>
         </tab-item>
         <tab-item @on-item-click="onItemClick" :selected="$route.query.index == 2">待收货</tab-item>
         <tab-item @on-item-click="onItemClick" :selected="$route.query.index == 3">已收货</tab-item>
@@ -15,13 +19,13 @@
     </div>
 
     <!--订单-->
-    <div class="order-content" :style="{paddingTop: contentPaddingTop+'px'}">
+    <div
+      class="order-content"
+      :style="{ paddingTop: contentPaddingTop + 'px' }"
+    >
       <OrderCom :orders="showOrders"></OrderCom>
     </div>
   </div>
-
-
-
 </template>
 
 <script>
@@ -82,7 +86,50 @@
           {
             id: 128,
             name: '戴尔电脑',
-            originalPrice:3855,
+          originalPrice:3855,
+          price: 3566,
+          buyCount:1,
+          img: '/img/good/2.jpg'
+        }]
+      });
+
+      this.orders.push({
+        orderId: 15,
+        orderState:3,//订单状态
+        orderStateStr:'已发货',//订单状态描述
+        orderDate:'2019-01-21 16:08:21',//下单时间
+        paymentAmount:2490,//支付金额
+        goodCount:2,//商品件数
+        goods:[{
+          id: 256,
+          name: '华为手机',
+          originalPrice: 1108,
+          price: 1245,
+          buyCount: 0,
+          img: '/img/good/3.jpg'
+        }]
+      });
+
+
+      this.orders.push({
+        orderId: 16,
+        orderState:4,//订单状态
+        orderStateStr:'待收货',//订单状态描述
+        orderDate:'2019-01-21 16:08:21',//下单时间
+        paymentAmount:4624,//支付金额
+        goodCount:2,//商品件数
+        goods:[{
+          id: 125,
+          name: '华为手机',
+          originalPrice: 1108,
+          price: 1058,
+          buyCount: 1,
+          img: '/img/good/1.jpg'
+        },
+        {
+            id: 128,
+          name: '戴尔电脑',
+          originalPrice:3855,
             price: 3566,
             buyCount:1,
             img: 'img/good/5.jpg'
@@ -289,6 +336,8 @@
 
 
 
+      //显示的订单
+      this.showOrders = this.orders;
 
 
         if(this.$route.query.index>0 && this.$route.query.index<5){
@@ -300,25 +349,16 @@
         }
 
 
-        //计算未付款订单数量
-        this.unPayCount = 0
-        this.orders.forEach((item)=>{
-          if(item.orderState == 1){
-            this.unPayCount++
-          }
-        })
-
-
-        this.$vux.loading.show({
-          text: '加载中'
-        })
-        setTimeout(() => {
-          this.$vux.loading.hide()
-        }, 1000)
-
-
+      this.$vux.loading.show({
+        text: '加载中'
       })
-    },
+      setTimeout(() => {
+        this.$vux.loading.hide()
+      }, 1000)
+
+
+    })
+  },
     methods: {
       onItemClick (index) {
         console.log('on item click:', index)
@@ -369,44 +409,39 @@
 </script>
 
 <style lang="scss" scoped>
+.order-container {
+  width: 375px;
+  height: 100vh;
+  background-color: #e5e5e5;
+}
 
-  .order-container{
-    width: 375px;
-    height: 100vh;
-    background-color: #e5e5e5;
-  }
+.order-head {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #e5e5e5;
+}
 
-  .order-head{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    border-bottom: 1px solid #e5e5e5;
-  }
+.order-content {
+}
 
-  .order-content{
-
-  }
-
-  .pay-count{
-    position: absolute;
-    left: 55px;
-    top: 7px;
-  }
-
-
+.pay-count {
+  position: absolute;
+  left: 55px;
+  top: 7px;
+}
 </style>
 
 <style lang="less" scoped>
-  /*@import '~vux/src/styles/1px.less';*/
-  /*@import '~vux/src/styles/center.less';*/
+/*@import '~vux/src/styles/1px.less';*/
+/*@import '~vux/src/styles/center.less';*/
 
-  .order-container .vux-tab .vux-tab-item{
-    font-size: 15px;
-  }
+.order-container .vux-tab .vux-tab-item {
+  font-size: 15px;
+}
 
-
-  .order-container .vux-badge{
-    background-color: #995454;
-  }
+.order-container .vux-badge {
+  background-color: #995454;
+}
 </style>

@@ -3,7 +3,6 @@
         <input v-bind:class="{searchInput:$route.path.indexOf('search') != -1}"  type="text" placeholder="搜索商品" v-on:focus="toSearch"  ref="searchInput" v-model="keyword">
         <div class="search" @click="search">搜索</div>
     </div>
-
 </template>
 <script>
 
@@ -81,74 +80,56 @@
 </script>
 
 <style lang="scss" scoped>
-    .header{
-        position: fixed;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        top: 0;
-        height: 36px;
-        width: 100%;
-        background-color: white;
-        border-bottom: #e5e5e5 1px solid;
-        box-sizing: border-box;
-        z-index: 100;
+  .header{
+    position: fixed;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    top: 0;
+    height: 36px;
+    width: 100%;
+    background-color: white;
+    border-bottom: #e5e5e5 1px solid;
+    box-sizing: border-box;
+    z-index: 100;
 
 
-      input{
-        height: 28px;
-        width: 330px;
-        font-size: 12px;
-        background-color: #e5e5e5;
-        background-image: url('../../assets/img/search.png');
-        background-repeat: no-repeat;
-        background-size: 16px 16px;
-        background-position-x: 5px;
-        background-position-y: center;
-        border-radius: 3px ;
-        outline: none;
-        border: 0;
-        padding-left:25px;
-
-
-
-      }
-
-
-      .searchInput{
-        width: 270px;
-
-        /*搜索按钮*/
-        +div{
-          display: flex;
-        }
-
-      }
-
-
-
-
-
-
-
-      .search{
-        display: none;
-        margin-left: 10px;
-        width: 50px;
-        height: 28px;
-        background-color: #995454;
-        color: white;
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-        border-radius: 1px;
-      }
-
-
-
-
+    input{
+      height: 28px;
+      width: 330px;
+      font-size: 12px;
+      background-color: #e5e5e5;
+      background-image: url('../../assets/img/search.png');
+      background-repeat: no-repeat;
+      background-size: 16px 16px;
+      background-position-x: 5px;
+      background-position-y: center;
+      border-radius: 3px ;
+      outline: none;
+      border: 0;
+      padding-left:25px;
     }
+    .searchInput{
+      width: 270px;
+      /*搜索按钮*/
+      +div{
+        display: flex;
+      }
+    }
+    .search{
+      display: none;
+      margin-left: 10px;
+      width: 50px;
+      height: 28px;
+      background-color: #995454;
+      color: white;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      border-radius: 1px;
+    }
+  }
 </style>

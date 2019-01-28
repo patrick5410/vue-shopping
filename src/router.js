@@ -8,15 +8,14 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   // 跳转到新页面时，默认位置为最顶端
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     console.log(savedPosition)
     if (savedPosition) {
       return savedPosition
-    } else {
-      return {
-        x: 0,
-        y: 0
-      }
+    }
+    return {
+      x: 0,
+      y: 0
     }
   },
   routes: [
@@ -27,7 +26,8 @@ const router = new Router({
     {
       path: '/test',
       name: 'test',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/Test.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ ['./views/Test.vue'], resolve),
       meta: {
         title: '临时测试页面'
       }
@@ -38,7 +38,8 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/About.vue'], resolve)
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ ['./views/About.vue'], resolve)
     },
     {
       path: '/good',
@@ -51,7 +52,10 @@ const router = new Router({
     {
       path: '/index',
       name: 'index',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/index/Index.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/index/Index.vue'
+        ], resolve),
       meta: {
         title: '首页'
       }
@@ -75,7 +79,10 @@ const router = new Router({
     {
       path: '/clz',
       name: 'clz',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/clz/Clz.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/clz/Clz.vue'
+        ], resolve),
       meta: {
         title: '分类'
       }
@@ -83,7 +90,10 @@ const router = new Router({
     {
       path: '/personal',
       name: 'personal',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/Personal.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/personal/Personal.vue'
+        ], resolve),
       meta: {
         title: '盟友淘'
       }
@@ -91,7 +101,10 @@ const router = new Router({
     {
       path: '/personalData',
       name: 'personalData',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/PersonalData.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/personal/PersonalData.vue'
+        ], resolve),
       meta: {
         title: '个人资料'
       }
@@ -99,7 +112,10 @@ const router = new Router({
     {
       path: '/showMore',
       name: 'showMore',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/showMore/ShowMore.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/showMore/ShowMore.vue'
+        ], resolve),
       meta: {
         title: '更多'
       }
@@ -107,7 +123,10 @@ const router = new Router({
     {
       path: '/cart',
       name: 'cart',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/cart/Cart.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/cart/Cart.vue'
+        ], resolve),
       meta: {
         title: '购物车'
       }
@@ -115,7 +134,10 @@ const router = new Router({
     {
       path: '/order',
       name: 'order',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/order/Order.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/order/Order.vue'
+        ], resolve),
       meta: {
         title: '我的订单'
       }
@@ -123,7 +145,10 @@ const router = new Router({
     {
       path: '/addressManage',
       name: 'addressManage',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/address/AddressManage.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/address/AddressManage.vue'
+        ], resolve),
       meta: {
         title: '地址管理'
       }
@@ -139,7 +164,10 @@ const router = new Router({
     {
       path: '/payPage',
       name: 'payPage',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/pay/Pay.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/pay/Pay.vue'
+        ], resolve),
       meta: {
         title: '确认信息'
       }
@@ -147,7 +175,10 @@ const router = new Router({
     {
       path: '/payResult',
       name: 'payResult',
-      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/pay/PayResult.vue'], resolve),
+      component: (resolve) =>
+        require(/* webpackChunkName: "about" */ [
+          './views/pay/PayResult.vue'
+        ], resolve),
       meta: {
         title: '支付结果'
       }

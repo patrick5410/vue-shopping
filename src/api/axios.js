@@ -29,12 +29,11 @@ service.interceptors.request.use(
 // 添加响应拦截器
 service.interceptors.response.use(
   (response) => {
-    let { data } = response
+    let { data } = Response
     return data
   },
   (error) => {
     let info = {}
-
     let { status, statusText, data } = error.response
 
     if (!error.response) {
@@ -50,6 +49,7 @@ service.interceptors.response.use(
         msg: statusText
       }
     }
+    return Promise.reject(info)
   }
 )
 

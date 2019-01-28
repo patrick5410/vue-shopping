@@ -1,19 +1,17 @@
 import apiList from './apiList'
 
-const install = function (Vue) {
+const install = (Vue) => {
   if (install.installed) {
-    // return
-  } else {
-    // console.log('未安装', Vue)
-    install.installed = true
-    Object.defineProperties(Vue.prototype, {
-      $api: {
-        get () {
-          return apiList
-        }
-      }
-    })
+    return
   }
+  install.installed = true
+  Object.defineProperties(Vue.prototype, {
+    $api: {
+      get() {
+        return apiList
+      }
+    }
+  })
 }
 export default {
   install
