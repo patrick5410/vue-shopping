@@ -128,6 +128,10 @@
             <div class="bottom-common changeColor">立即付款</div>
         </div>
 
+        <div class="bottom" v-if="order.orderState == 2">
+            <div class="bottom-common">申请退款</div>
+        </div>
+
         <div class="bottom" v-if="order.orderState == 3">
             <div class="bottom-common changeColor">确认收货</div>
         </div>
