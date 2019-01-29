@@ -77,11 +77,18 @@ baseUrl: https://elm.cangdu.org
 
 ## 接口列表：
 
+```
+说明：
+    所有接口均基于HTTPS协议提交POST请求，以JSON格式的数据进行交互提供服务
+    正式接口请求路径为：https:////www.tdxiov.com:18443/shopping+URL
+    测试接口请求路径为：https:////www.tdxiov.com:28443/shopping+URL
+```
+
 ### 1、获取城市列表
 
 #### 请求URL:  
 ```
-https://elm.cangdu.org/v1/cities
+/user/getUserInfo
 ```
 
 #### 示例：

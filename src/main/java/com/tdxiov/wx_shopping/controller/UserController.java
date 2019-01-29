@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
     //微信公众号appId
     public final static String APPID = "wx3411d52f54a19541";
