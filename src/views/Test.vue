@@ -63,6 +63,8 @@
     mounted() {
       this.$nextTick(() => {
         // this.$refs.scrollerEvent.reset({top: 0})
+
+        console.log("时间戳：",new Date())
       })
     },
     methods: {

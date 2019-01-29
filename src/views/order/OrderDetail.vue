@@ -4,46 +4,51 @@
         <div class="head">
             <div class="content">
                 <div>{{order.orderStateStr}}</div>
-                <div v-if="order.orderState == 1 && getCancelTime(order)>120" style="font-size: .38rem">剩余时间：{{Math.floor(getCancelTime(order) / 60)}}分钟</div>
-                <div v-if="order.orderState == 1 && getCancelTime(order)<=120" style="font-size: .38rem">剩余时间：<Countdown :value="getCancelTime(order)" @on-finish="finishCancel"></Countdown>秒</div>
+                <div v-if="order.orderState == 1 && getCancelTime(order)>120" style="font-size: .39rem">剩余时间：{{Math.floor(getCancelTime(order) / 60)}}分钟</div>
+                <div v-if="order.orderState == 1 && getCancelTime(order)<=120" style="font-size: .39rem">剩余时间：<Countdown :value="getCancelTime(order)" @on-finish="finishCancel"></Countdown>秒</div>
                 <div v-if="order.orderState == 3" style="font-size: .38rem">自动收货时间：{{order.autoReceiveDate}}</div>
             </div>
-        </div>
 
-        <div class="receive">
-            <div class="receive-address" v-if="order.orderState >2 && order.orderState <9">
-                <div class="left">
-                    <img src="../../assets/img/delivery.png">
-                </div>
-                <div class="right">
-                    <div class="delivery-info">
-                        <div>{{order.deliveryUpdateContent}}</div>
+
+
+            <div class="receive">
+                <div class="receive-address" v-if="order.orderState >2 && order.orderState <9">
+                    <div class="left">
+                        <img src="../../assets/img/delivery.png">
                     </div>
-                    <div class="update-update">
-                        更新时间：{{order.deliveryUpdateDate}}
+                    <div class="right">
+                        <div class="delivery-info">
+                            <div>{{order.deliveryUpdateContent}}</div>
+                        </div>
+                        <div class="update-update">
+                            更新时间：{{order.deliveryUpdateDate}}
+                        </div>
+                    </div>
+                    <div  class="forward">
+                        <img src="../../assets/img/forward2.png">
                     </div>
                 </div>
-                <div  class="forward">
-                    <img src="../../assets/img/forward2.png">
+
+                <div class="receive-info">
+                    <div class="left">
+                        <img src="../../assets/img/position.png">
+                    </div>
+                    <div class="right">
+                        <div class="name-phone">
+                            <div>{{order.addressInfo.receiveName}}&nbsp;&nbsp;&nbsp;{{order.addressInfo.receivePhone}}</div>
+                        </div>
+                        <div class="address">
+                            {{order.addressInfo.addressArea+order.addressInfo.addressDetail}}
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="receive-info">
-                <div class="left">
-                    <img src="../../assets/img/position.png">
-                </div>
-                <div class="right">
-                    <div class="name-phone">
-                        <div>{{order.addressInfo.receiveName}}&nbsp;&nbsp;&nbsp;{{order.addressInfo.receivePhone}}</div>
-                    </div>
-                    <div class="address">
-                        {{order.addressInfo.addressArea+order.addressInfo.addressDetail}}
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <div class="good" :class="{goodChange:!(order.orderState >2 && order.orderState < 9)}">
+
+
+        <div class="good">
             <div class="good-one" v-for="item in order.goods">
                 <div class="good-info">
                     <img v-lazy="item.img">
@@ -596,8 +601,9 @@
 
         .head {
             width: 100%;
-            height: 120px;
+            /*height: 120px;*/
             background-color: white;
+            position: relative;
 
             .content {
                 width: 100%;
@@ -605,6 +611,7 @@
                 background-color: #e54545;
                 border-top-left-radius: 20px;
                 border-top-right-radius: 20px;
+                padding-bottom: 45px;
 
                 div {
                     text-align: left;
@@ -615,7 +622,7 @@
                 }
 
                 div:nth-child(2){
-                    padding-top: 10px;
+                    padding-top: 7px;
                 }
 
             }
@@ -625,12 +632,12 @@
             /*display: flex;*/
             width: 325px;
             /*height: 80px;*/
-            padding: 0 10px 20px 10px;
+            padding: 0 10px 10px 10px;
             background-color: rgb(255, 255, 255);
             box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.5);
-            position: absolute;
+            position: relative;
             left: 15px;
-            top: 80px;
+            bottom: 30px;
             z-index: 20;
             font-size: 14px;
             /*padding-bottom: 20px;*/
@@ -666,7 +673,7 @@
                 img{
                     position: relative;
                     top: 10px;
-                    width: 25px;
+                    width: 24px;
                     height: auto;
                 }
 
@@ -686,7 +693,7 @@
                     bottom: 0;
                     img{
                         top: 0;
-                        height: 16px;
+                        height: 15px;
                         width: auto;
                     }
                 }
@@ -729,7 +736,7 @@
         .good{
             width: 100%;
             background-color: white;
-            padding-top: 110px;
+            /*padding-top: 110px;*/
             font-size: 15px;
 
             .good-one{
@@ -768,9 +775,6 @@
 
         }
 
-        .goodChange{
-            padding-top:55px;
-        }
 
 
         .service{
@@ -883,4 +887,5 @@
 
 
     }
+
 </style>
