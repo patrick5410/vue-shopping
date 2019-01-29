@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--该页面主要负责获取用户openId-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+    <title>加载中</title>
+    <script type="text/javascript">
+        var getRequerst = function () {
+            var url = location.search;
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var Request = new Object();
+        Request = getRequerst();
+        var code  = Request["code"];
+        window.location.href = "https://www.tdxiov.com:28443"
+    </script>
+</head>
+<body>
+
+</body>
+</html>

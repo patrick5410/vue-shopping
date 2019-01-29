@@ -1,0 +1,15 @@
+server:
+     servlet:
+       context-path: /shopping
+     port: 18443
+     ssl:
+       key-alias: 1
+       key-store: classpath:Cert.p12
+       key-store-password: 1537787092606
+       key-store-type: PKCS12
+     tomcat:
+       uri-encoding: UTF-8
+
+spring:
+     profiles:
+       include: log,redis,datasource
