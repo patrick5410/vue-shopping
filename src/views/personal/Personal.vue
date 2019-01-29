@@ -54,11 +54,11 @@
         </div>
         <div @click="toCollect">
           <img src="../../assets/img/collect.png">
-          <div>收藏</div>
+          <div>我的收藏</div>
         </div>
         <div>
           <img src="../../assets/img/help.png">
-          <div>帮助</div>
+          <div>帮助中心</div>
         </div>
         <div>
           <img src="../../assets/img/service2.png">

@@ -54,7 +54,7 @@
 
         // 模拟订单
         this.orders.push({
-          orderId: 12,
+          orderId: "TDX2019012816281234",
           orderState:1,//订单状态
           orderStateStr:'待付款',//订单状态描述
           orderDate:'2019-01-21 21:51:21',//下单时间
@@ -64,6 +64,10 @@
           totalPrice:9106,//总价（不含运费）
           deliveryMoney:0,//运费
           leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
           addressInfo: {
             addressId:1,//地址Id
             addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
@@ -72,7 +76,7 @@
             receivePhone:'13828600678',//收货手机号
           },
           goods:[{
-            id: 125,
+            id: "TDX2019012816281235",
             name: '华为手机',
             originalPrice:1108,
             price: 1058,
@@ -91,7 +95,7 @@
 
 
         this.orders.push({
-          orderId: 13,
+          orderId: "TDX2019012816281235",
           orderState:1,//订单状态
           orderStateStr:'待付款',//订单状态描述
           orderDate:'2019-01-21 21:46:21',//下单时间
@@ -101,12 +105,16 @@
           totalPrice:9106,//总价（不含运费）
           deliveryMoney:0,//运费
           leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
           addressInfo: {
             addressId:1,//地址Id
-            addressArea:'广东省佛山市禅城区石湾镇街道',//所在地区（从省份到街道）
-            addressDetail:'石湾隔田坊60号青年创客人才公寓4栋562',//详细地址
-            receiveName:'刘惠仪',// 收货人
-            receivePhone:'13318668929',//收货手机号
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
           },
           goods:[{
             id: 256,
@@ -120,12 +128,27 @@
 
 
         this.orders.push({
-          orderId: 14,
+          orderId: "TDX2019012816281236",
           orderState:2,//订单状态
           orderStateStr:'待发货',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:4624,//支付金额
           goodCount:2,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 125,
             name: '华为手机',
@@ -147,30 +170,60 @@
 
 
         this.orders.push({
-          orderId: 15,
+          orderId: "TDX2019012816281237",
           orderState:3,//订单状态
           orderStateStr:'已发货',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:2490,//支付金额
           goodCount:2,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 256,
             name: '华为手机',
             originalPrice:1108,
             price: 1245,
-            buyCount:0,
+            buyCount:3,
             img: 'img/good/3.jpg'
           }]
         });
 
 
         this.orders.push({
-          orderId: 16,
+          orderId: "TDX2019012816281238",
           orderState:3,//订单状态
           orderStateStr:'已发货',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:4624,//支付金额
           goodCount:2,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 125,
             name: '华为手机',
@@ -192,12 +245,27 @@
 
 
         this.orders.push({
-          orderId: 17,
+          orderId: "TDX2019012816281239",
           orderState:4,//订单状态
           orderStateStr:'已收货',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:2490,//支付金额
           goodCount:2,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 256,
             name: '华为手机',
@@ -210,12 +278,27 @@
 
 
         this.orders.push({
-          orderId: 18,
+          orderId: "TDX2019012816281240",
           orderState:5,//订单状态
           orderStateStr:'退款中',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:6890,//支付金额
           goodCount:4,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 125,
             name: '华为手机',
@@ -237,12 +320,27 @@
 
 
         this.orders.push({
-          orderId: 19,
+          orderId: "TDX2019012816281241",
           orderState:6,//订单状态
           orderStateStr:'已退款',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:1245,//支付金额
           goodCount:1,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 256,
             name: '华为手机',
@@ -254,12 +352,27 @@
         });
 
         this.orders.push({
-          orderId: 19,
+          orderId: "TDX2019012816281242",
           orderState:7,//订单状态
           orderStateStr:'退货中',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:1245,//支付金额
           goodCount:1,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 256,
             name: '华为手机',
@@ -271,12 +384,27 @@
         });
 
         this.orders.push({
-          orderId: 19,
-          orderState:8,//订单状态
-          orderStateStr:'已退货',//订单状态描述
+          orderId: "TDX2019012816281243",
+          orderState:9,//订单状态
+          orderStateStr:'已取消',//订单状态描述
           orderDate:'2019-01-21 16:08:21',//下单时间
           paymentAmount:1245,//支付金额
           goodCount:1,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
           goods:[{
             id: 256,
             name: '华为手机',
@@ -284,6 +412,38 @@
             price: 1245,
             buyCount:1,
             img: 'img/good/3.jpg'
+          }]
+        });
+
+        this.orders.push({
+          orderId: "TDX2019012816281246",
+          orderState:9,//订单状态
+          orderStateStr:'已取消',//订单状态描述
+          orderDate:'2019-01-21 16:08:21',//下单时间
+          paymentAmount:1245,//支付金额
+          goodCount:3,//商品件数
+
+          totalPrice:9106,//总价（不含运费）
+          deliveryMoney:0,//运费
+          leaveWord:'',//留言
+          sendDate:'2019-01-28 12:46:32',// 发货时间
+          autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
+          deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
+          deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
+          addressInfo: {
+            addressId:1,//地址Id
+            addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
+            addressDetail:'双滘中心小学',//详细地址
+            receiveName:'黎国明',// 收货人
+            receivePhone:'13828600678',//收货手机号
+          },
+          goods:[{
+            id: 256,
+            name: '华为手机',
+            originalPrice:1108,
+            price: 1245,
+            buyCount:3,
+            img: 'img/good/4.jpg'
           }]
         });
 

@@ -3,13 +3,14 @@
     <div class="orderCom-container">
 
         <div class="order" v-for="(item,orderIndex) in orders">
-            <div class="order-head">
+            <div class="order-head" @click="toOrderDetail(item)">
                 <div class="head-date" style="color: #808080">{{item.orderDate}}</div>
-                <div class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==2 ||item.orderState==5 || item.orderState==7 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
+                <div v-if="item.orderState<8" class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==2 ||item.orderState==5 || item.orderState==7 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
+                <div v-else class="orderType-detail" style="color: #808080">{{item.orderStateStr}}</div>
             </div>
 
             <!--一种商品-->
-            <div class="order-good" v-for="(good,goodIndex) in item.goods">
+            <div class="order-good" v-for="(good,goodIndex) in item.goods" @click="toOrderDetail(item)">
                 <div class="good-left">
                     <div class="good-img">
                         <img v-lazy="good.img" style="width: 100%;height: auto"  ref='itemImg' />
@@ -24,7 +25,7 @@
             </div>
 
             <!--订单合算-->
-            <div class="order-calInfo">共{{item.goodCount}}件商品，总金额<span style="color: #995454">¥{{item.paymentAmount}}元</span></div>
+            <div class="order-calInfo" @click="toOrderDetail(item)">共{{item.goodCount}}件商品，总金额<span style="color: #995454">¥{{item.paymentAmount}}元</span></div>
             <!--订单底部-->
             <div class="order-bottom">
                 <!--待支付-->
@@ -97,6 +98,11 @@
                 this.$store.state.order = item
                 //跳转到支付页面
                 this.$router.push({name:'payPage'})
+            },
+            toOrderDetail(item){
+              //跳转到订单详情页面
+              this.$router.push({name:'orderDetail',query:{orderId:item.orderId}})
+
             }
         }
     }

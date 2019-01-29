@@ -200,7 +200,7 @@ export default {
     width: 50px;
     right: 0;
     color: #808080;
-    background-image: url("../../assets/img/foward.png");
+    background-image: url("../../assets/img/箭头.png");
     background-size: 17px 17px;
     background-position: right;
     background-repeat: no-repeat;
