@@ -32,13 +32,19 @@ public class UserController {
                 String param = "appid="+APPID+"&secret="+APPSECRET+"&code="+code+"&grant_type=authorization_code";
                 String res = HttpRequest.sendGet(ACCESSTOKEN_URl,param);
                 JSONObject resJson = new JSONObject(res);
-                System.out.println(resJson.get("access_token"));
-                System.out.println(resJson.get("openid"));
+                System.out.println(resJson);
+                if(resJson.isNull("access_token")){
+                    throw new RuntimeException("获取access_token失败："+resJson.get("errmsg"));
+                }
                 //2.获取微信用户信息
                 param = "access_token="+resJson.get("access_token")+"&openid="+resJson.get("openid")+"&lang=zh_CN";
                 res = HttpRequest.sendGet(USERINFO_URl,param);
                 resJson = new JSONObject(res);
+                System.out.println(resJson);
 
+                if(resJson.isNull("openid")){
+                    throw new RuntimeException("获取微信用户信息失败："+resJson.get("errmsg"));
+                }
                 HashMap<String,Object> map = new HashMap<>();
                 //3.封装微信用户信息
                 HashMap<String,String> wxmap = new HashMap<>();
