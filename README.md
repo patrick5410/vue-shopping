@@ -725,6 +725,7 @@ POST
 |:-----|:-------:|:-----|:-----|
 |name      |Y       |String   |姓名 |
 |phone      |Y       |String   |手机号码 |
+|addressCode      |Y       |String   |所在地编码 |
 |addressArea      |Y       |String   |所在区域 |
 |addressDetail      |Y       |String   |详细地址 |
 
@@ -760,6 +761,7 @@ POST
 |addressId      |Y       |String   |地址Id |
 |name      |Y       |String   |姓名 |
 |phone      |Y       |String   |手机号码 |
+|addressCode      |Y       |String   |所在地编码 |
 |addressArea      |Y       |String   |所在区域 |
 |addressDetail      |Y       |String   |详细地址 |
 
