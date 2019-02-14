@@ -1,4 +1,4 @@
-package com.tdxiov.wx_shopping.schedule;
+package com.tdxiov.wx_shopping.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

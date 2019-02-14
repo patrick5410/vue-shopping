@@ -1,0 +1,9 @@
+custom:
+    datasource:
+      names: default
+      default:
+          jdbc-url: jdbc:sqlserver://192.168.2.77:5609;DatabaseName=shopping
+          username: tdxuser
+          password: tdxgps
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          type: com.zaxxer.hikari.HikariDataSource

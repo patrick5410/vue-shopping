@@ -1,6 +1,6 @@
 # wx_shopping
 微信公众号商城后台
-# node-elm 接口文档
+# 接口文档
 ```
 
 baseUrl: https:////www.tdxiov.com:18443
@@ -63,7 +63,6 @@ baseUrl: https:////www.tdxiov.com:18443
 POST
 ```
 
-#### 参数类型：query
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
