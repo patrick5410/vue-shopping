@@ -207,15 +207,15 @@ router.beforeEach((to, from, next) => {
       // 没有的话，需判断是否已经获取微信相关信息了
       if (!store.state.userInfo.wechatInfo) {
         // 需要微信授权获取用户信息
-        var curWwwPath = window.document.location.href
-        // 获取主机地址之后的目录
-        var pathName = window.document.location.pathname
-        var pos = curWwwPath.indexOf(pathName)
-        // 获取主机地址
-        var localhostPaht = curWwwPath.substring(0, pos)
-        let fromUrl = localhostPaht + router.history.base + to.path
+        // var curWwwPath = window.document.location.href
+        // // 获取主机地址之后的目录
+        // var pathName = window.document.location.pathname
+        // var pos = curWwwPath.indexOf(pathName)
+        // // 获取主机地址
+        // var localhostPaht = curWwwPath.substring(0, pos)
+        // let fromUrl = localhostPaht + router.history.base + to.path
         // console.log('需要微信访问路径', fromUrl)
-        window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(fromUrl) + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect'
+        window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(window.location.href) + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect'
       } else {
         /* 路由发生变化修改页面title */
         if (to.meta.title) {

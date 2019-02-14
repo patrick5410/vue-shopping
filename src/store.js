@@ -17,7 +17,8 @@ export default new Vuex.Store({
        * country国家，如中国为CN headimgurl用户头像）
        **/
       wechatInfo: null,
-      code: ''
+      code: '',
+      token: ''
     }
   },
   mutations: {

@@ -111,7 +111,8 @@
       }
     },
     created(){
-
+      //测试访问
+      this.test()
     },
     mounted: function () {
 
@@ -241,6 +242,11 @@
       toShowClz (item) {
         this.$router.push({name:'showMore',query:{clzName:item.clzName}})
       },
+
+      async test(){
+        var res = await this.$api.user.getTest();
+        console.log("执行测试访问",res);
+      }
 
     },
     watch:{

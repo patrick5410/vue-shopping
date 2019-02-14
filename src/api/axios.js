@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '../store'
 
 // 创建 axios 实例
 let service = axios.create({
@@ -16,6 +17,13 @@ service.interceptors.request.use(
     if (config.method === 'post' || config.method === 'put') {
       // post、put 提交时，将对象转换为string, 为处理Java后台解析问题
       config.data = JSON.stringify(config.data)
+      // console.log('请求前打印this', this)
+      // console.log('请求前打印store', store)
+      // console.log('请求前打印token', store.state.userInfo.token)
+      // console.log('请求前打印header', service.defaults.headers)
+      // // service.defaults.headers.post['token'] = store.state.userInfo.token
+      // console.log('请求之后打印header', service.defaults.headers)
+      config.headers['token'] = store.state.userInfo.token
     }
     // 请求发送前进行处理
     return config

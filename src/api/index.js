@@ -23,6 +23,7 @@ export default {
     if (headers) {
       options.headers = headers
     }
+    console.log('请求data', data)
     return instance.post(url, data, options)
   },
   put (url, params, headers) {

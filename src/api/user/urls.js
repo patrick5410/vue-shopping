@@ -1,4 +1,5 @@
 import baseUrl from '../baseUrl'
 export default {
-  matches: baseUrl + '/user/getUserInfo'
+  userInfo: baseUrl + '/user/getUserInfo',
+  test: baseUrl + '/user/test'
 }
