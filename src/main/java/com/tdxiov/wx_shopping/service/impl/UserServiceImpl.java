@@ -86,7 +86,7 @@ public class UserServiceImpl implements IUserService {
             map.put("creditScore",user.getCreditScore());
             try {
                 //5.设置token令牌
-                map.put("token",jwt.createJWT(user,30*60*1000));
+                map.put("token",jwt.createJWT(user,1*5*1000));
             }catch (Exception e){
                 throw new RuntimeException("创建token出错");
             }

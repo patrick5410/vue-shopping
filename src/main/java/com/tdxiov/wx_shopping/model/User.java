@@ -8,7 +8,7 @@ public class User {
     private String phone;
     private Integer creditScore;
     private String openid;
-    private Integer sex;
+    private Integer sex;//值为1时是男性，值为2时是女性，值为0时是未知
     private String nickname;
     private String headimgurl;
     private String country;
