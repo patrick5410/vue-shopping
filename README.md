@@ -46,7 +46,7 @@ baseUrl: https:////www.tdxiov.com:18443
 
 ```
 说明：
-    基于HTTPS协议POST请求的所有接口，都以JSON格式的数据进行交互提供服务
+    基于HTTPS协议POST请求的所有接口，都以JSON格式的数据进行交互提供服务，在调用其他接口前都必须在header头部带上通过getUserInfo接口来获取token令牌
     正式接口请求路径为：https:////www.tdxiov.com:18443/shopping+URL
     测试接口请求路径为：https:////www.tdxiov.com:28443/shopping+URL
 ```
@@ -72,21 +72,22 @@ POST
 
 ```javascript
 {
-	"success": true,
-	"errorCode": null,
-	"errorDesc": null,
-	"data": {
-		"wechatInfo": {
-			"country": "",
-			"province": "",
-			"openid": "ombfhjrXOOwRca9rGW3z6BHrHE-M",
-			"sex": "0",
-			"nickname": "陈健",
-			"headimgurl": "http://thirdwx.qlogo.cn/mmopen/vi_32/YcLaJnTcC0J2WvcNZsvfA3460ibw9jicYN0kk0zYEMKqLZgFaibYXzXjJC03jUjPhcmia6BentrbUJiacDHRs7zkP4A/132"
-		},
-		"phone": "13425816454",
-		"creditScore": 666
-	}
+    "success": true,
+    "errorCode": null,
+    "errorDesc": null,
+    "data": {
+        "creditScore": 0,
+        "phone": null,
+        "wechatInfo": {
+            "country": "",
+            "province": "",
+            "openid": "ombfhjrXOOwRca9rGW3z6BHrHE-M",
+            "sex": "0",
+            "nickname": "陈健",
+            "headimgurl": "http://thirdwx.qlogo.cn/mmopen/vi_32/YcLaJnTcC0J2WvcNZsvfA3460ibw9jicYN0kk0zYEMKqLZgFaibYXzXjJC03jUjPhcmia6BentrbUJiacDHRs7zkP4A/132"
+        },
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJqd3QiLCJpYXQiOjE1NTAyMDczNjAsImlzcyI6ImNvbS50ZHgubW9iaWxlIiwic3ViIjoie1wiaWRcIjoxMDAxNixcImNyZWRpdFNjb3JlXCI6MCxcIm9wZW5pZFwiOlwib21iZmhqclhPT3dSY2E5ckdXM3o2QkhySEUtTVwiLFwic2V4XCI6MCxcIm5pY2tuYW1lXCI6XCLpmYjlgaVcIixcImhlYWRpbWd1cmxcIjpcImh0dHA6Ly90aGlyZHd4LnFsb2dvLmNuL21tb3Blbi92aV8zMi9ZY0xhSm5UY0MwSjJXdmNOWnN2ZkEzNDYwaWJ3OWppY1lOMGtrMHpZRU1LcUxaZ0ZhaWJZWHpYakpDMDNqVWpQaGNtaWE2QmVudHJiVUppYWNESFJzN3prUDRBLzEzMlwiLFwiY291bnRyeVwiOlwiXCIsXCJwcm92aW5jZVwiOlwiXCIsXCJjcmVhdGVEYXRlXCI6XCJGZWIgMTQsIDIwMTkgMzo0NjoyNCBQTVwiLFwibGFzdFVwZGF0ZURhdGVcIjpcIkZlYiAxNCwgMjAxOSAzOjQ2OjI0IFBNXCJ9IiwiZXhwIjoxNTUwMjkzNzYwLCJuYmYiOjE1NTAyMDczNjB9.BkGIxUyPElB61qgY_E-q3thoB2SzHyLMnNGWaVN7Jt4"
+    }
 }
 ```
 
@@ -100,7 +101,7 @@ POST
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -144,7 +145,7 @@ GET
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -176,7 +177,7 @@ GET
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -240,7 +241,7 @@ GET
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 #### 参数类型：
@@ -288,7 +289,7 @@ GET
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -331,7 +332,7 @@ GET
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -477,7 +478,7 @@ POST
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -523,7 +524,7 @@ GET
 
 #### 请求方式: 
 ```
-GET
+POST
 ```
 
 
@@ -629,7 +630,7 @@ POST
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -955,7 +956,7 @@ POST
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
@@ -1084,7 +1085,7 @@ POST
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 #### 参数类型：
@@ -1181,7 +1182,7 @@ POST
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 #### 参数类型：
@@ -1284,7 +1285,7 @@ POST
 
 #### 请求方式：
 ```
-GET
+POST
 ```
 
 
