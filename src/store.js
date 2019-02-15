@@ -28,10 +28,14 @@ export default new Vuex.Store({
         let res = await this._vm.$api.user.getUserInfo({ code: payload.code })
         if (res.success) {
           state.userInfo = res.data
+          window.localStorage.setItem('token', res.data.token)
         }
         console.log('​getMatches -> res', res, state.userInfo)
       } catch (e) {
         console.log('​catch -> e', e)
+      }
+      if (payload.callBack && typeof payload.callBack === 'function') {
+        payload.callBack()
       }
     }
   },

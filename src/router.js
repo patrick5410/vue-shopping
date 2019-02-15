@@ -196,16 +196,18 @@ router.beforeEach((to, from, next) => {
     if (code) {
       // 有微信code值
       console.log('有code值', code)
-      store.commit('getUserInfo', { code: code })
-      /* 路由发生变化修改页面title */
-      if (to.meta.title) {
-        document.title = to.meta.title
-      }
-      next()
+      store.commit('getUserInfo', { code: code,
+        callBack: function () {
+        /* 路由发生变化修改页面title */
+          if (to.meta.title) {
+            document.title = to.meta.title
+          }
+          next()
+        } })
     } else {
       console.log('store.state.userInfo', store.state.userInfo)
       // 没有的话，需判断是否已经获取微信相关信息了
-      if (!store.state.userInfo.wechatInfo) {
+      if (!window.localStorage.getItem('token') || !store.state.userInfo.wechatInfo) {
         // 需要微信授权获取用户信息
         // var curWwwPath = window.document.location.href
         // // 获取主机地址之后的目录
