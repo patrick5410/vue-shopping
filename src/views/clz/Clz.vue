@@ -112,8 +112,6 @@
     },
     created(){
       console.log("请求test",this.$store.state.userInfo)
-      //测试访问
-      this.test()
     },
     mounted: function () {
 

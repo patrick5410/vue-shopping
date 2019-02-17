@@ -130,7 +130,7 @@
 
         <div class="bottom" v-if="order.orderState == 1">
             <div class="bottom-common">取消订单</div>
-            <div class="bottom-common changeColor">立即付款</div>
+            <div class="bottom-common changeColor" @click="pay">立即付款</div>
         </div>
 
         <div class="bottom" v-if="order.orderState == 2">
@@ -584,7 +584,52 @@
             },
             finishCancel(){
                 // 付款时间到，需重新刷新页面
+            },
+            pay(){
+            //请求后台，更新订单：收货信息以及留言，然后向微信发起预支付订单，并返回
+            let that = this
+            /**
+             * 微信jsapi支付
+             */
+            function onBridgeReady(){
+              // alert(res.data.appId+","+res.data.timeStamp+","+res.data.nonceStr+","+res.data.package+","+res.data.signType+","+res.data.paySign);
+              //{timeStamp=1550326641, package=prepay_id=wx162214100027281c691eaa053398715316, paySign=531A7C1612714CED7EDB6A478E4639A0, appId=wx3411d52f54a19541, signType=MD5, nonceStr=3oFeCTai5HEZ3PRpvK2UuSSxbdQf8lQR}
+              WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                  "appId":"wx3411d52f54a19541",     //公众号appId
+                  "timeStamp":"1550328326",  //时间戳
+                  "nonceStr":"veiKFb75dr72zPzOifmatSJUkb64pJNw", //随机字符串串
+                  "package":"prepay_id=wx16224526759016e0b25b61c32481541413",
+                  "signType":"MD5", //微信签名方式：
+                  "paySign":"DB8A2CBF0D583CA202FA45BF8ACAC992" //微信签名
+                },
+                function(res){
+                  // console.log(res);
+                  alert(res.err_code+","+res.err_desc+","+res.err_msg);
+                  if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    // 使用以上方式判断前端返回,微信团队郑重提示：
+                    //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                    //支付成功，跳转到支付成功页面
+                    //跳转到支付结果页面
+                    that.$router.push({name:'payResult',query:{payResult:"success"}})
+                  }
+                });
             }
+
+            //弹出支付窗口
+            if (typeof WeixinJSBridge == "undefined"){
+              if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+              }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+              }
+            }else{
+              onBridgeReady();
+            }
+
+
+          }
         }
     }
 

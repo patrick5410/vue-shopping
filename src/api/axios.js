@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from "../store";
 
 // 创建 axios 实例
 let service = axios.create({
@@ -22,9 +23,10 @@ service.interceptors.request.use(
       // console.log('请求前打印header', service.defaults.headers)
       // // service.defaults.headers.post['token'] = store.state.userInfo.token
       // console.log('请求之后打印header', service.defaults.headers)
-      if (window.localStorage.getItem('token')) {
-        console.log('缓存token', window.localStorage.getItem('token'))
-        config.headers['token'] = window.localStorage.getItem('token')
+      if (store.state.userInfo.wechatInfo) {
+        // console.log('缓存token', window.localStorage.getItem('token'))
+        // config.headers['token'] = window.localStorage.getItem('token')
+        config.headers['token'] = store.state.userInfo.wechatInfo.token
       }
     }
     // 请求发送前进行处理
@@ -44,7 +46,8 @@ service.interceptors.response.use(
     if (!data.success) {
       if (data.errorCode === 10000 || data.errorCode === 10010) {
         // 没有登录或token过期需删除token,重新刷新页面登录
-        window.localStorage.removeItem('token')
+        // window.localStorage.removeItem('token')
+        store.state.userInfo.wechatInfo = null
         window.location.reload()
       }
     }

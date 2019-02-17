@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store'
+import initApi from './initApi'
 
 Vue.use(Router)
 
@@ -185,6 +186,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (process.env.NODE_ENV === 'development') {
     // 开发环境就不进行微信授权
+    initApi.init(to.name)
     /* 路由发生变化修改页面title */
     if (to.meta.title) {
       document.title = to.meta.title
@@ -198,16 +200,19 @@ router.beforeEach((to, from, next) => {
       console.log('有code值', code)
       store.commit('getUserInfo', { code: code,
         callBack: function () {
-        /* 路由发生变化修改页面title */
-          if (to.meta.title) {
-            document.title = to.meta.title
-          }
-          next()
+          console.log('跳转的路径名', to.name)
+          // 这里回调只是为了调用页面api之前先完成了getUserInfo请求
+          initApi.init(to.name)
         } })
+      /* 路由发生变化修改页面title */
+      if (to.meta.title) {
+        document.title = to.meta.title
+      }
+      next()
     } else {
       console.log('store.state.userInfo', store.state.userInfo)
       // 没有的话，需判断是否已经获取微信相关信息了
-      if (!window.localStorage.getItem('token') || !store.state.userInfo.wechatInfo) {
+      if (!store.state.userInfo.wechatInfo) {
         // 需要微信授权获取用户信息
         // var curWwwPath = window.document.location.href
         // // 获取主机地址之后的目录
@@ -223,6 +228,8 @@ router.beforeEach((to, from, next) => {
         if (to.meta.title) {
           document.title = to.meta.title
         }
+        // wechatInfo不为空，直接调用初始化api
+        initApi.init(to.name)
         next()
       }
     }

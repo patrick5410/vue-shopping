@@ -7,8 +7,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    choosedAddress: null, // 选择地址：结算确认地址或选择编辑地址
-    order: null, // 当前订单
     userInfo: {// 用户信息
       /**
        * 微信相关信息（openid用户的唯一标识 nickname用户昵称 sex用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
@@ -19,23 +17,93 @@ export default new Vuex.Store({
       wechatInfo: null,
       code: '',
       token: ''
-    }
+    },
+    recommendClass: {},
+    goods: [], // 首页商品
+    goodPage: {}, // 每次请求的商品分页封装
+    choosedAddress: null, // 选择地址：结算确认地址或选择编辑地址
+    order: null // 当前订单
   },
   mutations: {
+    /**
+     * 获取用户信息
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
     async getUserInfo (state, payload) {
       // 这里用try catch包裹，请求失败的时候就执行catch里的
       try {
         let res = await this._vm.$api.user.getUserInfo({ code: payload.code })
         if (res.success) {
           state.userInfo = res.data
-          window.localStorage.setItem('token', res.data.token)
+          // window.localStorage.setItem('token', res.data.token)
         }
         console.log('​getMatches -> res', res, state.userInfo)
       } catch (e) {
         console.log('​catch -> e', e)
       }
+      // console.log('回调函数', payload)
       if (payload.callBack && typeof payload.callBack === 'function') {
         payload.callBack()
+      }
+    },
+    /**
+     * 获取推荐商品类型
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getRecommend (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.clz.getRecommend()
+        if (res.success) {
+          state.recommendClass = res.data
+        }
+        console.log('​getMatches -> res', res, state.userInfo)
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 分页获取商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getGoods (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let currentPage = 1
+        if (payload.hasOwnProperty('currentPage') && payload.currentPage) {
+          currentPage = payload.currentPage
+        }
+        let res = await this._vm.$api.good.getGoods({ currentPage: currentPage })
+        if (res.success) {
+          state.goodPage = res.data
+          state.goods = state.goods.concat(res.data.listData)
+        }
+        console.log('请求商品接口完毕', state.goodPage, state.goods)
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+
+      // console.log('回调函数', payload)
+      if (payload.callBack && typeof payload.callBack === 'function') {
+        payload.callBack()
+      }
+    },
+    async test (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.user.getTest()
+        if (res.success) {
+          console.log('请求测试成功')
+        }
+        console.log('​getMatches -> res', res, state.userInfo)
+      } catch (e) {
+        console.log('​catch -> e', e)
       }
     }
   },

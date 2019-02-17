@@ -11,16 +11,16 @@
           <!--推荐商品类型-->
           <div class="recommend-good">
             <div class="re-class">
-              <div class="re-className">{{recommendClass}}</div>
+              <div class="re-className">{{$store.state.recommendClass.name}}</div>
               <div class="re-more" @click="toRecommendClass">更多</div>
             </div>
-            <img class="re-classImg" :src="recommendImgUrl"/>
+            <img class="re-classImg" :src="$store.state.recommendClass.themeImg"/>
           </div>
 
           <!--商品列表-->
           <div class="goods-container">
             <div class="goods" >
-              <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
+              <div class="good" v-for="(item,index) in $store.state.goods" :key="item.id" @click="goodDetail(item.id)">
                 <div class="good-img">
                   <!--<img :src="item.img" lowsrc="../../assets/img/good/加载失败.png" style="width: 100%;height: 100%">-->
                   <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
@@ -92,7 +92,7 @@ export default {
       //   console.log(el, src)
       // })
       //加载商品
-      this.loadMore ()
+      // this.loadMore ()
     })
   },
   beforeDestroy: function() {
@@ -100,51 +100,21 @@ export default {
   },
   methods: {
     toRecommendClass () {
-      this.$router.push({name:'showMore',query:{clzName:this.recommendClass}})
+      this.$router.push({name:'showMore',query:{clzName:this.$store.state.recommendClass.id}})
     },
     //加载更多
     loadMore () {
       let that = this;
-      if(!that.isFinish && !this.loading ){
+      console.log("请求加载")
+      if(this.$store.state.goodPage && !that.isFinish && !this.loading ){
         this.loading = true
-        setTimeout(() => {
-          let last = this.goods[this.goods.length - 1]
-          for (let i = 1; i <= 9; i++) {
-            if(i%3==0){
-              this.goods.push({
-                id: that.num++,
-                name: '车载配件' + i,
-                originalPrice:1108,
-                price: 1058,
-                img: 'img/good/'+i+'.jpg'
-              })
-            }else if(i%3==1){
-              this.goods.push({
-                id: that.num++,
-                name: '车载配件' + i,
-                originalPrice:1304,
-                price: 1058,
-                img: 'img/good/'+i+'.jpg'
-              })
-            }else {
-              this.goods.push({
-                id: that.num++,
-                name: '车载配件' + i,
-                originalPrice:1406,
-                price: 1058,
-                img: 'img/good/'+i+'.jpg'
-              })
+        this.$store.commit("getGoods",{currentPage:this.$store.state.goodPage.nextPage,callBack:function () {
+            console.log("加载商品完毕",that)
+            that.loading = false
+            if(that.$store.state.goodPage.currentPage>=that.$store.state.goodPage.totalPage){
+              that.isFinish = true;
             }
-
-
-          }
-          this.loading = false
-
-          if(this.num>50){
-            that.isFinish = true;
-          }
-
-        }, 2000)
+          }})
       }
     },
     //商品详情页面

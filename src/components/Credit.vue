@@ -16,7 +16,7 @@
         <div class="content">
             <div class="front">
                 <div class="text" id="text">
-                    <vue-count-up :start-value="start" :end-value="end" />
+                    <vue-count-up :start-value="start" :end-value="$store.state.userInfo.creditScore" />
                 </div>
                 <img src="../assets/img/credit.png" alt="积分"/>
             </div>
@@ -41,7 +41,7 @@ export default {
         }
     },
     created(){
-        this.end = 5555;
+        // this.end = 5555;
     },
     methods:{
         fanzhuan(){
