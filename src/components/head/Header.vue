@@ -17,8 +17,8 @@
       }
     },
     created(){
-      if(this.$route.query.inputWord){
-        this.keyword = this.$route.query.inputWord
+      if(this.$route.query.keyword){
+        this.keyword = this.$route.query.keyword
       }
     },
     methods:{
@@ -26,7 +26,7 @@
         if(this.$route.path.indexOf('search$') == -1){
           console.log("跳转到搜索页面",this.$route.path.indexOf('search'))
           //不是在搜索页面就跳转
-          this.$router.push({name:'search',query:{inputWord:this.keyword}})
+          this.$router.push({name:'search',query:{keyword:this.keyword}})
         }
       },
       search(){
@@ -58,7 +58,7 @@
 
               localStorage.setItem('historySearch',JSON.stringify(historySearch))
             }
-            this.$router.push({name:'searchResult',query:{inputWord:this.keyword}})
+            this.$router.push({name:'searchResult',query:{keyword:this.keyword}})
           }else {
             this.$vux.toast.show({
               type:'text',

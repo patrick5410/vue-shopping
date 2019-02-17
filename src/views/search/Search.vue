@@ -121,7 +121,7 @@
         this.historySearch = []
       },
       clickKeyWord(keyword){
-        this.$router.push({name:'searchResult',query:{inputWord:keyword}})
+        this.$router.push({name:'searchResult',query:{keyword:keyword}})
       }
 
     }

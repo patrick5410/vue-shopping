@@ -45,57 +45,45 @@
         org_goods:[],//记录初始化商品排序，用于综合排序
       }
     },
-    beforeCreate: function() {
-      // console.log("页面还没加载完成",this.$route.query)
-      //初始化页面标题
-      if(this.$route.query.clzName){
-        document.title = this.$route.query.clzName
+    computed: {
+      class () {
+        return this.$store.state.class;　　//需要监听的数据
       }
-
-
     },
     created(){
 
     },
     mounted:function () {
       this.$nextTick(function () {
-        // Code that will run only after the
-        // entire view has been rendered
-        // console.log("测试组件变量",Show2goods.props);
-
-
-
-        for (let i=0;i<8;i++){
-          this.goods.push({
-            id: i,
-            name: '车载配件' + i,
-            originalPrice:1558,
-            price: 1058+Math.floor(Math.random()*500),
-            sellCount:Math.floor(Math.random()*500),
-            img: 'img/good/'+(i+1)+'.jpg'
-          })
-
-        }
-
-        this.org_goods = [];
-        let that = this;
-        this.goods.forEach(function (item) {
-          // console.log("item",item);
-          that.org_goods.push(item);
-        })
-
-        if(this.pGoods != null){
-          console.log("this.pGoods != null")
-          //如果属性不为null就赋值
-          this.goods = this.pGoods
-          console.log("this.goods ",this.goods,this.pGoods )
-        }
 
 
       })
 
       // this.org_goods = this.goods;
 
+    },
+    watch: {
+      class: function(val) {
+        if(val){
+          document.title = val.className
+          this.goods = this.$store.state.class.goods
+          this.org_goods = [];
+          let that = this;
+          this.goods.forEach(function (item) {
+            // console.log("item",item);
+            that.org_goods.push(item);
+          })
+
+
+        }
+      },
+      pGoods:function (val) {
+        if(val != null){
+          console.log("this.pGoods != null")
+          //如果属性不为null就赋值
+          this.goods = val
+        }
+      }
     },
     methods:{
       selectDefault:function(){
@@ -135,7 +123,7 @@
       selectSellCount:function () {
         this.sortIndex = 3;
         this.goods = this.goods.sort((a,b)=>{
-          return b.sellCount - a.sellCount;
+          return b.buyCount - a.buyCount;
         })
       }
     }

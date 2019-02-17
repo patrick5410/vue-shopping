@@ -186,7 +186,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (process.env.NODE_ENV === 'development') {
     // 开发环境就不进行微信授权
-    initApi.init(to.name)
+    initApi.init(to)
     /* 路由发生变化修改页面title */
     if (to.meta.title) {
       document.title = to.meta.title
@@ -202,7 +202,7 @@ router.beforeEach((to, from, next) => {
         callBack: function () {
           console.log('跳转的路径名', to.name)
           // 这里回调只是为了调用页面api之前先完成了getUserInfo请求
-          initApi.init(to.name)
+          initApi.init(to)
         } })
       /* 路由发生变化修改页面title */
       if (to.meta.title) {
@@ -229,7 +229,7 @@ router.beforeEach((to, from, next) => {
           document.title = to.meta.title
         }
         // wechatInfo不为空，直接调用初始化api
-        initApi.init(to.name)
+        initApi.init(to)
         next()
       }
     }

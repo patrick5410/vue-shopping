@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     toRecommendClass () {
-      this.$router.push({name:'showMore',query:{clzName:this.$store.state.recommendClass.id}})
+      this.$router.push({name:'showMore',query:{classId:this.$store.state.recommendClass.id}})
     },
     //加载更多
     loadMore () {

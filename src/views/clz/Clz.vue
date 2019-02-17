@@ -7,8 +7,8 @@
     <div class="container" :style="{height:containerHeight+'px'}">
       <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
         <ul>
-          <li v-for="(item,index) in goods"  :class="{active : item.clzId == currentClzId}" @click="selectClz(item.clzId)" class="menu_left_li" :id="'clz'+item.clzId">
-            <div class="menu_clz">分类{{index}}</div>
+          <li v-for="(item,index) in $store.state.classes"  :class="{active : item.classId == currentClzId}" @click="selectClz(item.classId)" class="menu_left_li" :id="'clz'+item.classId">
+            <div class="menu_clz">{{item.className}}</div>
           </li>
 
         </ul>
@@ -16,18 +16,18 @@
 
       <section class="menu_right" id="wrapper_good" ref="wrapperGood" :style="{height:containerHeight+'px'}">
         <ul>
-          <li v-for="(item,index) in goods" class="clz-sign" :id="'clz-sign'+item.clzId">
+          <li v-for="(item,index) in $store.state.classes" class="clz-sign" :id="'clz-sign'+item.classId">
             <div class="clz-container">
               <!--<div>{{index}}</div>-->
               <!--商品类型主题图片-->
               <div class="clzImg-div" @click="toShowClz(item)">
-                <img src="../../assets/img/banner.png" style="width: 100%;height: 100%"  ref='itemImg' />
+                <img :src="item.themeImg" style="width: 100%;height: 100%"  ref='itemImg' />
               </div>
 
               <!--商品类型主题-->
               <div class="sigma-content">
                 <div class="sigma-middle-line">
-                  <span class="sigma-line-text">爆款人气推荐{{index}}</span>
+                  <span class="sigma-line-text">{{item.theme}}</span>
                 </div>
               </div>
               <!--商品-->
@@ -103,20 +103,22 @@
         clzs:new Array(50),//分类
         wrapperMenuScroll : null,//左边菜单滚动框
         goodScroll: null,//商品滚动框
-        goods:[],//商品
-        num:0,//商品累计数，待删
         clzSigns:[],//记录各个类型商品的offsetTop值，用于滚动(右边)
         menuIndexChange: false,//menuIndexChange解决运动时listenScroll依然监听的bug
         placeholderHeight:'0px',// 占位li高度
       }
     },
+    computed: {
+      classes () {
+        return this.$store.state.classes;　　//需要监听的数据
+      }
+    },
     created(){
       console.log("请求test",this.$store.state.userInfo)
+      console.log("classes",this.$store.state.classes)
+      // this.goods = this.$store.state.classes
     },
     mounted: function () {
-
-
-
       this.$nextTick(function () {
         //自适应高度
         // console.log("屏幕高度",window.innerHeight);
@@ -175,11 +177,12 @@
 
           // console.log("clzSigns",this.clzSigns);
           let clzId = -1;
+          let that = this
           this.clzSigns.forEach((item,index)=>{
             // console.log("item",item);
             if( Math.abs(Math.round(pos.y))>= item.offsetTop - window.document.getElementById("wrapper_good").clientHeight/3 ){
               // this.currentClzId = this.goods[index].clzId;
-              clzId = this.goods[index].clzId;
+              clzId = that.$store.state.classes[index].classId
             }
           })
 
@@ -189,34 +192,6 @@
           }
 
         })
-
-
-
-
-
-        //模拟商品数据
-        let that = this;
-        for (var i=0;i<8;i++){
-          let gs =  [];
-          for(var j=0;j<i*6+3;j++){
-            gs.push({
-              id: that.num++,
-              name: '车载配件' + i,
-              originalPrice:1708,
-              price: 1058,
-              img: 'img/good/'+(j%9+1)+'.png'
-            })
-          }
-          this.goods.push({
-            clzId:i+1,
-            goods:gs
-          })
-
-        }
-        // console.log("goos",this.goods);
-
-        //初始化当前选中的商品类型
-        this.currentClzId = this.goods[0].clzId;
 
       });
 
@@ -239,24 +214,19 @@
         this.$router.push({name:'good',query:{goodId:goodId}})
       },
       toShowClz (item) {
-        this.$router.push({name:'showMore',query:{clzName:item.clzName}})
-      },
-
-      async test(){
-        var res = await this.$api.user.getTest();
-        console.log("执行测试访问",res);
+        this.$router.push({name:'showMore',query:{classId:item.classId}})
       }
 
     },
     watch:{
       currentClzId:function(val) {
-        //监听当前类型的变化
-        let that = this;
-        if(!that.wrapperMenuScroll.isInTransition){
+        if(val && this.wrapperMenuScroll){
+          //监听当前类型的变化
+          // let that = this;
           //滚动左边菜单框
           // console.log("左边滚动");
-          let clzs = that.$refs.wrapperMenu.querySelector('#clz'+val);
-          that.wrapperMenuScroll.scrollToElement(clzs, 600,0,0)
+          let clzs = this.$refs.wrapperMenu.querySelector('#clz'+val);
+          this.wrapperMenuScroll.scrollToElement(clzs, 600,0,0)
         }
         // console.log(clzs,that.wrapperMenuScroll);
         // setTimeout(function () {
@@ -266,9 +236,14 @@
         // },1000)
 
 
-
-
+      },
+      classes:function (val) {
+        console.log("classes发生改变",val);
+        if(val.length>0){
+          this.currentClzId = val[0].classId
+        }
       }
+
     }
 
 
