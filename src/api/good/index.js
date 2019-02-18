@@ -11,5 +11,9 @@ export default {
   search (data) {
     // return出去了一个promise
     return api.post(urls.search, null, null, data)
+  },
+  detail (data) {
+    // return出去了一个promise
+    return api.post(urls.detail, null, null, data)
   }
 }

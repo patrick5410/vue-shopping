@@ -5,16 +5,16 @@
             <img class="back" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png" @click="$router.back()"/>
             <img class="home" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_homeNormal.png" @click="toIndex"/>
             <Swipe :auto="3000">
-                <SwipeItem v-for="item in itemList" :key="item">
+                <SwipeItem v-for="item in $store.state.goodDetail.slideshow" :key="item">
                     <img :src="item" alt="item">
                 </SwipeItem>
             </Swipe>
         </div>
         <!-- 商品简单介绍 -->
         <div class="item_info">
-            <div class="name">{{name}}</div>
-            <div v-html="introduction" class="introduction"></div>
-            <div class="price"><span class="money">¥</span>{{price}}</div>
+            <div class="name">{{$store.state.goodDetail.name}}</div>
+            <div v-html="$store.state.goodDetail.introduction" class="introduction"></div>
+            <div class="price"><span class="money">¥</span>{{$store.state.goodDetail.price}}</div>
         </div>
         <!-- 商品数量选择 -->
         <div class="selectNum" @click="popupVisible=!popupVisible">
@@ -24,11 +24,11 @@
         <!-- 商品说明 -->
         <div class="description">
             <div class="description-title">说明：</div>
-            <div class="explain" v-html="explain"></div>
+            <div class="explain" v-html="$store.state.goodDetail.explain"></div>
         </div>
         <!-- 商品详情 -->
-        <div class="details" >
-            <img v-for="item in list" :key="item" :src="item" alt="item">
+        <div class="details" v-html="$store.state.goodDetail.detailHtml">
+            <!--<img v-for="item in list" :key="item" :src="item" alt="item">-->
         </div>
         <!-- 底部工具栏 -->
         <div class="bottom_tool">
@@ -38,25 +38,29 @@
                 </div>
                 <span>客服</span>
             </div>
-            <div class="collection">
+            <div class="collection" @click="collect">
                 <div class="img">
-                    <img src="../../assets/img/collection.png" alt="collection">
+                    <img v-if="$store.state.goodDetail.isCollect" src="../../assets/img/collection.png" alt="collection">
+                    <img v-else src="../../assets/img/uncollection.png" alt="collection">
                 </div>
                 <span>收藏</span>
             </div>
             <div class="cart" @click="toCart">
                 <span class="add_num" :class="add_num?'add_num_show':''" id="popone">+1</span>
-                <Badge :value="1">
+                <Badge :value="$store.state.goodDetail.cartCount" v-if="$store.state.goodDetail.cartCount>0">
                     <div class="img">
                         <img src="../../assets/img/cart_item.png" alt="cart">
                     </div>
                 </Badge>
+                <div v-else class="img">
+                  <img src="../../assets/img/cart.png" alt="cart">
+                </div>
                 <p>购物车</p>
             </div>
             <div class="buy" @click="popupVisible=!popupVisible">
                 立即购买
             </div>
-            <div class="takein" @click="turn_add_num">
+            <div class="takein" @click="popupVisible=!popupVisible">
                 加入购物车
             </div>
         </div>
@@ -65,22 +69,30 @@
                 <div class="good">
                     <div><img src="../../assets/img/logo.png" alt="logo" /></div>
                     <div class="text">
-                        <div class="name">{{ name }}</div>
-                        <div class="price">¥{{ price }}</div>
+                        <div class="name">{{ $store.state.goodDetail.name }}</div>
+                        <div class="price">¥{{ $store.state.goodDetail.price }}</div>
                     </div>
                     <div class="kucun">
-                        库存：{{ maxNum }}件
+                        库存：{{ $store.state.goodDetail.remainCount }}件
                     </div>
                 </div>
-              <div class="specification">
+              <div class="specification" v-if="!$store.state.goodDetail.specifications || $store.state.goodDetail.specifications.length<=0">
                 <div>商品规格</div>
                 <div class="specification-item">
-                  <div class="specification-item-one">默认</div>
+                  <div class="specification-item-one specificationItemActive">默认</div>
+                  <!--<div class="specification-item-one">默认</div>-->
+                </div>
+              </div>
+
+              <div class="specification" v-else v-for="(item,index) in $store.state.goodDetail.specifications">
+                <div>{{item.specification}}</div>
+                <div class="specification-item">
+                  <div class="specification-item-one" v-for="(specificationItem,index) in item.specificationItems" :class="{specificationItemActive : specificationItem.specificationItemId == item.currentSpecificationItemId }" @click="item.currentSpecificationItemId=specificationItem.specificationItemId">{{specificationItem.specificationItem}}</div>
                 </div>
               </div>
               <div class="numSelect">
                   <span style="color: #808080">数量</span><br>
-                  <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="maxNum"></InputNumber>
+                  <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="$store.state.goodDetail.maxBuyCount"></InputNumber>
               </div>
               <div class="button">
                   <div class="buy" @click="toPayPage">
@@ -108,26 +120,14 @@ export default {
     },
     data(){
         return{
-            name: '我是商品名字',
-            introduction: '<p style="color: rgb(128, 128, 128)">我是商品内容介绍</p>',
-            explain: '<p>本产品为第三方商品</p><p>支持7天无理由退货</p>',
-            price: '1399',
             selectNum: 1,
-            maxNum: 10,
             popupVisible: false,
-            add_num: false,
-            list: [],
-            itemList: []
+            add_num: false
         }
     },
     created(){
-        let that = this;
-        for (let i = 0; i < 20; i++){
-            that.list.push('img/item/item_' + i + '.JPG')
-        }
-        for (let i = 1; i < 4; i++){
-            that.itemList.push('img/item/item_' + i + '.JPG')
-        }
+
+
     },
     methods:{
         turn_add_num(){
@@ -149,6 +149,12 @@ export default {
         toCart(){
           //跳转到购物车
           this.$router.push({name:'cart'})
+        },
+        collect(){
+          //收藏
+
+          this.goodDetail.isCollect = !this.goodDetail.isCollect
+
         }
 
     }
@@ -362,15 +368,17 @@ export default {
     .toBuy{
         position: fixed;
         width: 100%;
-        height: 375px;
+        /*height: 375px;*/
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         bottom: 0;
         background-color: #fff;
         z-index: 2;
+        /*padding-bottom: 100px;*/
         .toBuy_container{
             width: 95%;
             margin: 10px;
+            padding-bottom: 150px;
             .good{
                 display: flex;
                 flex-direction: row;
@@ -385,7 +393,7 @@ export default {
                     font-size: 16px;
                     text-align: left;
                     .name{color: rgb(51, 51, 51);}
-                    .price{color: rgb(153, 84, 84);}
+                    .price{color: rgb(153, 84, 84);margin-top: 6px}
                 }
                 .kucun{
                     margin-left: 10px;
@@ -409,17 +417,24 @@ export default {
                 margin-left: 5px;
 
                 .specification-item-one{
+                  display: flex;
+                  font-size: 14px;
+                  align-items: center;
+                  justify-content: center;
                   color: rgb(51,51,51);
                   margin-top: 5px;
+                  margin-right: 10px;
                   padding: 2px 5px;
                   border: 1px solid #e5e5e5;
-                  font-size: 12px;
+                  /*font-size: 12px;*/
                   border-radius: 3px;
+                  /*color: #808080;*/
 
                 }
 
-                .specification-item-active{
-
+                .specificationItemActive{
+                  border: 1px solid #3d7a99;
+                  color: #3d7a99;
                 }
 
 
@@ -437,13 +452,13 @@ export default {
                 }
             }
             .button{
-                position: relative;
-                top: 160px;
-                margin-bottom: 10px;
+                position: absolute;
+                bottom: 15px;
                 font-size: 14px;
                 color: #fff;
                 display: flex;
-                justify-content: space-around;
+                justify-content:space-between;
+                width: 355px;
                 .buy{
                     width: 150px;
                     height: 32px;

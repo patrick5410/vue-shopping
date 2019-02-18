@@ -24,6 +24,7 @@ export default new Vuex.Store({
     classes: [], // 所有类型商品
     class: {}, // 某类型商品
     searchGoods: {}, // 某类型商品
+    goodDetail: {}, // 商品详情
     choosedAddress: null, // 选择地址：结算确认地址或选择编辑地址
     order: null // 当前订单
   },
@@ -132,12 +133,35 @@ export default new Vuex.Store({
         console.log('​catch -> e', e)
       }
     },
+    /**
+     * 关键字搜索商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
     async search (state, payload) {
       // 这里用try catch包裹，请求失败的时候就执行catch里的
       try {
         let res = await this._vm.$api.good.search(payload.data)
         if (res.success) {
           state.searchGoods = res.data
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 商品详情
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async detail (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.good.detail(payload.data)
+        if (res.success) {
+          state.goodDetail = res.data
         }
       } catch (e) {
         console.log('​catch -> e', e)
