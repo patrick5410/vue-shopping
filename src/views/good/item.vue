@@ -23,8 +23,8 @@
         </div>
         <!-- 商品说明 -->
         <div class="description">
-            说明：<p>1、本产品为公司商品</p>
-
+            <div class="description-title">说明：</div>
+            <div class="explain" v-html="explain"></div>
         </div>
         <!-- 商品详情 -->
         <div class="details" >
@@ -72,18 +72,24 @@
                         库存：{{ maxNum }}件
                     </div>
                 </div>
-                <div class="numSelect">
-                    <span>数量</span><br>
-                    <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="maxNum"></InputNumber>
+              <div class="specification">
+                <div>商品规格</div>
+                <div class="specification-item">
+                  <div class="specification-item-one">默认</div>
                 </div>
-                <div class="button">
-                    <div class="buy" @click="toPayPage">
-                        立即购买
-                    </div>
-                    <div class="toCart" @click="turn_add_num">
-                        加入购物车
-                    </div>
-                </div>
+              </div>
+              <div class="numSelect">
+                  <span style="color: #808080">数量</span><br>
+                  <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="maxNum"></InputNumber>
+              </div>
+              <div class="button">
+                  <div class="buy" @click="toPayPage">
+                      立即购买
+                  </div>
+                  <div class="toCart" @click="turn_add_num">
+                      加入购物车
+                  </div>
+              </div>
             </div>
         </Popup>
     </div>
@@ -103,7 +109,8 @@ export default {
     data(){
         return{
             name: '我是商品名字',
-            introduction: '我是商品内容介绍',
+            introduction: '<p style="color: rgb(128, 128, 128)">我是商品内容介绍</p>',
+            explain: '<p>本产品为第三方商品</p><p>支持7天无理由退货</p>',
             price: '1399',
             selectNum: 1,
             maxNum: 10,
@@ -197,15 +204,17 @@ export default {
         flex-direction: column;
         align-items: flex-start;
         background-color: #fff;
-        height: 58px;
+        /*height: 58px;*/
         padding: 10px;
         .name{
-            font-size: 14px;
+            font-size: 16px;
             color: rgb(51, 51, 51);
         }
         .introduction{
-            font-size: 12px;
+            font-size: 14px;
             color: rgb(128, 128, 128);
+            padding-top: 5px;
+            padding-bottom: 8px;
         }
         .price{
             font-size: 18px;
@@ -239,11 +248,30 @@ export default {
     .description{
         margin-top: 10px;
         margin-bottom: 10px;
-        height: 77px;
+        /*height: 77px;*/
         background-color: #fff;
         padding: 10px;
         display: flex;
         font-size: 14px;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .description-title{
+          align-items: center;
+          width: 45px;
+          height: auto;
+          color: rgb(128, 128, 128);
+        }
+
+        .explain{
+          width: 330px;
+          align-items: flex-start;
+          justify-content: flex-start;
+          text-align: left;
+
+        }
+
+
     }
     //商品详情图
     .details{
@@ -365,6 +393,40 @@ export default {
                     color: rgb(128, 128, 128)
                 }
             }
+            .specification{
+              font-size: 14px;
+              text-align: left;
+              margin-top: 10px;
+              color: #808080;
+
+              .specification-item{
+                display: flex;
+                justify-content: flex-start;
+                flex-flow:wrap;
+                align-items: flex-start;
+                align-content: flex-start;
+                margin-top: 5px;
+                margin-left: 5px;
+
+                .specification-item-one{
+                  color: rgb(51,51,51);
+                  margin-top: 5px;
+                  padding: 2px 5px;
+                  border: 1px solid #e5e5e5;
+                  font-size: 12px;
+                  border-radius: 3px;
+
+                }
+
+                .specification-item-active{
+
+                }
+
+
+              }
+
+            }
+
             .numSelect{
                 margin-top: 10px;
                 text-align: left;

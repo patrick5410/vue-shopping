@@ -26,7 +26,7 @@ service.interceptors.request.use(
       if (store.state.userInfo.wechatInfo) {
         // console.log('缓存token', window.localStorage.getItem('token'))
         // config.headers['token'] = window.localStorage.getItem('token')
-        config.headers['token'] = store.state.userInfo.wechatInfo.token
+        config.headers['token'] = store.state.userInfo.token
       }
     }
     // 请求发送前进行处理

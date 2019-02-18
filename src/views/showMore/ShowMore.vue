@@ -26,6 +26,11 @@
 <script>
   // import ToShowMore from '@/components/head/toShowMore'
   import Show2goods from '@/components/Show2goods'
+  import { LoadingPlugin  } from 'vux'
+  import Vue from 'vue'
+
+
+  Vue.use(LoadingPlugin)
 
   export default {
     name: 'showMore',
@@ -51,7 +56,15 @@
       }
     },
     created(){
-
+      if(this.isChange){
+        console.log("开始搜索");
+        this.$vux.loading.show({
+          text: '搜索中'
+        })
+        setTimeout(() => {
+          this.$vux.loading.hide()
+        }, 5000)
+      }
     },
     mounted:function () {
       this.$nextTick(function () {
@@ -74,15 +87,21 @@
             that.org_goods.push(item);
           })
 
-
         }
       },
       pGoods:function (val) {
-        if(val != null){
+        if(val){
           console.log("this.pGoods != null")
           //如果属性不为null就赋值
           this.goods = val
         }
+        this.org_goods = [];
+        let that = this;
+        this.goods.forEach(function (item) {
+          // console.log("item",item);
+          that.org_goods.push(item);
+        })
+        this.$vux.loading.hide()
       }
     },
     methods:{

@@ -221,12 +221,14 @@
     watch:{
       currentClzId:function(val) {
         if(val && this.wrapperMenuScroll){
-          //监听当前类型的变化
-          // let that = this;
-          //滚动左边菜单框
-          // console.log("左边滚动");
-          let clzs = this.$refs.wrapperMenu.querySelector('#clz'+val);
-          this.wrapperMenuScroll.scrollToElement(clzs, 600,0,0)
+          if(!this.wrapperMenuScroll.isInTransition){
+            //监听当前类型的变化
+            // let that = this;
+            //滚动左边菜单框
+            // console.log("左边滚动");
+            let clzs = this.$refs.wrapperMenu.querySelector('#clz'+val);
+            this.wrapperMenuScroll.scrollToElement(clzs, 600,0,0)
+          }
         }
         // console.log(clzs,that.wrapperMenuScroll);
         // setTimeout(function () {
