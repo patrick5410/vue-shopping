@@ -38,8 +38,11 @@
                     <img :src="item.img" style="width: 100%;height: auto">
                   </div>
                   <div class="good-info">
-                    <div class="goodName" @click="goodDetail(item.id)">{{item.name}}</div>
-                    <div class="goodPrice">¥{{item.price}}元</div>
+                    <div class="goodName">
+                      <div  @click="goodDetail(item.id)">{{item.name}}</div>
+                      <div class="goodPrice">¥{{item.price}}元</div>
+                    </div>
+                    <div class="specification">商品规格：默认</div>
                     <div class="buyCount">
                       <div class="buyCount-cut" @click="item.buyCount>1?item.buyCount--:1">-</div>
                       <input class="buyCount-input" type="number" v-model="item.buyCount" @blur="changeCount(item)"></input>
@@ -320,12 +323,21 @@
             font-size: 14px;
             .goodName{
               /*margin: 5px 0;*/
+              width: 200px;
+              display: flex;
+              justify-content: space-between;
               color: black;
             }
 
             .goodPrice{
-              margin: 13px auto;
+              /*margin: 13px auto;*/
               color: #995454;
+            }
+
+            .specification{
+              margin: 12px 0;
+              color: #808080;
+              font-size: 13px;
             }
 
             .buyCount{

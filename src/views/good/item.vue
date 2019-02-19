@@ -14,7 +14,7 @@
         <div class="item_info">
             <div class="name">{{$store.state.goodDetail.name}}</div>
             <div v-html="$store.state.goodDetail.introduction" class="introduction"></div>
-            <div class="price"><span class="money">¥</span>{{$store.state.goodDetail.price}}</div>
+            <div class="price"><span class="money">¥</span>{{$store.state.goodDetail.price}}&nbsp;&nbsp;&nbsp;<span v-if="$store.state.goodDetail.price<$store.state.goodDetail.originalPrice" style="font-size: 0.34rem;color: #808080;text-decoration: line-through">原价：{{$store.state.goodDetail.originalPrice}}元</span></div>
         </div>
         <!-- 商品数量选择 -->
         <div class="selectNum" @click="popupVisible=!popupVisible">
@@ -67,7 +67,7 @@
         <Popup v-model="popupVisible" position="bottom" class="toBuy">
             <div class="toBuy_container">
                 <div class="good">
-                    <div><img src="../../assets/img/logo.png" alt="logo" /></div>
+                    <div><img :src="$store.state.goodDetail.img" alt="logo" /></div>
                     <div class="text">
                         <div class="name">{{ $store.state.goodDetail.name }}</div>
                         <div class="price">¥{{ $store.state.goodDetail.price }}</div>
@@ -109,6 +109,10 @@
 <script>
 import {Swipe,SwipeItem,Popup} from 'mint-ui'
 import {Badge,InputNumber} from 'element-ui'
+import { ToastPlugin  } from 'vux'
+import Vue from 'vue'
+
+Vue.use(ToastPlugin)
 export default {
     name: "good",
     components:{
@@ -131,12 +135,39 @@ export default {
     },
     methods:{
         turn_add_num(){
-            let that = this;
-            that.popupVisible = false;
-            that.add_num = !that.add_num;
-            setTimeout(()=>{
-                that.add_num = !that.add_num;
-            },1500)
+          console.log("this.$store.state.goodDetail.specifications",this.$store.state.goodDetail.specifications);
+          let specifications =  this.$store.state.goodDetail.specifications;
+          let specificationItemIds = []
+          if(specifications.length<=0){
+            //没有商品规格
+            specificationItemIds.push(0)
+          }else {
+            for (let i = 0; i < specifications.length; i++) {
+              if(specifications[i].currentSpecificationItemId>0){
+                specificationItemIds.push(specifications[i].currentSpecificationItemId)
+              }else {
+                console.log("currentSpecificationItemId",specifications,specifications[i].currentSpecificationItemId)
+                this.$vux.toast.show({
+                  type:"text",
+                  width:"14em",
+                  text: '请先选中商品规格'
+                })
+                return
+              }
+            }
+          }
+          let that = this
+          this.$store.commit('addGood', { data: { goodId: that.$route.query.goodId,specificationItemIds:specificationItemIds,count:that.selectNum },successCallBack:function () {
+              console.log("添加成功");
+              that.$vux.toast.show({
+                text: '添加成功'
+              })
+            },failCallBack:function () {
+              that.$vux.toast.show({
+                type:"warn",
+                text: '添加失败'
+              })
+            } })
         },
         toPayPage(){
           //这里不用传选中商品id，直接存储在store中
@@ -424,7 +455,7 @@ export default {
                   color: rgb(51,51,51);
                   margin-top: 5px;
                   margin-right: 10px;
-                  padding: 2px 5px;
+                  padding: 5px 8px;
                   border: 1px solid #e5e5e5;
                   /*font-size: 12px;*/
                   border-radius: 3px;
@@ -454,23 +485,35 @@ export default {
             .button{
                 position: absolute;
                 bottom: 15px;
-                font-size: 14px;
+                font-size: 16px;
                 color: #fff;
                 display: flex;
                 justify-content:space-between;
                 width: 355px;
+
+                div{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 150px;
+                  height: 36px;
+                  border-radius: 10px;
+                  line-height: 32px;
+                  background-color: rgb(153,84,84);
+                }
+
                 .buy{
-                    width: 150px;
-                    height: 32px;
-                    border-radius: 10px;
-                    line-height: 32px;
+                    /*width: 150px;*/
+                    /*height: 36px;*/
+                    /*border-radius: 10px;*/
+                    /*line-height: 32px;*/
                     background-color: rgb(153,84,84);
                 }
                 .toCart{
-                    width: 150px;
-                    height: 32px;
-                    border-radius: 10px;
-                    line-height: 32px;
+                    /*width: 150px;*/
+                    /*height: 36px;*/
+                    /*border-radius: 10px;*/
+                    /*line-height: 32px;*/
                     background-color:rgb(61,122,153);
                 }
             }

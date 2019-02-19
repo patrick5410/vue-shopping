@@ -167,6 +167,31 @@ export default new Vuex.Store({
         console.log('​catch -> e', e)
       }
     },
+    /**
+     * 添加商品到购物车
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async addGood (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.cart.addGood(payload.data)
+        if (res.success) {
+          state.goodDetail.cartCount = res.data.cartCount
+          // console.log('回调函数', payload)
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
     async test (state, payload) {
       // 这里用try catch包裹，请求失败的时候就执行catch里的
       try {

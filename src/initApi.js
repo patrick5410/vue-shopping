@@ -22,9 +22,7 @@ export default {
         store.commit('search', { data: { keyword: router.query.keyword } })
         break
       case 'good':
-        let data = { goodId: router.query.goodId }
-        data.goodId = 2598
-        store.commit('detail', { data: data })
+        store.commit('detail', { data: { goodId: router.query.goodId } })
         break
     }
   }
