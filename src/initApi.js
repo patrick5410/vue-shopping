@@ -24,6 +24,15 @@ export default {
       case 'good':
         store.commit('detail', { data: { goodId: router.query.goodId } })
         break
+      case 'cart':
+        store.commit('getCartGoods')
+        break
+      case 'collect':
+        store.commit('getCollect')
+        break
+      case 'addressManage':
+        store.commit('getAddresses')
+        break
     }
   }
 }

@@ -2,7 +2,7 @@
 <template>
   <div id="cart">
     <div class="myCart">
-      <div v-if="goods==null || goods.length<=0">
+      <div v-if="$store.state.cartGoods==null || $store.state.cartGoods.length<=0">
         <img @click="toClz" src="../../assets/img/cart_empty.png" style="width: 100%;height: 100%">
       </div>
       <div v-else>
@@ -20,9 +20,9 @@
         <!--购物车商品-->
         <div class="cart-good">
           <swipeout>
-            <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in goods" >
+            <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in $store.state.cartGoods" >
               <div slot="right-menu">
-                <swipeout-button v-if="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#d7d6da" :width="parseInt(130*containerWidth/750)">已收藏</swipeout-button>
+                <swipeout-button v-if="item.isCollect" type="primary" background-color="#d7d6da" :width="parseInt(130*containerWidth/750)">已收藏</swipeout-button>
                 <swipeout-button v-else="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="parseInt(130*containerWidth/750)">收藏</swipeout-button>
                 <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(110*containerWidth/750)">删除</swipeout-button>
               </div>
@@ -34,22 +34,22 @@
                 </div>
                 <!--右边商品-->
                 <div class="good-one-right">
-                  <div class="good-img" @click="goodDetail(item.id)">
+                  <div class="good-img" @click="goodDetail(item.goodId)">
                     <img :src="item.img" style="width: 100%;height: auto">
                   </div>
                   <div class="good-info">
                     <div class="goodName">
-                      <div  @click="goodDetail(item.id)">{{item.name}}</div>
+                      <div  @click="goodDetail(item.goodId)">{{item.name}}</div>
                       <div class="goodPrice">¥{{item.price}}元</div>
                     </div>
-                    <div class="specification">商品规格：默认</div>
+                    <div class="specification">{{item.goodSpecificationItems}}</div>
                     <div class="buyCount">
-                      <div class="buyCount-cut" @click="item.buyCount>1?item.buyCount--:1">-</div>
-                      <input class="buyCount-input" type="number" v-model="item.buyCount" @blur="changeCount(item)"></input>
-                      <div class="buyCount-add" @click="item.buyCount<item.maxNum?item.buyCount++:item.maxNum">+</div>
+                      <div class="buyCount-cut" @click="cutCount(item)">-</div>
+                      <input class="buyCount-input" type="number" v-model="item.count" @blur="changeCount(item)"></input>
+                      <div class="buyCount-add" @click="addCount(item)">+</div>
                     </div>
                   </div>
-                  <div class="good-sore">可获积分：10分</div>
+                  <div class="good-sore">可获积分：{{item.count*item.score}}分<span style="position: absolute;right: 0.2rem">单件不能超过{{item.maxBuyCount}}件</span></div>
                 </div>
               </div>
             </swipeout-item>
@@ -96,7 +96,10 @@
   import Show2goods from '@/components/Show2goods'
   import Menu from '@/components/Menu'
   import { Swipeout, SwipeoutItem, SwipeoutButton,Checklist } from 'vux'
+  import { ToastPlugin  } from 'vux'
+  import Vue from 'vue'
 
+  Vue.use(ToastPlugin)
   export default {
     name: 'cart',
     components: {
@@ -110,7 +113,7 @@
     data: function () {
       return {
         containerWidth:750,//容器高度
-        goods: [{}], //商品
+        // goods: [{}], //商品
         guessGoods: [],//可能喜欢商品
         isSelectAll:false,
         selectCount:0,//已选中总数量
@@ -120,6 +123,11 @@
     created(){
       this.containerWidth = window.innerWidth
       console.log("containerHeight",this.containerWidth)
+    },
+    computed: {
+      goods () {
+        return this.$store.state.cartGoods;　　//需要监听的数据
+      }
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -139,7 +147,7 @@
 
         }
 
-        this.goods = this.guessGoods;
+        // this.guessGoods;
 
       })
     },
@@ -149,17 +157,32 @@
         this.$router.push({name:'clz'})
       },
       collectGood(item){
-        //移至收藏
-        alert("收藏商品成功");
-        //删除商品
-        this.deleteGood(item);
+        let that = this
+        this.$store.commit("collectGood",{ data: { goodId: item.goodId },successCallBack:function () {
+            that.$store.commit('getCartGoods')
+            that.$vux.toast.show({
+              text: '收藏成功'
+            })
+            // item.isCollect = true
+          } })
+
       },
       deleteGood(item){
+        console.log("删除购物车商品");
         //删除购物车商品
-        let index = this.goods.indexOf(item)
-        if(index>-1){
-          this.goods.splice(index,1)
-        }
+        let that = this
+        this.$store.commit("deleteCartGood",{ data: { cartId: item.id },successCallBack:function () {
+            let index = that.$store.state.cartGoods.indexOf(item)
+            if (index > -1) {
+              that.$store.state.cartGoods.splice(index, 1);
+            }
+            console.log("删除成功");
+          },failCallBack:function () {
+            that.$vux.toast.show({
+              type:"warn",
+              text: '添加失败'
+            })
+          } })
       },
       selectAll(){
         //选择所有的商品或取消所有的商品
@@ -180,31 +203,48 @@
         //这里不用传选中商品id，直接存储在store中
         this.$router.push({name:'payPage'})
       },
+      addCount(item){
+        item.count<item.maxBuyCount?item.count++:item.maxBuyCount
+        this.changeCount(item)
+      },
+      cutCount(item){
+        item.count>1?item.count--:1
+        this.changeCount(item)
+      },
       changeCount(item){
         console.log("item",item)
-        if (!item.buyCount || item.buyCount == ''){
-          item.buyCount = 1
+        if (!item.count || item.count == ''){
+          item.count = 1
         }
+        if(item.count>item.maxBuyCount){
+          item.count = item.maxBuyCount
+        }
+        //请求并改变数量
+        this.$store.commit("changeCartCount",{ data: { cartId: item.id,count: item.count } })
+
       }
+
 
     },
     watch: {
       goods: {
         handler(val, oldVal){
-         //开启深度监听，用于监听商品是否被选中和输入数量
-          console.log("商品变化",val)
-          this.selectCount = 0;
-          this.totalPrice = 0;
-          let selectKind = 0;//选中商品种类
-          val.forEach((item)=>{
-            if(item.isSelected){
-              this.selectCount += parseInt(item.buyCount);
-              this.totalPrice += parseInt(item.buyCount)*item.price.toFixed(2);
-              selectKind++;
-            }
-          })
-          //判断是否全选
-          this.isSelectAll = this.goods.length == selectKind
+          if(val){
+            //开启深度监听，用于监听商品是否被选中和输入数量
+            console.log("商品变化",val)
+            this.selectCount = 0;
+            this.totalPrice = 0;
+            let selectKind = 0;//选中商品种类
+            val.forEach((item)=>{
+              if(item.isSelected){
+                this.selectCount += parseInt(item.count);
+                this.totalPrice += parseInt(item.count)*item.price.toFixed(2);
+                selectKind++;
+              }
+            })
+            //判断是否全选
+            this.isSelectAll = this.goods.length == selectKind
+          }
 
         },
         deep:true
@@ -395,6 +435,7 @@
             /*color: black;*/
             font-size: 13px;
             color: #808080;
+            width: 100%;
           }
 
         }

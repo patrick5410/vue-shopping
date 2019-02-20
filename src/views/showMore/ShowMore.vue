@@ -78,7 +78,9 @@
     watch: {
       class: function(val) {
         if(val){
-          document.title = val.className
+          if(val.className){
+            document.title = val.className
+          }
           this.goods = this.$store.state.class.goods
           this.org_goods = [];
           let that = this;
@@ -94,6 +96,9 @@
           console.log("this.pGoods != null")
           //如果属性不为null就赋值
           this.goods = val
+          if(this.$store.state.class.className){
+            document.title = this.$store.state.class.className
+          }
         }
         this.org_goods = [];
         let that = this;

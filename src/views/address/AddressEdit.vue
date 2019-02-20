@@ -5,13 +5,13 @@
       <div class="good-common">
         <div>收货人</div>
         <div>
-          <input class="input-word"  type="text" maxlength="10"  placeholder="姓名" v-model.trim="address.name">
+          <input class="input-word"  type="text" maxlength="10"  placeholder="姓名" v-model.trim="address.receiveName">
         </div>
       </div>
       <div class="good-common">
         <div>联系方式</div>
         <div>
-          <input class="input-word"  type="text" maxlength="11"  placeholder="手机号码" v-model.trim="address.phone">
+          <input class="input-word"  type="text" maxlength="11"  placeholder="手机号码" v-model.trim="address.receivePhone">
         </div>
       </div>
       <div class="good-common">
@@ -74,8 +74,8 @@
       return{
         address:{
           addressId:-1,
-          name: '',
-          phone: '',
+          receiveName: '',
+          receivePhone: '',
           addressArea:'',//所在地区
           addressDetail: '',//详细地址
           checked: false
@@ -130,7 +130,7 @@
       confirm:function () {
         // this.address.addressArea = window.document.getElementById("Addr").value;
 
-        if(this.address.name =="" || this.address.phone == "" ||this.address.addressArea =="" || this.address.addressDetail ==""){
+        if(this.address.receiveName =="" || this.address.receivePhone == "" ||this.address.addressArea =="" || this.address.addressDetail ==""){
           //收货信息不能为空
           // 显示
           this.$vux.toast.show({
@@ -140,14 +140,51 @@
           })
           return
         }
-
+        let that = this
         console.log("提交前的address",this.address)
-
-        if(this.address.addressId == -1){
+        if(this.address.addressId === -1){
+          console.log("添加地址");
           //添加
-
+          that.$store.commit("addAddress",{ data: {
+              addressCode: that.address.addressCode,
+              addressArea: that.address.addressArea,
+              addressDetail: that.address.addressDetail,
+              receiveName: that.address.receiveName,
+              receivePhone: that.address.receivePhone
+            }
+          ,successCallBack:function () {
+              that.$vux.toast.show({
+                text: '添加成功'
+              })
+              // item.isCollect = true
+            },failCallBack:function () {
+              that.$vux.toast.show({
+                type: 'warn',
+                text: '添加失败'
+              })
+            } })
         }else {
           //修改
+          console.log("修改地址");
+          that.$store.commit("editAddress",{ data: {
+              addressId: that.address.addressId,
+              addressCode: that.address.addressCode,
+              addressArea: that.address.addressArea,
+              addressDetail: that.address.addressDetail,
+              receiveName: that.address.receiveName,
+              receivePhone: that.address.receivePhone
+            }
+            ,successCallBack:function () {
+              that.$vux.toast.show({
+                text: '编辑成功'
+              })
+              // item.isCollect = true
+            },failCallBack:function () {
+              that.$vux.toast.show({
+                type: 'warn',
+                text: '编辑失败'
+              })
+            } })
 
         }
 
@@ -163,23 +200,13 @@
           callback: function (data) {
             console.log("data.addr",data.addr)
             that.address.addressArea = data.addr
+            that.address.addressCode = data.code
             $("#Addr").val(data.addr).data("code", data.code);
           }
         });
       },
       addressChange(val){
         console.log("val",val)
-      },
-      async matches() {
-        // 这里用try catch包裹，请求失败的时候就执行catch里的
-        try {
-          console.log("api",this)
-          console.log("api",this.$api)
-          let res = await this.$api.user.getUserInfo({code:'huhfai'})
-          console.log('​getMatches -> res', res)
-        } catch (e) {
-          console.log('​catch -> e', e)
-        }
       }
 
     }

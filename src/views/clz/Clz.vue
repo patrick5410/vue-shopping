@@ -7,7 +7,7 @@
     <div class="container" :style="{height:containerHeight+'px'}">
       <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
         <ul>
-          <li v-for="(item,index) in $store.state.classes"  :class="{active : item.classId == currentClzId}" @click="selectClz(item.classId)" class="menu_left_li" :id="'clz'+item.classId">
+          <li v-for="(item,index) in $store.state.classes"  :class="{active : item.classId == $store.state.currentClzId}" @click="selectClz(item.classId)" class="menu_left_li" :id="'clz'+item.classId">
             <div class="menu_clz">{{item.className}}</div>
           </li>
 
@@ -99,7 +99,7 @@
     data(){
       return {
         containerHeight:1200,//内容宽度
-        currentClzId:0,//分类id
+        // currentClzId:0,//分类id
         clzs:new Array(50),//分类
         wrapperMenuScroll : null,//左边菜单滚动框
         goodScroll: null,//商品滚动框
@@ -109,8 +109,8 @@
       }
     },
     computed: {
-      classes () {
-        return this.$store.state.classes;　　//需要监听的数据
+      currentClzId () {
+        return this.$store.state.currentClzId;　　//需要监听的数据
       }
     },
     created(){
@@ -188,7 +188,7 @@
 
           // console.log("clzId",clzId)
           if(clzId != -1){
-            this.currentClzId = clzId;
+            this.$store.state.currentClzId = clzId;
           }
 
         })
@@ -238,13 +238,13 @@
         // },1000)
 
 
-      },
-      classes:function (val) {
-        console.log("classes发生改变",val);
-        if(val.length>0){
-          this.currentClzId = val[0].classId
-        }
       }
+      // classes:function (val) {
+      //   console.log("classes发生改变",val);
+      //   if(val.length>0){
+      //     this.$store.state.currentClzId = val[0].classId
+      //   }
+      // }
 
     }
 

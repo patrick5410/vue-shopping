@@ -8,13 +8,9 @@ export default {
     // return出去了一个promise
     return api.post(urls.addGood, null, null, data)
   },
-  getGoods () {
+  getCollect () {
     // return出去了一个promise
-    return api.post(urls.getGoods, null, null, null)
-  },
-  changeCount (data) {
-    // return出去了一个promise
-    return api.post(urls.changeCount, null, null, data)
+    return api.post(urls.getCollect, null, null, null)
   },
   deleteGood (data) {
     // return出去了一个promise

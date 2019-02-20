@@ -3774,7 +3774,7 @@
           toolHanlder.showLoading() // 乡镇街道信息未显示出来时，显示加载动画
 
           $.ajax({
-            url: 'https://www.tdxiov.com:18443/Tdcm/weixin/shopping/getStreet.do?areaCode=' + currentArea.code,
+            url: 'https://www.tdxiov.com:28443/shopping/address/getStreet?areaCode=' + currentArea.code,
             dataType: 'json',
             success: function (town) {
               toolHanlder.hideLoading() // 乡镇街道信息显示出来后，隐藏加载动画

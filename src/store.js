@@ -22,9 +22,13 @@ export default new Vuex.Store({
     goods: [], // 首页商品
     goodPage: {}, // 每次请求的商品分页封装
     classes: [], // 所有类型商品
+    currentClzId: 0, // 分类id
     class: {}, // 某类型商品
-    searchGoods: {}, // 某类型商品
+    searchGoods: {}, // 搜索商品
     goodDetail: {}, // 商品详情
+    cartGoods: [], // 购物车商品
+    collectGoods: [], // 收藏商品
+    addresses: [], // 收货地址
     choosedAddress: null, // 选择地址：结算确认地址或选择编辑地址
     order: null // 当前订单
   },
@@ -110,6 +114,7 @@ export default new Vuex.Store({
         let res = await this._vm.$api.clz.getClasses()
         if (res.success) {
           state.classes = res.data
+          state.currentClzId = state.classes[0].classId
         }
       } catch (e) {
         console.log('​catch -> e', e)
@@ -180,6 +185,242 @@ export default new Vuex.Store({
         if (res.success) {
           state.goodDetail.cartCount = res.data.cartCount
           // console.log('回调函数', payload)
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 获取购物车商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getCartGoods (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.cart.getGoods()
+        if (res.success) {
+          console.log('请求测试成功')
+          state.cartGoods = res.data
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 改变购物车商品数量
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async changeCartCount (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.cart.changeCount(payload.data)
+        if (res.success) {
+          for (let i = 0; i < state.cartGoods; i++) {
+            let cartGood = state.cartGoods[i]
+            if (cartGood.id === payload.data.cartId) {
+              cartGood.count = res.count
+            }
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 删除购物车商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async deleteCartGood (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.cart.deleteGood(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 收藏商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async collectGood (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.collect.addGood(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 删除收藏
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async deleteCollect (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.collect.deleteGood(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 获取收藏商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getCollect (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.collect.getCollect()
+        if (res.success) {
+          state.collectGoods = res.data
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 获取用户所有收货地址
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getAddresses (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.address.getAddresses()
+        if (res.success) {
+          state.addresses = res.data
+          console.log('state.addresses',state.addresses)
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 添加地址
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async addAddress (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.address.addAddress(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 编辑地址
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async editAddress (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.address.editAddress(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 删除地址
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async deleteAddress (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.address.deleteAddress(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 设置默认收货地址
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async setDefaultAddress (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.address.setDefault(payload.data)
+        if (res.success) {
           if (payload.successCallBack && typeof payload.successCallBack === 'function') {
             payload.successCallBack()
           }

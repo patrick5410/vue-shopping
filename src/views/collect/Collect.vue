@@ -3,7 +3,7 @@
   <div class="collect-container">
 
     <swipeout>
-      <swipeout-item transition-mode="follow"  v-for="(item,index) in goods" >
+      <swipeout-item transition-mode="follow"  v-for="(item,index) in $store.state.collectGoods" >
         <div slot="right-menu">
           <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(120*containerWidth/750)">删除</swipeout-button>
         </div>
@@ -17,7 +17,7 @@
               <div style="color: #995454">¥{{item.price}}</div>
             </div>
           </div>
-          <div class="good-right" @click="goodDetail(item.id)">
+          <div class="good-right" @click="goodDetail(item.goodId)">
             <img src="../../assets/img/forward_right.png">
           </div>
         </div>
@@ -47,6 +47,10 @@
 
 <script>
   import { Swipeout, SwipeoutItem, SwipeoutButton} from 'vux'
+  import { ToastPlugin  } from 'vux'
+  import Vue from 'vue'
+
+  Vue.use(ToastPlugin)
 
   export default {
     components: {
@@ -65,33 +69,33 @@
       console.log("containerHeight",this.containerWidth)
 
       // 模拟商品数据
-      for (let i = 1; i <= 9; i++) {
-        if (i % 3 === 0) {
-          this.goods.push({
-            id: Math.floor(Math.random()*100),
-            name: '车载配件' + i,
-            originalPrice: 1108,
-            price: 1058,
-            img: 'img/good/' + i + '.jpg'
-          })
-        } else if (i % 3 === 1) {
-          this.goods.push({
-            id: Math.floor(Math.random()*100),
-            name: '车载配件' + i,
-            originalPrice: 1304,
-            price: 1058,
-            img: 'img/good/' + i + '.jpg'
-          })
-        } else {
-          this.goods.push({
-            id: Math.floor(Math.random()*100),
-            name: '车载配件' + i,
-            originalPrice: 1406,
-            price: 1058,
-            img: 'img/good/' + i + '.jpg'
-          })
-        }
-      }
+      // for (let i = 1; i <= 9; i++) {
+      //   if (i % 3 === 0) {
+      //     this.goods.push({
+      //       id: Math.floor(Math.random()*100),
+      //       name: '车载配件' + i,
+      //       originalPrice: 1108,
+      //       price: 1058,
+      //       img: 'img/good/' + i + '.jpg'
+      //     })
+      //   } else if (i % 3 === 1) {
+      //     this.goods.push({
+      //       id: Math.floor(Math.random()*100),
+      //       name: '车载配件' + i,
+      //       originalPrice: 1304,
+      //       price: 1058,
+      //       img: 'img/good/' + i + '.jpg'
+      //     })
+      //   } else {
+      //     this.goods.push({
+      //       id: Math.floor(Math.random()*100),
+      //       name: '车载配件' + i,
+      //       originalPrice: 1406,
+      //       price: 1058,
+      //       img: 'img/good/' + i + '.jpg'
+      //     })
+      //   }
+      // }
 
       // console.log("初始化商品",this.goods);
     },
@@ -103,12 +107,27 @@
       },
       //删除收藏
       deleteGood(item){
-        let index = this.goods.indexOf(item)
-        // console.log("删除之前",this.goods,item,index);
-        if(index>-1){
-          this.goods.splice(index,1)
-        }
+        // let index = this.goods.indexOf(item)
+        // // console.log("删除之前",this.goods,item,index);
+        // if(index>-1){
+        //   this.goods.splice(index,1)
+        // }
         // console.log("删除之后",this.goods);
+        let that = this
+        this.$store.commit("deleteCollect",{ data: { goodId: item.goodId },successCallBack:function () {
+            let index = that.$store.state.collectGoods.indexOf(item)
+            // // console.log("删除之前",this.goods,item,index);
+            if(index>-1){
+              that.$store.state.collectGoods.splice(index,1)
+            }
+
+          },failCallBack:function () {
+            that.$vux.toast.show({
+              type:"warn",
+              text: '收藏失败'
+            })
+
+          } })
       }
     }
   }

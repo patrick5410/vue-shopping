@@ -43,7 +43,8 @@
                     <img v-if="$store.state.goodDetail.isCollect" src="../../assets/img/collection.png" alt="collection">
                     <img v-else src="../../assets/img/uncollection.png" alt="collection">
                 </div>
-                <span>收藏</span>
+                <span v-if="!$store.state.goodDetail.isCollect">收藏</span>
+                <span v-else>取消收藏</span>
             </div>
             <div class="cart" @click="toCart">
                 <span class="add_num" :class="add_num?'add_num_show':''" id="popone">+1</span>
@@ -183,14 +184,26 @@ export default {
         },
         collect(){
           //收藏
+          // this.goodDetail.isCollect = !this.goodDetail.isCollect
+          if(!this.$store.state.goodDetail.isCollect){
+            let that = this
+            this.$store.commit("collectGood",{ data: { goodId: that.$store.state.goodDetail.id },successCallBack:function () {
+                that.$store.state.goodDetail.isCollect = true
+              } })
+          }else {
+            let that = this
+            this.$store.commit("deleteCollect",{ data: { goodId: that.$store.state.goodDetail.id },successCallBack:function () {
+                that.$store.state.goodDetail.isCollect = false
+              } })
+          }
 
-          this.goodDetail.isCollect = !this.goodDetail.isCollect
 
         }
 
     }
 }
 </script>
+
 <style lang="scss">
     @-webkit-keyframes de_add_num{
         0%{top:-10px;opacity:1}
@@ -213,7 +226,7 @@ export default {
         .mint-swipe{
           z-index: 1;
             img{
-                // width: 100%;
+                width: 100%;
                 height: 211px;
             }
         }
@@ -372,7 +385,7 @@ export default {
             .add_num_show{
                 display: block;
                 opacity: 0;
-                -webkit-animation: de_add_num 2s;
+                /*-webkit-animation: de_add_num 2s;*/
             }
 
         }

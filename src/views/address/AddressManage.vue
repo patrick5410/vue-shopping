@@ -1,19 +1,22 @@
 <template>
     <div class="addressManage" :style="{height: getHeight + 'px'}">
-        <div class="addressCard" v-for="item in address" :key="item.phone">
+        <div class="addressCard" v-for="item in $store.state.addresses" :key="item.receivePhone">
             <div class="container_top" @click="selectAdress(item)">
-                <div class="name_phone">{{item.name}}&emsp;&emsp;{{item.phone}}</div>
-                <div class="address">{{item.addressArea+item.addressDetail}}</div>
+                <div class="name_phone">{{item.receiveName}}&emsp;&emsp;{{item.receivePhone}}</div>
+                <div class="address">{{handleStr(item.addressArea+item.addressDetail)}}</div>
+                <div class="order-check">
+                  <icon type="success-no-circle"></icon>
+                </div>
             </div>
             <div class="container_bottom">
                 <div class="check" @click="changechecked(item)">
-                    <check-icon :value.sync="item.checked">默认地址</check-icon>
+                    <check-icon :value.sync="item.isDefault">默认地址</check-icon>
                 </div>
                 <div class="button">
                     <div class="edit" @click="editAddress(item)">
                         <img src="../../assets/img/addressManage/edit.png" alt="编辑"><div>编辑</div>
                     </div>
-                    <div class="delete">
+                    <div class="delete" @click="deleteAddress(item)">
                         <img src="../../assets/img/addressManage/delete.png" alt="删除"><div>删除</div>
                     </div>
                 </div>
@@ -25,37 +28,37 @@
     </div>
 </template>
 <script>
-import { CheckIcon } from 'vux'
+import { CheckIcon,Icon  } from 'vux'
 export default {
-    components: { CheckIcon },
+    components: { CheckIcon,Icon },
     data () {
         return {
-            address: [
-                {
-                    addressId:1,
-                    name: '张三',
-                    phone: '132489873190',
-                    addressArea:'广东省佛山市禅城区石湾街道',//所在地区
-                    addressDetail: '岭南天地',//详细地址
-                    checked: true
-                },
-                {
-                    addressId:2,
-                    name: '李四',
-                    phone: '132489873191',
-                    addressArea:'广东省佛山市禅城区石湾街道',//所在地区
-                    addressDetail: '建新路',//详细地址
-                    checked: false
-                },
-                {
-                    addressId:3,
-                    name: '王五',
-                    phone: '132489873192',
-                    addressArea:'广东省佛山市禅城区石湾街道',//所在地区
-                    addressDetail: '祖庙',//详细地址
-                    checked: false
-                }
-            ],
+            // address: [
+            //     {
+            //         addressId:1,
+            //         receiveName: '张三',
+            //         receivePhone: '132489873190',
+            //         addressArea:'广东省佛山市禅城区石湾街道',//所在地区
+            //         addressDetail: '岭南天地',//详细地址
+            //         checked: true
+            //     },
+            //     {
+            //         addressId:2,
+            //         receiveName: '李四',
+            //         receivePhone: '132489873191',
+            //         addressArea:'广东省佛山市禅城区石湾街道',//所在地区
+            //         addressDetail: '建新路',//详细地址
+            //         checked: false
+            //     },
+            //     {
+            //         addressId:3,
+            //         receiveName: '王五',
+            //         receivePhone: '132489873192',
+            //         addressArea:'广东省佛山市禅城区石湾街道',//所在地区
+            //         addressDetail: '祖庙',//详细地址
+            //         checked: false
+            //     }
+            // ],
           // isBacktoOrder:false,//是否返回上个页面
 
         }
@@ -70,22 +73,30 @@ export default {
     },
     methods: {
         getAddress () {
-            let that = this
-            let promise = new Promise((resolve, reject) => {
-                that.axios.get('/api/?ak=2khXIrm9hxmyO7VKEWSrcisX&location=23.1095,113.586502&output=json')
-                    .then((res)=>{
-                        console.log(res.data.result)
-                        let index = 1;
-                        resolve(index,res.data.result)}
-                    )
-            })
-            promise.then((index,res)=>{
-                console.log('res',res)
-                console.log('index',index);
-            })
+
         },
         changechecked (item) {
-            console.log(item)
+          console.log(item)
+          let that = this
+          that.$store.commit("setDefaultAddress",{ data: {
+              addressId: item.addressId
+            }
+            ,successCallBack:function () {
+              // that.$vux.toast.show({
+              //   text: '添加成功'
+              // })
+              // 取消默认地址
+              for (let i = 0; i < that.$store.state.addresses.length; i++) {
+                that.$store.state.addresses[i].isDefault = false
+              }
+              //设置默认地址
+              item.isDefault = true
+            },failCallBack:function () {
+              that.$vux.toast.show({
+                type: 'warn',
+                text: '设置失败'
+              })
+            } })
         },
         addAddress(){
           //跳转到添加地址页面
@@ -104,7 +115,36 @@ export default {
             this.$store.state.choosedAddress = item;
             this.$router.push({name:'payPage'})
           }
-        }
+        },
+        deleteAddress(item){
+          //删除地址
+          let that = this
+          this.$store.commit("deleteAddress",{ data: { addressId: item.addressId },successCallBack:function () {
+              let index = that.$store.state.addresses.indexOf(item)
+              if(index>-1){
+                that.$store.state.addresses.splice(index,1)
+              }
+
+            },failCallBack:function () {
+              that.$vux.toast.show({
+                type:"warn",
+                text: '收藏失败'
+              })
+
+            } })
+
+        },
+      /**
+       * 出来地址字符串
+       * @param address
+       */
+       handleStr(address){
+          if(address.length>25){
+            return address.substr(0,25)
+          }else {
+            return address
+          }
+       }
     }
 }
 </script>
@@ -134,13 +174,26 @@ export default {
                 height: 60px;
                 border-bottom: #e5e5e5 1px solid;
                 box-sizing: border-box;
-                .name_phone{
+                position: relative;
+                .name_receivePhone{
                     color: rgb(51, 51, 51)
                 }
                 .address{
                     font-size: 12px;
                     color: rgb(128, 128, 128);
                 }
+
+                .order-check{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  height: 100%;
+                  width: 30px;
+                }
+
             }
             //编辑删除
             .container_bottom{
