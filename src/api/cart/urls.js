@@ -3,5 +3,6 @@ export default {
   addGood: baseUrl + '/cart/addGood',
   getGoods: baseUrl + '/cart/getGoods',
   changeCount: baseUrl + '/cart/changeCount',
-  deleteGood: baseUrl + '/cart/deleteGood'
+  deleteGood: baseUrl + '/cart/deleteGood',
+  cartToBuy: baseUrl + '/cart/cartToBuy'
 }

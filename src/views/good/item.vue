@@ -171,8 +171,47 @@ export default {
             } })
         },
         toPayPage(){
+          let specifications =  this.$store.state.goodDetail.specifications;
+          let specificationItemIds = []
+          if(specifications.length <= 0){
+            //商品没有规格
+            specificationItemIds.push(0)
+          }else {
+            //商品有规格
+            for (let i = 0; i < specifications.length; i++) {
+              if(specifications[i].currentSpecificationItemId>0){
+                specificationItemIds.push(specifications[i].currentSpecificationItemId)
+              }else {
+                console.log("currentSpecificationItemId",specifications,specifications[i].currentSpecificationItemId)
+                this.$vux.toast.show({
+                  type:"text",
+                  width:"14em",
+                  text: '请先选中商品规格'
+                })
+                return
+              }
+            }
+          }
+
+
           //这里不用传选中商品id，直接存储在store中
-          this.$router.push({name:'payPage'})
+          let that = this
+          this.$store.commit("createOrder",{ data: { goodId: that.$store.state.goodDetail.id
+              ,buyCount:that.selectNum
+              ,goodSpecificationItemIds:specificationItemIds
+            }
+            ,successCallBack:function () {
+              //成功
+              that.$router.push({name:'payPage'})
+            },failCallBack:function () {
+              //失败
+              that.$vux.toast.show({
+                type:"warn",
+                text: '生成订单出错'
+              })
+            } })
+
+
         },
         toIndex(){
           //返回首页

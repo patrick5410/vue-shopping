@@ -4,22 +4,25 @@
 
         <div class="order" v-for="(item,orderIndex) in orders">
             <div class="order-head" @click="toOrderDetail(item)">
-                <div class="head-date" style="color: #808080">{{item.orderDate}}</div>
-                <div v-if="item.orderState<8" class="orderType-detail" :style="{color: item.orderState==1 || item.orderState==2 ||item.orderState==5 || item.orderState==7 ? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
-                <div v-else class="orderType-detail" style="color: #808080">{{item.orderStateStr}}</div>
+                <div class="head-date" style="color: #808080">{{item.createDate}}</div>
+                <div v-if="item.orderState === 2" class="orderType-detail" style="color: #808080">{{item.orderStateStr}}</div>
+                <div v-else="item.orderState" class="orderType-detail" :style="{color: item.orderState===1 || item.orderState===3 ||item.orderState===5? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
             </div>
 
             <!--一种商品-->
             <div class="order-good" v-for="(good,goodIndex) in item.goods" @click="toOrderDetail(item)">
                 <div class="good-left">
                     <div class="good-img">
-                        <img v-lazy="good.img" style="width: 100%;height: auto"  ref='itemImg' />
+                        <img v-lazy="good.goodImg" style="width: 100%;height: auto"  ref='itemImg' />
                         <!--<img  src="../assets/img/good/1.jpg" style="width: 100%;height: auto" >-->
                     </div>
-                    <div>{{good.name}}</div>
+                    <div style="text-align: left">
+                      <div>{{good.goodName}}</div>
+                      <div style="margin-top: .35rem;color: #808080;font-size: 0.35rem">{{good.goodSpecificationItems}}</div>
+                    </div>
                 </div>
                 <div class="good-right">
-                    <div>¥{{good.price}}</div>
+                    <div>¥{{good.goodPrice}}</div>
                     <div>x{{good.buyCount}}</div>
                 </div>
             </div>
@@ -38,22 +41,22 @@
                         <span v-else>{{Math.floor(getCancelTime(item) / 60)}}分钟后订单将取消</span>
                     </div>
                     <div class="order-bottom-button">
-                        <div>取消</div>
+                        <div @click="cancelOrder(item)">取消</div>
                         <div style="color: #995454;border-color: #995454" @click="toPayPage(item)">去支付</div>
                     </div>
                 </div>
-
+                <!--// 1.待付款 2.订单取消（超时或用户主动取消） 3.退款中 4.已退款 5.待发货 6.已发货 7.已收货-->
                 <!--待收货-->
-                <div class="order-bottom-button" v-show="item.orderState == 2 || item.orderState == 3">
-                    <div v-if="item.orderState == 2">申请退款</div>
+                <div class="order-bottom-button" v-show="item.orderState == 5 || item.orderState == 6">
+                    <div v-if="item.orderState == 5">申请退款</div>
                     <div v-else>物流查询</div>
-                    <div v-show="item.orderState == 3" style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
+                    <div v-show="item.orderState == 6" style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
                 </div>
 
                 <!--已收货-->
-                <div class="order-bottom-button" v-show="item.orderState == 4">
-                    <div>申请退货</div>
-                </div>
+                <!--<div class="order-bottom-button" v-show="item.orderState == 4">-->
+                    <!--<div>申请退货</div>-->
+                <!--</div>-->
 
             </div>
         </div>
@@ -83,7 +86,7 @@
         methods: {
             // 获取订单取消剩余时间，单位是秒
             getCancelTime(order){
-                let seconds = 3600 - (new Date() - new Date(order.orderDate))/1000;
+                let seconds = 3600 - (new Date() - new Date(order.createDate))/1000;
                 // console.log("时间差",seconds,order.orderDate);
                 return Math.floor(seconds);
             },
@@ -100,9 +103,23 @@
                 this.$router.push({name:'payPage'})
             },
             toOrderDetail(item){
-              //跳转到订单详情页面
-              this.$router.push({name:'orderDetail',query:{orderId:item.orderId}})
+              //跳转到订单详情页面,没有收货地址的订单不能跳转到订单详情
+              if(item.addressInfo.addressId){
+                this.$router.push({name:'orderDetail',query:{orderId:item.orderId}})
+              }else{
+                //跳转到支付页面
+                this.$router.push({name:'payPage'})
+              }
 
+            },
+            cancelOrder(item){
+              let that = this
+              this.$store.commit('cancelOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                  //刷新页面
+                  console.log("取消订单成功",item.orderId)
+                  // that.$router.push({name:'order',query:{index:'1' }})
+                  that.$store.commit('getOrders')
+                }})
             }
         }
     }

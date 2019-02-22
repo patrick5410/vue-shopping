@@ -19,5 +19,9 @@ export default {
   deleteGood (data) {
     // return出去了一个promise
     return api.post(urls.deleteGood, null, null, data)
+  },
+  cartToBuy (data) {
+    // return出去了一个promise
+    return api.post(urls.cartToBuy, null, null, data)
   }
 }

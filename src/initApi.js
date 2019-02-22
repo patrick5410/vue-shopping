@@ -33,6 +33,18 @@ export default {
       case 'addressManage':
         store.commit('getAddresses')
         break
+      case 'order':
+        store.commit('getOrders')
+        break
+      case 'payPage':
+        if (!store.state.order) {
+          // 如果没有订单，需从后台获取
+          store.commit('getOrder', { data: { orderId: router.query.orderId } })
+        }
+        break
+      case 'orderDetail':
+        store.commit('getOrder', { data: { orderId: router.query.orderId } })
+        break
     }
   }
 }

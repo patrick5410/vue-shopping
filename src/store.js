@@ -29,7 +29,8 @@ export default new Vuex.Store({
     cartGoods: [], // 购物车商品
     collectGoods: [], // 收藏商品
     addresses: [], // 收货地址
-    choosedAddress: null, // 选择地址：结算确认地址或选择编辑地址
+    choosedAddress: null, // 选择地址：选择编辑地址
+    orders: [], // 所有订单
     order: null // 当前订单
   },
   mutations: {
@@ -91,6 +92,7 @@ export default new Vuex.Store({
         if (res.success) {
           state.goodPage = res.data
           state.goods = state.goods.concat(res.data.listData)
+          console.log('调试商品goods', state.goods)
         }
         console.log('请求商品接口完毕', state.goodPage, state.goods)
       } catch (e) {
@@ -421,6 +423,111 @@ export default new Vuex.Store({
       try {
         let res = await this._vm.$api.address.setDefault(payload.data)
         if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 生成订单
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async createOrder (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.order.createOrder(payload.data)
+        if (res.success) {
+          state.order = res.data
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 获取用户所有订单
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getOrders (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.order.getOrders()
+        if (res.success) {
+          state.orders = res.data
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 根据订单id获取订单
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getOrder (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.order.getOrder(payload.data)
+        if (res.success) {
+          state.order = res.data
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 取消订单
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async cancelOrder (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.order.cancelOrder(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 购物车商品下单
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async cartToBuy (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.cart.cartToBuy(payload.data)
+        if (res.success) {
+          state.order = res.data
           if (payload.successCallBack && typeof payload.successCallBack === 'function') {
             payload.successCallBack()
           }

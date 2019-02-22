@@ -1,27 +1,27 @@
 <!--订单详情-->
 <template>
-    <div class="orderDetail-container">
+    <div class="orderDetail-container" v-if="$store.state.order">
         <div class="head">
             <div class="content">
-                <div>{{order.orderStateStr}}</div>
-                <div v-if="order.orderState == 1 && getCancelTime(order)>120" style="font-size: .39rem">剩余时间：{{Math.floor(getCancelTime(order) / 60)}}分钟</div>
-                <div v-if="order.orderState == 1 && getCancelTime(order)<=120" style="font-size: .39rem">剩余时间：<Countdown :value="getCancelTime(order)" @on-finish="finishCancel"></Countdown>秒</div>
-                <div v-if="order.orderState == 3" style="font-size: .38rem">自动收货时间：{{order.autoReceiveDate}}</div>
+                <div v-text="$store.state.order.orderStateStr"></div>
+                <div v-if="$store.state.order.orderState === 1 && getCancelTime($store.state.order)>120" style="font-size: .39rem">剩余时间：{{Math.floor(getCancelTime($store.state.order) / 60)}}分钟</div>
+                <div v-if="$store.state.order.orderState === 1 && getCancelTime($store.state.order)<=120" style="font-size: .39rem">剩余时间：<Countdown :value="getCancelTime($store.state.order)" @on-finish="finishCancel"></Countdown>秒</div>
+                <div v-if="$store.state.order.orderState === 6" style="font-size: .38rem">自动收货时间：{{$store.state.order.autoReceiveDate}}</div>
             </div>
 
 
 
             <div class="receive">
-                <div class="receive-address" v-if="order.orderState >2 && order.orderState <9">
+                <div class="receive-address" v-if="$store.state.order && $store.state.order.deliveryUpdateContent">
                     <div class="left">
                         <img src="../../assets/img/delivery.png">
                     </div>
                     <div class="right">
                         <div class="delivery-info">
-                            <div>{{order.deliveryUpdateContent}}</div>
+                            <div>{{$store.state.order.deliveryUpdateContent}}</div>
                         </div>
                         <div class="update-update">
-                            更新时间：{{order.deliveryUpdateDate}}
+                            更新时间：{{$store.state.order.deliveryUpdateDate}}
                         </div>
                     </div>
                     <div  class="forward">
@@ -35,10 +35,10 @@
                     </div>
                     <div class="right">
                         <div class="name-phone">
-                            <div>{{order.addressInfo.receiveName}}&nbsp;&nbsp;&nbsp;{{order.addressInfo.receivePhone}}</div>
+                            <div>{{$store.state.order.addressInfo.receiveName}}&nbsp;&nbsp;&nbsp;{{$store.state.order.addressInfo.receivePhone}}</div>
                         </div>
                         <div class="address">
-                            {{order.addressInfo.addressArea+order.addressInfo.addressDetail}}
+                            {{$store.state.order.addressInfo.addressArea+$store.state.order.addressInfo.addressDetail}}
                         </div>
                     </div>
                 </div>
@@ -49,15 +49,15 @@
 
 
         <div class="good">
-            <div class="good-one" v-for="item in order.goods">
+            <div class="good-one" v-for="item in $store.state.order.goods">
                 <div class="good-info">
-                    <img v-lazy="item.img">
-                    <div>{{item.name}}</div>
+                    <img v-lazy="item.goodImg">
+                    <div>{{item.goodName}}</div>
                 </div>
                 <div class="buy-info">
-                    <div>商品规格：红色</div>
+                    <div>{{item.goodSpecificationItems}}</div>
                     <div style="display: flex;justify-content: space-between">
-                        <div style="color: #e54545">¥{{item.price}}</div>
+                        <div style="color: #e54545">¥{{item.goodPrice}}</div>
                         <div>x{{item.buyCount}}</div>
                     </div>
                 </div>
@@ -85,11 +85,11 @@
         <div class="order">
             <div class="common">
                 <div>订单编号</div>
-                <div>{{order.orderId}}</div>
+                <div>{{$store.state.order.orderId}}</div>
             </div>
             <div class="common border">
                 <div>下单时间</div>
-                <div>{{order.orderDate}}</div>
+                <div>{{$store.state.order.createDate}}</div>
             </div>
             <div class="common border">
                 <div>支付方式</div>
@@ -116,32 +116,36 @@
         <div class="pay-info">
             <div class="common">
                 <div>商品金额</div>
-                <div>¥{{order.totalPrice}}</div>
+                <div>¥{{$store.state.order.totalPrice}}</div>
             </div>
             <div class="common">
                 <div>运费</div>
                 <div>¥0</div>
             </div>
+          <div class="common">
+                <div>可获积分</div>
+                <div>{{$store.state.order.score}}分</div>
+            </div>
 
             <div class="pay-total">
-                <div>合计：¥{{order.paymentAmount}}</div>
+                <div>合计：¥{{$store.state.order.paymentAmount}}</div>
             </div>
         </div>
 
-        <div class="bottom" v-if="order.orderState == 1">
-            <div class="bottom-common">取消订单</div>
+        <div class="bottom" v-if="$store.state.order.orderState === 1">
+            <div class="bottom-common" @click="cancelOrder($store.state.order)">取消订单</div>
             <div class="bottom-common changeColor" @click="pay">立即付款</div>
         </div>
 
-        <div class="bottom" v-if="order.orderState == 2">
+        <div class="bottom" v-if="$store.state.order.orderState === 5">
             <div class="bottom-common">申请退款</div>
         </div>
 
-        <div class="bottom" v-if="order.orderState == 3">
+        <div class="bottom" v-if="$store.state.order.orderState === 6">
             <div class="bottom-common changeColor">确认收货</div>
         </div>
 
-        <div class="bottom" v-if="order.orderState>3">
+        <div class="bottom" v-if="$store.state.order.orderState === 7">
             <div class="bottom-common">删除订单</div>
             <div class="bottom-common changeColor">再次购买</div>
         </div>
@@ -166,424 +170,24 @@
         created() {
 
 
-            // 模拟订单
-            this.orders.push({
-                orderId: "TDX2019012816281234",
-                orderState:1,//订单状态
-                orderStateStr:'待付款',//订单状态描述
-                orderDate:'2019-01-21 21:51:21',//下单时间
-                paymentAmount:9106,//支付金额
-                goodCount:6,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: "TDX2019012816281235",
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1058,
-                    buyCount:5,
-                    img: 'img/good/4.jpg'
-                },
-                    {
-                        id: 128,
-                        name: '戴尔电脑',
-                        originalPrice:3855,
-                        price: 3566,
-                        buyCount:1,
-                        img: 'img/good/5.jpg'
-                    }]
-            });
-
-
-            this.orders.push({
-                orderId: "TDX2019012816281235",
-                orderState:1,//订单状态
-                orderStateStr:'待付款',//订单状态描述
-                orderDate:'2019-01-21 21:46:21',//下单时间
-                paymentAmount:4980,//支付金额
-                goodCount:4,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 256,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1245,
-                    buyCount:4,
-                    img: 'img/good/3.jpg'
-                }]
-            });
-
-
-            this.orders.push({
-                orderId: "TDX2019012816281236",
-                orderState:2,//订单状态
-                orderStateStr:'待发货',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:4624,//支付金额
-                goodCount:2,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 125,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1058,
-                    buyCount:1,
-                    img: 'img/good/1.jpg'
-                },
-                    {
-                        id: 128,
-                        name: '戴尔电脑',
-                        originalPrice:3855,
-                        price: 3566,
-                        buyCount:1,
-                        img: 'img/good/2.jpg'
-                    }]
-            });
-
-
-
-            this.orders.push({
-                orderId: "TDX2019012816281237",
-                orderState:3,//订单状态
-                orderStateStr:'已发货',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:2490,//支付金额
-                goodCount:2,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 256,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1245,
-                    buyCount:3,
-                    img: 'img/good/3.jpg'
-                }]
-            });
-
-
-            this.orders.push({
-                orderId: "TDX2019012816281238",
-                orderState:3,//订单状态
-                orderStateStr:'已发货',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:4624,//支付金额
-                goodCount:2,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 125,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1058,
-                    buyCount:1,
-                    img: 'img/good/1.jpg'
-                },
-                    {
-                        id: 128,
-                        name: '戴尔电脑',
-                        originalPrice:3855,
-                        price: 3566,
-                        buyCount:1,
-                        img: 'img/good/2.jpg'
-                    }]
-            });
-
-
-
-            this.orders.push({
-                orderId: "TDX2019012816281239",
-                orderState:4,//订单状态
-                orderStateStr:'已收货',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:2490,//支付金额
-                goodCount:2,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 256,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1245,
-                    buyCount:2,
-                    img: 'img/good/3.jpg'
-                }]
-            });
-
-
-            this.orders.push({
-                orderId: "TDX2019012816281240",
-                orderState:5,//订单状态
-                orderStateStr:'退款中',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:6890,//支付金额
-                goodCount:4,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 125,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1058,
-                    buyCount:3,
-                    img: 'img/good/1.jpg'
-                },
-                    {
-                        id: 128,
-                        name: '戴尔电脑',
-                        originalPrice:3855,
-                        price: 3566,
-                        buyCount:1,
-                        img: 'img/good/2.jpg'
-                    }]
-            });
-
-
-
-            this.orders.push({
-                orderId: "TDX2019012816281241",
-                orderState:6,//订单状态
-                orderStateStr:'已退款',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:1245,//支付金额
-                goodCount:1,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 256,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1245,
-                    buyCount:1,
-                    img: 'img/good/3.jpg'
-                }]
-            });
-
-            this.orders.push({
-                orderId: "TDX2019012816281242",
-                orderState:7,//订单状态
-                orderStateStr:'退货中',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:1245,//支付金额
-                goodCount:1,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 256,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1245,
-                    buyCount:1,
-                    img: 'img/good/3.jpg'
-                }]
-            });
-
-            this.orders.push({
-                orderId: "TDX2019012816281243",
-                orderState:9,//订单状态
-                orderStateStr:'已取消',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:1245,//支付金额
-                goodCount:1,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 256,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1245,
-                    buyCount:1,
-                    img: 'img/good/3.jpg'
-                }]
-            });
-
-            this.orders.push({
-                orderId: "TDX2019012816281246",
-                orderState:9,//订单状态
-                orderStateStr:'已取消',//订单状态描述
-                orderDate:'2019-01-21 16:08:21',//下单时间
-                paymentAmount:1245,//支付金额
-                goodCount:3,//商品件数
-
-                totalPrice:9106,//总价（不含运费）
-                deliveryMoney:0,//运费
-                leaveWord:'',//留言
-                sendDate:'2019-01-28 12:46:32',// 发货时间
-                autoReceiveDate:'2019-02-04 12:46:32',// 自动收货时间，一般是发货时间+7天
-                deliveryUpdateContent:'您已提交订单，请等待物流信息更新',//物流更新的内容
-                deliveryUpdateDate:'2019-01-29 01:15:46',//物流更新时间
-                addressInfo: {
-                    addressId:1,//地址Id
-                    addressArea:'广东省阳江市阳春市双窖镇',//所在地区（从省份到街道）
-                    addressDetail:'双滘中心小学',//详细地址
-                    receiveName:'黎国明',// 收货人
-                    receivePhone:'13828600678',//收货手机号
-                },
-                goods:[{
-                    id: 256,
-                    name: '华为手机',
-                    originalPrice:1108,
-                    price: 1245,
-                    buyCount:3,
-                    img: 'img/good/4.jpg'
-                }]
-            });
-
-
-            let orderId = this.$route.query.orderId;
-            //模拟取数据
-            let that = this
-            this.orders.forEach((item)=>{
-                if(orderId === item.orderId){
-                    that.order = item
-                    return
-                }
-            })
-
-            console.log("订单",that.order)
-
         },
         methods:{
             // 获取订单取消剩余时间，单位是秒
             getCancelTime(order){
-                let seconds = 3600 - (new Date() - new Date(order.orderDate))/1000;
-                // console.log("时间差",seconds,order.orderDate);
+                let seconds = 3600 - (new Date() - new Date(order.createDate))/1000;
+                console.log("时间差",seconds,order.createDate);
                 return Math.floor(seconds);
             },
             finishCancel(){
                 // 付款时间到，需重新刷新页面
+            },
+            cancelOrder(item){
+              let that = this
+              this.$store.commit('cancelOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                  console.log("取消订单成功")
+                   // item.orderState = 2
+                  that.$store.commit('getOrder', { data: { orderId: item.orderId } })
+                }})
             },
             pay(){
             //请求后台，更新订单：收货信息以及留言，然后向微信发起预支付订单，并返回

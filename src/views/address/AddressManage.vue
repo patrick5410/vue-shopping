@@ -4,7 +4,7 @@
             <div class="container_top" @click="selectAdress(item)">
                 <div class="name_phone">{{item.receiveName}}&emsp;&emsp;{{item.receivePhone}}</div>
                 <div class="address">{{handleStr(item.addressArea+item.addressDetail)}}</div>
-                <div class="order-check">
+                <div class="order-check" v-show="$store.state.order && item.addressId === $store.state.order.addressInfo.addressId">
                   <icon type="success-no-circle"></icon>
                 </div>
             </div>
@@ -33,33 +33,6 @@ export default {
     components: { CheckIcon,Icon },
     data () {
         return {
-            // address: [
-            //     {
-            //         addressId:1,
-            //         receiveName: '张三',
-            //         receivePhone: '132489873190',
-            //         addressArea:'广东省佛山市禅城区石湾街道',//所在地区
-            //         addressDetail: '岭南天地',//详细地址
-            //         checked: true
-            //     },
-            //     {
-            //         addressId:2,
-            //         receiveName: '李四',
-            //         receivePhone: '132489873191',
-            //         addressArea:'广东省佛山市禅城区石湾街道',//所在地区
-            //         addressDetail: '建新路',//详细地址
-            //         checked: false
-            //     },
-            //     {
-            //         addressId:3,
-            //         receiveName: '王五',
-            //         receivePhone: '132489873192',
-            //         addressArea:'广东省佛山市禅城区石湾街道',//所在地区
-            //         addressDetail: '祖庙',//详细地址
-            //         checked: false
-            //     }
-            // ],
-          // isBacktoOrder:false,//是否返回上个页面
 
         }
     },
@@ -113,6 +86,8 @@ export default {
           if(this.$store.state.order != null){
             //选择该地址作为订单地址
             this.$store.state.choosedAddress = item;
+            console.log("选择的地址",item)
+            this.$store.state.order.addressInfo = item
             this.$router.push({name:'payPage'})
           }
         },
@@ -140,7 +115,7 @@ export default {
        */
        handleStr(address){
           if(address.length>25){
-            return address.substr(0,25)
+            return address.substr(0,25)+"..."
           }else {
             return address
           }

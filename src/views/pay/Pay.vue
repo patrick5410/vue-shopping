@@ -3,12 +3,12 @@
   <div class="pay-container">
     <div class="receive-info">
       <div class="receive-info-left">
-        <div>{{order.addressInfo.receiveName}}</div>
-        <div>{{order.addressInfo.addressArea}}</div>
+        <div>{{$store.state.order.addressInfo.receiveName}}</div>
+        <div>{{$store.state.order.addressInfo.addressArea}}</div>
       </div>
 
       <div class="receive-info-right">
-        <div style="margin-right: .25rem">{{order.addressInfo.receivePhone}}</div>
+        <div style="margin-right: .25rem">{{$store.state.order.addressInfo.receivePhone}}</div>
         <div style="align-items: center;" @click="toAddressManage">
           <img class="forward_right" src="../../assets/img/forward_right.png">
         </div>
@@ -30,21 +30,25 @@
     <div class="good-detail">
       <div class="good-detail-title" style="text-align: left">商品详细</div>
 
-      <div class="good" v-for="(item,index) in order.goods">
+      <div class="good" v-for="(item,index) in $store.state.order.goods">
         <div class="good-left">
           <div class="good-img">
-            <img style="width: 100%;height: auto" :src="item.img">
+            <img style="width: 100%;height: auto" :src="item.goodImg">
           </div>
           <div class="good-left-info">
-            <div>{{item.name}}</div>
-            <div style="color: #995454">¥{{item.price.toFixed(2)}}</div>
+            <div>{{item.goodName}}</div>
+            <div style="color: #995454">¥{{item.goodPrice.toFixed(2)}}</div>
+            <div style="color: #808080">{{item.goodSpecificationItems}}</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;color: #808080">x{{item.buyCount}}</div>
       </div>
 
 
-
+      <div class="good-common">
+        <div>可获积分</div>
+        <div style="color: #808080">{{$store.state.order.score}}分</div>
+      </div>
       <div class="good-common">
         <div>配送方式</div>
         <div style="color: #808080">快递配送</div>
@@ -56,7 +60,7 @@
       <div class="good-common">
         <div>买家留言</div>
         <div>
-          <input  style="color: #995454" class="leave-word" v-model="order.leaveWord"  type="text" maxlength="20"  placeholder="填写内容需与商家协商并确认，20字以内">
+          <input  style="color: #995454" class="leave-word" v-model="$store.state.order.leaveWord"  type="text" maxlength="20"  placeholder="填写内容需与商家协商并确认，20字以内">
         </div>
       </div>
     </div>
@@ -66,22 +70,22 @@
       <div class="pay-info">
         <div>
           <div>商品总价</div>
-          <div style="color: #995454">¥{{order.totalPrice.toFixed(2)}}</div>
+          <div style="color: #995454">¥{{$store.state.order.totalPrice.toFixed(2)}}</div>
         </div>
         <div>
           <div>运费</div>
-          <div style="color: #995454">+¥{{order.deliveryMoney.toFixed(2)}}</div>
+          <div style="color: #995454">+¥{{$store.state.order.deliveryMoney.toFixed(2)}}</div>
         </div>
       </div>
     </div>
 
     <!--详细地址-->
     <div class="detail-address">
-      配送至：{{order.addressInfo.addressDetail}}
+      配送至：{{$store.state.order.addressInfo.addressDetail}}
     </div>
     <!--支付按钮-->
     <div class="pay-div">
-      <div class="pay-money">合计：<span style="color: #995454">¥{{order.paymentAmount.toFixed(2)}}</span></div>
+      <div class="pay-money">合计：<span style="color: #995454">¥{{$store.state.order.paymentAmount.toFixed(2)}}</span></div>
         <div class="pay-button" @click="pay">去支付</div>
     </div>
 
@@ -102,91 +106,43 @@
     },
     data: function () {
       return {
-        order:{},//订单中有地址，但未填写，在付款后地址才补全
+        // order:{},//订单中有地址，但未填写，在付款后地址才补全
         // addressInfo:{},//地址信息，含有手机号码等信息
 
       }
     },
-    created(){
-
-
-
-      if(this.$store.state.order == null){
-        //正常情况提示错误，并返回上个页面
-        // this.$vux.toast.show({
-        //   text: '订单确认信息页面出错，即将返回上个页面',
-        //   type:'warn',
-        //   width:'10em'
-        // })
-        // this.$router.back();
-
-
-        //模拟订单数据
-        this.$store.state.order = {
-          orderId: 12,
-          orderState:1,//订单状态
-          orderStateStr:'待付款',//订单状态描述
-          orderDate:'2019-01-21 21:51:21',//下单时间
-          totalPrice:9106,//总价（不含运费）
-          deliveryMoney:0,//运费
-          paymentAmount:9106,//支付金额
-          goodCount:6,//商品件数
-          leaveWord:'',//留言
-          addressInfo: {
-            addressId:1,//地址Id
-            addressArea:'广东省佛山市禅城区张槎街道',//所在地区（从省份到街道）
-            addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
-            receiveName:'李世虎',// 收货人
-            receivePhone:'13425816985',//收货手机号
-          },
-          goods:[{
-            id: 125,
-            name: '华为手机',
-            originalPrice:1108,
-            price: 1058,
-            buyCount:5,
-            img: 'img/good/1.jpg'
-          },
-            {
-              id: 128,
-              name: '戴尔电脑',
-              originalPrice:3855,
-              price: 3566,
-              buyCount:1,
-              img: 'img/good/2.jpg'
-            }]
-        };
+    computed: {
+      getOrder () {
+        return this.$store.state.order
       }
-
+    },
+    watch:{
+      getOrder:function(val) {
+        if(val){
+          this.order = val
+        }
+      }
+    },
+    created(){
 
       //这个页面this.$store.state.order一定会存在
       this.order = this.$store.state.order
       console.log("order",this.order)
-
-      if(this.$store.state.choosedAddress){
-        //管理地址页面选择地址后跳转回来
-        let address = this.$store.state.choosedAddress;
-        this.$store.state.order.addressInfo = {
-          addressId:address.addressId,//地址Id
-          addressArea:address.addressArea,//所在地区（从省份到街道）
-          addressDetail:address.addressDetail,//详细地址
-          receiveName:address.name,// 收货人
-          receivePhone:address.phone,//收货手机号
-        }
-      }else{
-        //没有选择的地址，需要从后台请求
-        // this.$store.state.order.addressInfo = {
-        //   addressId:1,//地址Id
-        //   addressArea:'广东省佛山市禅城区张槎街道',//所在地区（从省份到街道）
-        //   addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
-        //   receiveName:'李世虎',// 收货人
-        //   receivePhone:'13425816985',//收货手机号
-        // }
-
-      }
-
-
-
+      // if(!this.$store.state.order && this.$route.query.orderId){
+      //   //直接进入这个页面的，需要从后台获取
+      //   this.$store.commit("getOrder",{ data: { orderId: this.$route.query.orderId }})
+      // }else {
+      //   this.$vux.toast.show({
+      //     type: 'warn',
+      //     text: '订单页面出错，准备跳转到首页'
+      //   })
+      //
+      //   let that = this
+      //   setTimeout(function () {
+      //     that.$router.push({name:'index'})
+      //   },2000)
+      //
+      // }
 
 
     },
@@ -199,6 +155,15 @@
     },
     methods:{
       pay(){
+        if(!this.$store.state.order.addressInfo || !this.$store.state.order.addressInfo.addressId){
+          this.$vux.toast.show({
+            type: 'warn',
+            text: '请先选择收货地址'
+          })
+          return
+        }
+
+
         //请求后台，更新订单：收货信息以及留言，然后向微信发起预支付订单，并返回
         let that = this
         /**

@@ -200,8 +200,27 @@
         this.$router.push({name:'good',query:{goodId:goodId}})
       },
       toPayPage(){
-        //这里不用传选中商品id，直接存储在store中
-        this.$router.push({name:'payPage'})
+        let cartIds = []
+        let cartGoods = this.$store.state.cartGoods;
+        for (let i = 0; i < cartGoods.length; i++) {
+          if(cartGoods[i].isSelected){
+            cartIds.push(cartGoods[i].id)
+          }
+        }
+
+        let that = this
+        this.$store.commit("cartToBuy",{ data: { cartIds: cartIds },successCallBack:function () {
+            // 下单成功
+            that.$router.push({name:'payPage'})
+          },failCallBack:function () {
+            // 下单失败
+            that.$vux.toast.show({
+              type:"warn",
+              text: '生成订单失败'
+            })
+          } })
+
+
       },
       addCount(item){
         item.count<item.maxBuyCount?item.count++:item.maxBuyCount

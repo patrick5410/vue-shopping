@@ -4,11 +4,13 @@ import good from './good'
 import cart from './cart'
 import collect from './collect'
 import address from './address'
+import order from './order'
 export default {
   user,
   clz,
   good,
   cart,
   collect,
-  address
+  address,
+  order
 }
