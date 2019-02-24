@@ -104,11 +104,11 @@
             },
             toOrderDetail(item){
               //跳转到订单详情页面,没有收货地址的订单不能跳转到订单详情
-              if(item.addressInfo.addressId){
+              if(item.addressInfo.addressId || item.orderState===2){
                 this.$router.push({name:'orderDetail',query:{orderId:item.orderId}})
               }else{
                 //跳转到支付页面
-                this.$router.push({name:'payPage'})
+                this.$router.push({name:'payPage',query:{orderId:item.orderId}})
               }
 
             },

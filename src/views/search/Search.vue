@@ -159,7 +159,7 @@
         flex-flow:wrap;
         align-items: flex-start;
         align-content: flex-start;
-        height: 300px;
+        /*height: 300px;*/
         padding: 0 10px;
 
         div{

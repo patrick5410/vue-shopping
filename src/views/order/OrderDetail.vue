@@ -33,13 +33,16 @@
                     <div class="left">
                         <img src="../../assets/img/position.png">
                     </div>
-                    <div class="right">
+                    <div class="right" v-if="$store.state.order.addressInfo && $store.state.order.addressInfo.addressId">
                         <div class="name-phone">
                             <div>{{$store.state.order.addressInfo.receiveName}}&nbsp;&nbsp;&nbsp;{{$store.state.order.addressInfo.receivePhone}}</div>
                         </div>
                         <div class="address">
                             {{$store.state.order.addressInfo.addressArea+$store.state.order.addressInfo.addressDetail}}
                         </div>
+                    </div>
+                    <div class="right" v-else style="width: 5rem;height:1rem;line-height: 1rem">
+                      暂无收货信息
                     </div>
                 </div>
             </div>
@@ -97,7 +100,7 @@
             </div>
             <div class="common border">
                 <div>配送快递</div>
-                <div>顺丰快递</div>
+                <div>{{$store.state.order.deliveryCompany?$store.state.order.deliveryCompany:"暂无信息"}}</div>
             </div>
             <div class="common">
                 <div>发票信息</div>
@@ -281,7 +284,7 @@
             /*display: flex;*/
             width: 325px;
             /*height: 80px;*/
-            padding: 0 10px 10px 10px;
+            padding: 0 10px 5px 10px;
             background-color: rgb(255, 255, 255);
             box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.5);
             position: relative;
@@ -352,31 +355,48 @@
 
             .receive-info {
                 width: 100%;
-                height: 60px;
+                /*height: 60px;*/
                 display: flex;
                 text-align: left;
+                padding-bottom: 2px;
 
-                img {
+                .left{
+                  display: inline-block;
+                  height: 100%;
+
+                  img {
                     position: relative;
                     top: 10px;
                     height: 25px;
                     width: auto;
+                  }
                 }
 
-                .name-phone {
+
+
+                .right{
+                  display: inline-block;
+                  height: 100%;
+
+                  .name-phone {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
                     width: 100%;
                     height: 25px;
                     margin-top: 10px;
-                }
+                  }
 
-                .address {
+                  .address {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
                     text-align: left;
                     line-height: 17px;
                     color: #808080;
+                  }
                 }
+
             }
 
         }

@@ -37,7 +37,7 @@ export default {
         store.commit('getOrders')
         break
       case 'payPage':
-        if (!store.state.order) {
+        if (!store.state.order || router.query.orderId) {
           // 如果没有订单，需从后台获取
           store.commit('getOrder', { data: { orderId: router.query.orderId } })
         }

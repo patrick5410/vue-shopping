@@ -11,7 +11,7 @@
     <div class="content">
       <div>账号</div>
       <div>
-        1234567890
+        {{$store.state.userInfo.userId}}
       </div>
     </div>
     <div class="content">

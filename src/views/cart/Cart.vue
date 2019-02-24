@@ -22,9 +22,19 @@
           <swipeout>
             <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in $store.state.cartGoods" >
               <div slot="right-menu">
-                <swipeout-button v-if="item.isCollect" type="primary" background-color="#d7d6da" :width="parseInt(130*containerWidth/750)">已收藏</swipeout-button>
-                <swipeout-button v-else="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="parseInt(130*containerWidth/750)">收藏</swipeout-button>
-                <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(110*containerWidth/750)">删除</swipeout-button>
+                <swipeout-button v-if="item.isCollect" type="primary" background-color="#d7d6da" :width="parseInt(130*containerWidth/750)" style="vertical-align:top;">已收藏</swipeout-button>
+                <swipeout-button v-else="item.isCollect" @click.native="collectGood(item)" type="primary" background-color="#ff9600" :width="parseInt(130*containerWidth/750)" style="vertical-align:top;">
+                  <div style="text-align: center;">
+                    <img style="width: 1rem;height: auto" src="../../assets/img/shoucang.png">
+                    <div>收藏</div>
+                  </div>
+                </swipeout-button>
+                <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(110*containerWidth/750)" style="vertical-align:top;">
+                  <div style="text-align: center;">
+                    <img style="width: 1rem;height: auto" src="../../assets/img/shanchu.png">
+                    <div>删除</div>
+                  </div>
+                </swipeout-button>
               </div>
               <div slot="content" class="demo-content vux-1px-t cart-good-swipe">
                 <!--左边勾选框-->
@@ -333,7 +343,7 @@
       /*height: 120px;*/
       border-bottom:  1px solid #e5e5e5;
       justify-content: center;
-
+      align-items: center;
 
       .cart-good-swipe{
         display: flex;

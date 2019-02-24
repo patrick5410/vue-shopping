@@ -5,7 +5,12 @@
     <swipeout>
       <swipeout-item transition-mode="follow"  v-for="(item,index) in $store.state.collectGoods" >
         <div slot="right-menu">
-          <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(120*containerWidth/750)">删除</swipeout-button>
+          <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(120*containerWidth/750)">
+            <div style="text-align: center">
+              <img style="width: 1rem;height: auto" src="../../assets/img/shanchu.png">
+              <div>删除</div>
+            </div>
+          </swipeout-button>
         </div>
         <div slot="content" class="demo-content vux-1px-t good">
           <div class="good-left">
@@ -67,37 +72,6 @@
     created() {
       this.containerWidth = window.innerWidth
       console.log("containerHeight",this.containerWidth)
-
-      // 模拟商品数据
-      // for (let i = 1; i <= 9; i++) {
-      //   if (i % 3 === 0) {
-      //     this.goods.push({
-      //       id: Math.floor(Math.random()*100),
-      //       name: '车载配件' + i,
-      //       originalPrice: 1108,
-      //       price: 1058,
-      //       img: 'img/good/' + i + '.jpg'
-      //     })
-      //   } else if (i % 3 === 1) {
-      //     this.goods.push({
-      //       id: Math.floor(Math.random()*100),
-      //       name: '车载配件' + i,
-      //       originalPrice: 1304,
-      //       price: 1058,
-      //       img: 'img/good/' + i + '.jpg'
-      //     })
-      //   } else {
-      //     this.goods.push({
-      //       id: Math.floor(Math.random()*100),
-      //       name: '车载配件' + i,
-      //       originalPrice: 1406,
-      //       price: 1058,
-      //       img: 'img/good/' + i + '.jpg'
-      //     })
-      //   }
-      // }
-
-      // console.log("初始化商品",this.goods);
     },
     methods:{
       //商品详情页面
