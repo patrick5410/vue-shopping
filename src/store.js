@@ -337,7 +337,7 @@ export default new Vuex.Store({
         let res = await this._vm.$api.address.getAddresses()
         if (res.success) {
           state.addresses = res.data
-          console.log('state.addresses',state.addresses)
+          console.log('state.addresses', state.addresses)
         }
       } catch (e) {
         console.log('​catch -> e', e)
@@ -488,6 +488,9 @@ export default new Vuex.Store({
         let res = await this._vm.$api.order.getOrder(payload.data)
         if (res.success) {
           state.order = res.data
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
         }
       } catch (e) {
         console.log('​catch -> e', e)
@@ -530,6 +533,23 @@ export default new Vuex.Store({
           state.order = res.data
           if (payload.successCallBack && typeof payload.successCallBack === 'function') {
             payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    async payOrder (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.order.payOrder(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack(res.data)
           }
         } else {
           if (payload.failCallBack && typeof payload.failCallBack === 'function') {

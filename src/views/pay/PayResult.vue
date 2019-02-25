@@ -44,7 +44,8 @@
 
     <!--成功-->
     <div v-if="$route.query.payResult == 'success'" class="pay-order-info">
-      <div class="order-detail">查看订单</div>
+      <div class="order-detail" @click="toOrderDetail(order)">查看订单</div>
+      <div class="order-detail toindex" @click="toIndex">返回首页</div>
     </div>
 
     <!--失败-->
@@ -58,8 +59,8 @@
         </div>
       </div>
       <div class="pay-button">
-        <div style="background-color: #3d7a99">立即支付</div>
-        <div>查看订单</div>
+        <div style="background-color: #3d7a99" @click="pay">立即支付</div>
+        <div @click="toOrderDetail(order)">查看订单</div>
       </div>
     </div>
 
@@ -82,43 +83,7 @@
       }
     },
     created(){
-      //模拟订单数据
-      this.order = {
-        orderId: 'TDX20190122123',
-        orderState:1,//订单状态
-        orderStateStr:'待付款',//订单状态描述
-        orderDate:'2019-01-21 21:51:21',//下单时间
-        totalPrice:9106,//总价（不含运费）
-        deliveryMoney:0,//运费
-        paymentAmount:9106,//支付金额
-        goodCount:6,//商品件数
-        leaveWord:'',//留言
-        addressInfo: {
-          addressId:1,//地址Id
-          addressArea:'广东省佛山市禅城区张槎街道',//所在地区（从省份到街道）
-          addressDetail:'江湾一路18号（佛山科学技术学院仙溪校区）',//详细地址
-          receiveName:'李世虎',// 收货人
-          receivePhone:'13425816985',//收货手机号
-        },
-        goods:[{
-          id: 125,
-          name: '华为手机',
-          originalPrice:1108,
-          price: 1058,
-          buyCount:5,
-          img: '../../assets/img/good/1.jpg'
-        },
-          {
-            id: 128,
-            name: '戴尔电脑',
-            originalPrice:3855,
-            price: 3566,
-            buyCount:1,
-            img: '../../assets/img/good/2.jpg'
-          }]
-      };
-
-
+      this.order = this.$store.state.order
     },
     beforeDestroy() {
       // console.log("页面跳转之前");
@@ -129,9 +94,81 @@
     methods: {
       // 获取订单取消剩余时间，单位是分钟
       getCancelTime(order){
-        let seconds = 3600 - (new Date() - new Date(order.orderDate))/1000;
+        let seconds = 3600 - (new Date() - new Date(order.createDate))/1000;
         return Math.floor(seconds/60);
-      }
+      },
+      toOrderDetail(item){
+        this.$router.push({name:'orderDetail',query:{orderId:item.orderId}})
+      },
+      toIndex(){
+        this.$router.push({name:'index'})
+      },
+      pay(){
+
+
+        //请求后台，更新订单：收货信息以及留言，然后向微信发起预支付订单，并返回
+        let that = this
+        this.$store.commit('payOrder', { data: { orderId: this.$store.state.order.orderId,addressId: this.$store.state.order.addressInfo.addressId,leaveWord: this.$store.state.order.leaveWord }
+          ,successCallBack: function (data) {
+            //生成预支付单号成功
+            console.log("预支付单号",data)
+            /**
+             * 微信jsapi支付
+             */
+            function onBridgeReady(){
+              // alert(res.data.appId+","+res.data.timeStamp+","+res.data.nonceStr+","+res.data.package+","+res.data.signType+","+res.data.paySign);
+              //{timeStamp=1550326641, package=prepay_id=wx162214100027281c691eaa053398715316, paySign=531A7C1612714CED7EDB6A478E4639A0, appId=wx3411d52f54a19541, signType=MD5, nonceStr=3oFeCTai5HEZ3PRpvK2UuSSxbdQf8lQR}
+              WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                  "appId":data.appId,     //公众号appId
+                  "timeStamp":data.timeStamp,  //时间戳
+                  "nonceStr":data.nonceStr, //随机字符串串
+                  "package":data.package,
+                  "signType":data.signType, //微信签名方式
+                  "paySign":data.paySign //微信签名
+                },
+                function(res){
+                  // console.log(res);
+                  // alert(res.err_code+","+res.err_desc+","+res.err_msg);
+                  if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    // 使用以上方式判断前端返回,微信团队郑重提示：
+                    //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                    //支付成功，跳转到支付成功页面
+                    //跳转到支付结果页面
+                    that.$router.push({name:'payResult',query:{payResult:"success"}})
+                  }else {
+                    that.$router.push({name:'payResult'})
+                  }
+                });
+            }
+
+            //弹出支付窗口
+            if (typeof WeixinJSBridge == "undefined"){
+              if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+              }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+              }
+            }else{
+              onBridgeReady();
+            }
+
+
+
+          },failCallBack:function () {
+            //生成预支付单号失败
+            that.$vux.toast.show({
+              type: 'warn',
+              text: '生成预支付单号失败'
+            })
+
+          } })
+
+
+
+
+      },
     }
   }
 
@@ -272,7 +309,7 @@
       background-color: white;
       position: fixed;
       bottom: 0;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
 
       .order-detail{
@@ -285,7 +322,12 @@
         color: white;
         border-radius: 5px;
         font-size: 15px;
+        margin-left: 15px;
+      }
 
+      .toindex{
+        margin-right: 15px;
+        background-color: #995454
       }
 
     }

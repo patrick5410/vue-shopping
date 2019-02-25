@@ -1,5 +1,5 @@
 import axios from 'axios'
-import store from "../store";
+import store from '../store'
 
 // 创建 axios 实例
 let service = axios.create({
