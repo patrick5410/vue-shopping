@@ -6,5 +6,7 @@ export default {
   pay: baseUrl + '/order/pay',
   detail: baseUrl + '/order/detail',
   cancelOrder: baseUrl + '/order/cancelOrder',
-  payOrder: baseUrl + '/order/pay'
+  payOrder: baseUrl + '/order/pay',
+  refundOrder: baseUrl + '/order/refund',
+  deleteOrder: baseUrl + '/order/deleteOrder'
 }

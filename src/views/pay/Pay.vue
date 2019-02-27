@@ -161,7 +161,7 @@
       pay(){
         if(!this.$store.state.order.addressInfo || !this.$store.state.order.addressInfo.addressId){
           this.$vux.toast.show({
-            type: 'warn',
+            type: 'text',
             text: '请先选择收货地址'
           })
           return
@@ -221,7 +221,7 @@
           },failCallBack:function () {
             //生成预支付单号失败
             that.$vux.toast.show({
-              type: 'warn',
+              type: 'cancel',
               text: '生成预支付单号失败'
             })
 

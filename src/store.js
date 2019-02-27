@@ -543,6 +543,12 @@ export default new Vuex.Store({
         console.log('​catch -> e', e)
       }
     },
+    /**
+     * 支付订单
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
     async payOrder (state, payload) {
       // 这里用try catch包裹，请求失败的时候就执行catch里的
       try {
@@ -550,6 +556,52 @@ export default new Vuex.Store({
         if (res.success) {
           if (payload.successCallBack && typeof payload.successCallBack === 'function') {
             payload.successCallBack(res.data)
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 订单退款
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async refundOrder (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.order.refundOrder(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack(res.data)
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 删除订单
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async deleteOrder (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.order.deleteOrder(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
           }
         } else {
           if (payload.failCallBack && typeof payload.failCallBack === 'function') {

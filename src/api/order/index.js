@@ -31,5 +31,13 @@ export default {
   payOrder (data) {
     // return出去了一个promise
     return api.post(urls.payOrder, null, null, data)
+  },
+  refundOrder (data) {
+    // return出去了一个promise
+    return api.post(urls.refundOrder, null, null, data)
+  },
+  deleteOrder (data) {
+    // return出去了一个promise
+    return api.post(urls.deleteOrder, null, null, data)
   }
 }

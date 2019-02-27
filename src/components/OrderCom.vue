@@ -13,7 +13,7 @@
             <div class="order-good" v-for="(good,goodIndex) in item.goods" @click="toOrderDetail(item)">
                 <div class="good-left">
                     <div class="good-img">
-                        <img v-lazy="good.goodImg" style="width: 100%;height: auto"  ref='itemImg' />
+                        <img :src="good.goodImg" style="width: 100%;height: auto"  ref='itemImg' />
                         <!--<img  src="../assets/img/good/1.jpg" style="width: 100%;height: auto" >-->
                     </div>
                     <div style="text-align: left">
@@ -32,9 +32,9 @@
             <!--订单底部-->
             <div class="order-bottom">
                 <!--待支付-->
-                <div  v-show="item.orderState == 1" style="display: flex;justify-content: space-between">
+                <div  v-show="item.orderState === 1" style="display: flex;justify-content: space-between">
                     <div style="display: flex;align-items: center">
-                        <span  v-if="getCancelTime(item)<120 && item.orderState == 1" style="color: #995454">
+                        <span  v-if="getCancelTime(item)<120 && item.orderState === 1" style="color: #995454">
                             <Countdown :value="getCancelTime(item)" @on-finish="finishCancel"></Countdown>
                         </span>
                         <span v-if="getCancelTime(item)<120">秒后订单将取消</span>
@@ -47,16 +47,16 @@
                 </div>
                 <!--// 1.待付款 2.订单取消（超时或用户主动取消） 3.退款中 4.已退款 5.待发货 6.已发货 7.已收货-->
                 <!--待收货-->
-                <div class="order-bottom-button" v-show="item.orderState == 5 || item.orderState == 6">
-                    <div v-if="item.orderState == 5">申请退款</div>
+                <div class="order-bottom-button" v-show="item.orderState === 5 || item.orderState === 6">
+                    <div v-if="item.orderState === 5" @click="refund(item)">申请退款</div>
                     <div v-else>物流查询</div>
-                    <div v-show="item.orderState == 6" style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
+                    <div v-show="item.orderState === 6" style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
                 </div>
 
                 <!--已收货-->
-                <!--<div class="order-bottom-button" v-show="item.orderState == 4">-->
-                    <!--<div>申请退货</div>-->
-                <!--</div>-->
+                <div class="order-bottom-button" v-if="item.orderState === 2">
+                    <div @click="deleteOrder(item)">删除订单</div>
+                </div>
 
             </div>
         </div>
@@ -67,7 +67,10 @@
 </template>
 
 <script>
-    import { Countdown } from 'vux'
+    import { Countdown,ToastPlugin,LoadingPlugin } from 'vux'
+    import Vue from 'vue'
+
+    Vue.use(ToastPlugin,LoadingPlugin)
     export default {
         props: {
             orders: Array//0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：退货中 8：已退货 9：订单取消（超时或用户主动取消）
@@ -93,6 +96,7 @@
             finishCancel(){
                 // 需要重新获取订单数据
                 console.log("重新获取订单数据")
+              this.$store.commit('getOrders')
 
             },
             toPayPage(item){
@@ -114,13 +118,53 @@
             },
             cancelOrder(item){
               let that = this
+              this.$vux.loading.show({
+                text: '取消订单中'
+              })
               this.$store.commit('cancelOrder', { data: { orderId: item.orderId },successCallBack:function () {
                   //刷新页面
                   console.log("取消订单成功",item.orderId)
+                  that.$vux.loading.hide()
                   // that.$router.push({name:'order',query:{index:'1' }})
                   that.$store.commit('getOrders')
+                  that.$vux.toast.show({
+                    text: '取消成功'
+                  })
                 }})
-            }
+            },
+           refund(item){
+             this.$vux.loading.show({
+               text: '退款申请中'
+             })
+             let that = this
+             this.$store.commit('refundOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                 //刷新页面
+                 console.log("订单退款申请成功",item.orderId)
+                 that.$store.commit('getOrders')
+                 //关闭加载框
+                 that.$vux.loading.hide()
+                 that.$vux.toast.show({
+                   text: '订单退款申请成功'
+                 })
+               },failCallBack:function () {
+                 //关闭加载框
+                 that.$vux.loading.hide()
+                 that.$vux.toast.show({
+                   type: 'warn',
+                   text: '订单退款申请失败'
+                 })
+               }})
+           },
+          deleteOrder(item){
+            let that = this
+            this.$store.commit('deleteOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                console.log("删除订单成功",item.orderId)
+                that.$store.commit('getOrders')
+                that.$vux.toast.show({
+                  text: '删除成功'
+                })
+              }})
+          }
         }
     }
 </script>

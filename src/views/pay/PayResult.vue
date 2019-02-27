@@ -43,7 +43,7 @@
     </div>
 
     <!--成功-->
-    <div v-if="$route.query.payResult == 'success'" class="pay-order-info">
+    <div v-if="$route.query.payResult === 'success'" class="pay-order-info">
       <div class="order-detail" @click="toOrderDetail(order)">查看订单</div>
       <div class="order-detail toindex" @click="toIndex">返回首页</div>
     </div>
@@ -88,7 +88,9 @@
     beforeDestroy() {
       // console.log("页面跳转之前");
       //页面关闭前把当前订单设为null
-      this.$store.state.order = null
+      if(this.$route.query.payResult === 'success'){
+        this.$store.state.order = null
+      }
     },
 
     methods: {
@@ -159,7 +161,7 @@
           },failCallBack:function () {
             //生成预支付单号失败
             that.$vux.toast.show({
-              type: 'warn',
+              type: 'cancel',
               text: '生成预支付单号失败'
             })
 

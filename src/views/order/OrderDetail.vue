@@ -140,8 +140,12 @@
             <div class="bottom-common changeColor" @click="pay">立即付款</div>
         </div>
 
+        <div class="bottom" v-if="$store.state.order.orderState === 2">
+            <div class="bottom-common" @click="deleteOrder($store.state.order)">删除订单</div>
+        </div>
+
         <div class="bottom" v-if="$store.state.order.orderState === 5">
-            <div class="bottom-common">申请退款</div>
+            <div class="bottom-common" @click="refund($store.state.order)">申请退款</div>
         </div>
 
         <div class="bottom" v-if="$store.state.order.orderState === 6">
@@ -149,8 +153,7 @@
         </div>
 
         <div class="bottom" v-if="$store.state.order.orderState === 7">
-            <div class="bottom-common">删除订单</div>
-            <div class="bottom-common changeColor">再次购买</div>
+            <div class="bottom-common changeColor" @click="toClz">再次购买</div>
         </div>
 
     </div>
@@ -191,6 +194,9 @@
                    // item.orderState = 2
                   that.$store.commit('getOrder', { data: { orderId: item.orderId } })
                 }})
+            },
+            toClz(){
+              this.$router.push({name:'clz'})
             },
             pay(){
 
@@ -247,7 +253,7 @@
               },failCallBack:function () {
                 //生成预支付单号失败
                 that.$vux.toast.show({
-                  type: 'warn',
+                  type: 'cancel',
                   text: '生成预支付单号失败'
                 })
 
@@ -256,7 +262,41 @@
 
 
 
-          }
+          },
+            refund(item){
+              this.$vux.loading.show({
+                text: '退款申请中'
+              })
+              let that = this
+              this.$store.commit('refundOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                  //刷新页面
+                  console.log("订单退款申请成功",item.orderId)
+                  that.$store.commit('getOrders')
+                  //关闭加载框
+                  that.$vux.loading.hide()
+                  that.$vux.toast.show({
+                    text: '订单退款申请成功'
+                  })
+                },failCallBack:function () {
+                  //关闭加载框
+                  that.$vux.loading.hide()
+                  that.$vux.toast.show({
+                    type: 'warn',
+                    text: '订单退款申请失败'
+                  })
+                }})
+            },
+            deleteOrder(item){
+              let that = this
+              this.$store.commit('deleteOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                  console.log("删除订单成功",item.orderId)
+                  that.$store.commit('getOrders')
+                  that.$vux.toast.show({
+                    text: '删除成功'
+                  })
+                  that.$router.push({name:'order'})
+                }})
+            }
         }
     }
 
