@@ -27,6 +27,7 @@ export default new Vuex.Store({
     searchGoods: {}, // 搜索商品
     goodDetail: {}, // 商品详情
     cartGoods: [], // 购物车商品
+    guessGoods: [], // 测试商品
     collectGoods: [], // 收藏商品
     addresses: [], // 收货地址
     choosedAddress: null, // 选择地址：选择编辑地址
@@ -633,6 +634,17 @@ export default new Vuex.Store({
           if (payload.failCallBack && typeof payload.failCallBack === 'function') {
             payload.failCallBack()
           }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    async guessGoods (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.good.guess()
+        if (res.success) {
+          state.guessGoods = res.data
         }
       } catch (e) {
         console.log('​catch -> e', e)

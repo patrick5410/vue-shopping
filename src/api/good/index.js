@@ -15,5 +15,9 @@ export default {
   detail (data) {
     // return出去了一个promise
     return api.post(urls.detail, null, null, data)
+  },
+  guess (data) {
+    // return出去了一个promise
+    return api.post(urls.guess, null, null, data)
   }
 }

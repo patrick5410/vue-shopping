@@ -74,7 +74,7 @@
     <!--猜你喜欢-->
     <div class="guess-like" :style="selectCount>0?'paddingBottom:3rem':''">
       <div class="guess-like-title">可能您会喜欢</div>
-      <Show2goods :goods="guessGoods" style="padding: 0"></Show2goods>
+      <Show2goods :goods="$store.state.guessGoods" style="padding: 0"></Show2goods>
     </div>
 
 
@@ -124,7 +124,7 @@
       return {
         containerWidth:750,//容器高度
         // goods: [{}], //商品
-        guessGoods: [],//可能喜欢商品
+        // guessGoods: [],//可能喜欢商品
         isSelectAll:false,
         selectCount:0,//已选中总数量
         totalPrice:0,//选中商品总价
@@ -141,21 +141,21 @@
     },
     mounted: function () {
       this.$nextTick(function () {
-        for (let i = 0; i < 8; i++) {
-          this.guessGoods.push({
-            id: i,
-            name: '车载配件' + i,
-            originalPrice: 1500,
-            price: 1058 + Math.floor(Math.random() * 200),
-            sellCount: Math.floor(Math.random() * 200),
-            img: 'img/good/' + (i + 1) + '.jpg',
-            isSelected:false,
-            buyCount:1,//购买数量
-            maxNum:200,//单件购买最大数量
-            isCollect:i%2==1,//是否已收藏
-          })
-
-        }
+        // for (let i = 0; i < 8; i++) {
+        //   this.guessGoods.push({
+        //     id: i,
+        //     name: '车载配件' + i,
+        //     originalPrice: 1500,
+        //     price: 1058 + Math.floor(Math.random() * 200),
+        //     sellCount: Math.floor(Math.random() * 200),
+        //     img: 'img/good/' + (i + 1) + '.jpg',
+        //     isSelected:false,
+        //     buyCount:1,//购买数量
+        //     maxNum:200,//单件购买最大数量
+        //     isCollect:i%2==1,//是否已收藏
+        //   })
+        //
+        // }
 
         // this.guessGoods;
 

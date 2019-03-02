@@ -28,6 +28,7 @@ export default {
         break
       case 'cart':
         store.commit('getCartGoods')
+        store.commit('guessGoods')
         break
       case 'collect':
         store.commit('getCollect')
