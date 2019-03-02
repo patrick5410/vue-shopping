@@ -41,7 +41,7 @@
         </div>
         <div  @click="toOrder(4)">
           <img src="../../assets/img/after_sale.png">
-          <div>退款/货</div>
+          <div>已退款</div>
         </div>
       </div>
     </div>
@@ -57,8 +57,8 @@
           <div>我的收藏</div>
         </div>
         <div>
-          <img src="../../assets/img/help.png">
-          <div>帮助中心</div>
+          <img src="../../assets/img/after_sale2.png">
+          <div>售后中心</div>
         </div>
         <div>
           <img src="../../assets/img/service2.png">
