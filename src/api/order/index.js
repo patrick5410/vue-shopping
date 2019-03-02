@@ -39,5 +39,9 @@ export default {
   deleteOrder (data) {
     // return出去了一个promise
     return api.post(urls.deleteOrder, null, null, data)
+  },
+  confirmReceive (data) {
+    // return出去了一个promise
+    return api.post(urls.confirmReceive, null, null, data)
   }
 }

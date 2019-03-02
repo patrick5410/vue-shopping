@@ -13,10 +13,10 @@
 
             <div class="receive">
                 <div class="receive-address" v-if="$store.state.order && $store.state.order.deliveryUpdateContent">
-                    <div class="left">
+                    <div class="receive-address-left">
                         <img src="../../assets/img/delivery.png">
                     </div>
-                    <div class="right">
+                    <div class="receive-address-right">
                         <div class="delivery-info">
                             <div>{{$store.state.order.deliveryUpdateContent}}</div>
                         </div>
@@ -24,7 +24,7 @@
                             更新时间：{{$store.state.order.deliveryUpdateDate}}
                         </div>
                     </div>
-                    <div  class="forward">
+                    <div  class="forward" @click="queryExpress($store.state.order)">
                         <img src="../../assets/img/forward2.png">
                     </div>
                 </div>
@@ -53,7 +53,7 @@
 
         <div class="good">
             <div class="good-one" v-for="item in $store.state.order.goods">
-                <div class="good-info">
+                <div class="good-info" @click="toGoodDetail(item)">
                     <img v-lazy="item.goodImg">
                     <div>{{item.goodName}}</div>
                 </div>
@@ -114,6 +114,10 @@
                 <div>发票内容</div>
                 <div>暂无信息</div>
             </div>
+            <div class="common">
+                <div>订单备注</div>
+                <div>{{$store.state.order.leaveWord?$store.state.order.leaveWord:'无'}}</div>
+            </div>
         </div>
 
         <div class="pay-info">
@@ -149,7 +153,7 @@
         </div>
 
         <div class="bottom" v-if="$store.state.order.orderState === 6">
-            <div class="bottom-common changeColor">确认收货</div>
+            <div class="bottom-common changeColor" @click="confirmReceive($store.state.order)">确认收货</div>
         </div>
 
         <div class="bottom" v-if="$store.state.order.orderState === 7">
@@ -162,6 +166,14 @@
 
 <script>
     import { Countdown } from 'vux'
+    import  { ConfirmPlugin,ToastPlugin} from 'vux'
+    import Vue from 'vue'
+    import  { LoadingPlugin } from 'vux'
+
+
+    Vue.use(LoadingPlugin)
+    Vue.use(ConfirmPlugin)
+    Vue.use(ToastPlugin)
 
     export default {
         data(){
@@ -189,11 +201,26 @@
             },
             cancelOrder(item){
               let that = this
-              this.$store.commit('cancelOrder', { data: { orderId: item.orderId },successCallBack:function () {
-                  console.log("取消订单成功")
-                   // item.orderState = 2
-                  that.$store.commit('getOrder', { data: { orderId: item.orderId } })
-                }})
+              this.$vux.confirm.show({
+                title: '操作确认',
+                content:'亲，真的要取消订单吗？',
+                // 组件除show外的属性
+                onCancel () {
+                  console.log(this) // 非当前 vm
+                  console.log(_this) // 当前 vm
+                },
+                onConfirm () {
+                  that.$store.commit('cancelOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                      console.log("取消订单成功")
+                      // item.orderState = 2
+                      that.$store.commit('getOrder', { data: { orderId: item.orderId } })
+                    }})
+                }
+              })
+
+
+
+
             },
             toClz(){
               this.$router.push({name:'clz'})
@@ -211,7 +238,6 @@
                  */
                 function onBridgeReady(){
                   // alert(res.data.appId+","+res.data.timeStamp+","+res.data.nonceStr+","+res.data.package+","+res.data.signType+","+res.data.paySign);
-                  //{timeStamp=1550326641, package=prepay_id=wx162214100027281c691eaa053398715316, paySign=531A7C1612714CED7EDB6A478E4639A0, appId=wx3411d52f54a19541, signType=MD5, nonceStr=3oFeCTai5HEZ3PRpvK2UuSSxbdQf8lQR}
                   WeixinJSBridge.invoke(
                     'getBrandWCPayRequest', {
                       "appId":data.appId,     //公众号appId
@@ -227,7 +253,6 @@
                       if(res.err_msg == "get_brand_wcpay_request:ok" ){
                         // 使用以上方式判断前端返回,微信团队郑重提示：
                         //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-                        //支付成功，跳转到支付成功页面
                         //跳转到支付结果页面
                         that.$router.push({name:'payResult',query:{payResult:"success"}})
                       }else {
@@ -264,38 +289,102 @@
 
           },
             refund(item){
-              this.$vux.loading.show({
-                text: '退款申请中'
-              })
               let that = this
-              this.$store.commit('refundOrder', { data: { orderId: item.orderId },successCallBack:function () {
-                  //刷新页面
-                  console.log("订单退款申请成功",item.orderId)
-                  that.$store.commit('getOrders')
-                  //关闭加载框
-                  that.$vux.loading.hide()
-                  that.$vux.toast.show({
-                    text: '订单退款申请成功'
+              this.$vux.confirm.show({
+                title: '操作确认',
+                content:'确认申请退款吗？',
+                // 组件除show外的属性
+                onCancel () {
+                  console.log(this) // 非当前 vm
+                },
+                onConfirm () {
+                  that.$vux.loading.show({
+                    text: '退款申请中'
                   })
-                },failCallBack:function () {
-                  //关闭加载框
-                  that.$vux.loading.hide()
-                  that.$vux.toast.show({
-                    type: 'warn',
-                    text: '订单退款申请失败'
-                  })
-                }})
+                  that.$store.commit('refundOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                      //刷新页面
+                      console.log("订单退款申请成功",item.orderId)
+                      that.$store.commit('getOrder', { data: { orderId: item.orderId } })
+                      //关闭加载框
+                      that.$vux.loading.hide()
+                      that.$vux.toast.show({
+                        width:'11em',
+                        text: '订单退款申请成功'
+                      })
+                    },failCallBack:function () {
+                      //关闭加载框
+                      that.$vux.loading.hide()
+                      that.$vux.toast.show({
+                        type: 'warn',
+                        width:'11em',
+                        text: '订单退款申请失败'
+                      })
+                    }})
+                }
+              })
+
+
+
             },
             deleteOrder(item){
               let that = this
-              this.$store.commit('deleteOrder', { data: { orderId: item.orderId },successCallBack:function () {
-                  console.log("删除订单成功",item.orderId)
-                  that.$store.commit('getOrders')
-                  that.$vux.toast.show({
-                    text: '删除成功'
+              this.$vux.confirm.show({
+                title: '操作确认',
+                content:'确认删除订单吗？',
+                // 组件除show外的属性
+                onCancel () {
+                  console.log(this) // 非当前 vm
+                },
+                onConfirm () {
+                  that.$store.commit('deleteOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                      console.log("删除订单成功",item.orderId)
+                      that.$store.commit('getOrder', { data: { orderId: item.orderId } })
+                      that.$vux.toast.show({
+                        text: '删除成功'
+                      })
+                      that.$router.push({name:'order'})
+                    }})
+                }
+              })
+
+
+            },
+            confirmReceive(item){
+              let that = this
+              console.log("确认收货订单",item)
+              this.$vux.confirm.show({
+                title: '操作确认',
+                content:'亲，确认已经收到货了吗？',
+                // 组件除show外的属性
+                onCancel () {
+                  console.log(this) // 非当前 vm
+                },
+                onConfirm () {
+                  that.$store.commit('confirmReceive', { data: { orderId: item.orderId },successCallBack:function () {
+                      console.log("确认收货成功",item.orderId)
+                      that.$store.commit('getOrder', { data: { orderId: item.orderId } })
+                      that.$vux.toast.show({
+                        width: '10em',
+                        text: '欢迎再次购买！'
+                      })
+                    }})
+                }
+              })
+            },
+            queryExpress(item){
+                //快递查询
+                if(item.deliveryId){
+                  KDNWidget.run({
+                    serviceType: "A",
+                    expCode: item.shipperCode,
+                    expNo: item.deliveryId,
                   })
-                  that.$router.push({name:'order'})
-                }})
+                  // window.location.href = 'https://m.kuaidi100.com/index_all.html?type=&postid='+item.deliveryId+'&callbackurl='+window.location.href
+                }
+            },
+            toGoodDetail(item){
+                //跳转到商品详情页面
+              this.$router.push({name:'good',query:{goodId:item.goodId}})
             }
         }
     }
@@ -370,16 +459,26 @@
 
             .receive-address{
                 width: 100%;
-                height: 60px;
+                /*height: 60px;*/
                 display: flex;
                 text-align: left;
                 position: relative;
+
+              .receive-address-left{
+                width: 30px;
+              }
+
+              .receive-address-right{
+
+                margin-left: 5px;
+              }
 
                 .delivery-info{
                     /*height: 40px;*/
                     margin-top: 10px;
                     display: flex;
                     align-items: center;
+                    width: 278px;
                 }
 
                 img{

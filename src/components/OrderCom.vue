@@ -12,12 +12,12 @@
             <!--一种商品-->
             <div class="order-good" v-for="(good,goodIndex) in item.goods" @click="toOrderDetail(item)">
                 <div class="good-left">
-                    <div class="good-img">
+                    <div class="good-img" @click.stop="toGoodDetail(good)">
                         <img :src="good.goodImg" style="width: 100%;height: auto"  ref='itemImg' />
                         <!--<img  src="../assets/img/good/1.jpg" style="width: 100%;height: auto" >-->
                     </div>
                     <div style="text-align: left">
-                      <div>{{good.goodName}}</div>
+                      <div @click.stop="toGoodDetail(good)">{{good.goodName}}</div>
                       <div style="margin-top: .35rem;color: #808080;font-size: 0.35rem">{{good.goodSpecificationItems}}</div>
                     </div>
                 </div>
@@ -49,8 +49,8 @@
                 <!--待收货-->
                 <div class="order-bottom-button" v-show="item.orderState === 5 || item.orderState === 6">
                     <div v-if="item.orderState === 5" @click="refund(item)">申请退款</div>
-                    <div v-else>物流查询</div>
-                    <div v-show="item.orderState === 6" style="color: #3d7a99;border-color: #3d7a99">确认收货</div>
+                    <div v-else @click="queryExpress(item)">物流查询</div>
+                    <div v-show="item.orderState === 6" style="color: #3d7a99;border-color: #3d7a99" @click="confirmReceive(item)">确认收货</div>
                 </div>
 
                 <!--已收货-->
@@ -67,13 +67,16 @@
 </template>
 
 <script>
+    import '../assets/css/KDNWidget.css'
     import { Countdown,ToastPlugin,LoadingPlugin } from 'vux'
+    import  { ConfirmPlugin } from 'vux'
     import Vue from 'vue'
 
     Vue.use(ToastPlugin,LoadingPlugin)
+    Vue.use(ConfirmPlugin)
     export default {
         props: {
-            orders: Array//0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：退货中 8：已退货 9：订单取消（超时或用户主动取消）
+            orders: Array//0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：订单取消（超时或用户主动取消）
         },
         components: {
             Countdown
@@ -118,53 +121,130 @@
             },
             cancelOrder(item){
               let that = this
-              this.$vux.loading.show({
-                text: '取消订单中'
-              })
-              this.$store.commit('cancelOrder', { data: { orderId: item.orderId },successCallBack:function () {
-                  //刷新页面
-                  console.log("取消订单成功",item.orderId)
-                  that.$vux.loading.hide()
-                  // that.$router.push({name:'order',query:{index:'1' }})
-                  that.$store.commit('getOrders')
-                  that.$vux.toast.show({
-                    text: '取消成功'
+              this.$vux.confirm.show({
+                title: '操作确认',
+                content:'亲，真的要取消订单吗？',
+                // 组件除show外的属性
+                onCancel () {
+                  console.log(this) // 非当前 vm
+                },
+                onConfirm () {
+                  that.$vux.loading.show({
+                    text: '取消订单中'
                   })
-                }})
+                  that.$store.commit('cancelOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                      //刷新页面
+                      console.log("取消订单成功",item.orderId)
+                      that.$vux.loading.hide()
+                      // that.$router.push({name:'order',query:{index:'1' }})
+                      that.$store.commit('getOrders')
+                      that.$vux.toast.show({
+                        text: '取消成功'
+                      })
+                    }})
+                }
+              })
+
             },
            refund(item){
-             this.$vux.loading.show({
-               text: '退款申请中'
-             })
+             console.log("this.$vux.confirm",this.$vux.confirm)
              let that = this
-             this.$store.commit('refundOrder', { data: { orderId: item.orderId },successCallBack:function () {
-                 //刷新页面
-                 console.log("订单退款申请成功",item.orderId)
-                 that.$store.commit('getOrders')
-                 //关闭加载框
-                 that.$vux.loading.hide()
-                 that.$vux.toast.show({
-                   text: '订单退款申请成功'
+             this.$vux.confirm.show({
+               title: '操作确认',
+               content:'确认申请退款吗？',
+               // 组件除show外的属性
+               onCancel () {
+                 console.log(this) // 非当前 vm
+               },
+               onConfirm () {
+                 that.$vux.loading.show({
+                   text: '退款申请中'
                  })
-               },failCallBack:function () {
-                 //关闭加载框
-                 that.$vux.loading.hide()
-                 that.$vux.toast.show({
-                   type: 'warn',
-                   text: '订单退款申请失败'
-                 })
-               }})
+                 that.$store.commit('refundOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                     //刷新页面
+                     console.log("订单退款申请成功",item.orderId)
+                     that.$store.commit('getOrders')
+                     //关闭加载框
+                     that.$vux.loading.hide()
+                     that.$vux.toast.show({
+                       width:'11em',
+                       text: '订单退款申请成功'
+                     })
+                   },failCallBack:function () {
+                     //关闭加载框
+                     that.$vux.loading.hide()
+                     that.$vux.toast.show({
+                       type: 'warn',
+                       width:'11em',
+                       text: '订单退款申请失败'
+                     })
+                   }})
+               }
+             })
+
+
            },
           deleteOrder(item){
             let that = this
-            this.$store.commit('deleteOrder', { data: { orderId: item.orderId },successCallBack:function () {
-                console.log("删除订单成功",item.orderId)
-                that.$store.commit('getOrders')
-                that.$vux.toast.show({
-                  text: '删除成功'
-                })
-              }})
+            this.$vux.confirm.show({
+              title: '操作确认',
+              content:'确认删除订单吗？',
+              // 组件除show外的属性
+              onCancel () {
+                console.log(this) // 非当前 vm
+              },
+              onConfirm () {
+                that.$store.commit('deleteOrder', { data: { orderId: item.orderId },successCallBack:function () {
+                    console.log("删除订单成功",item.orderId)
+                    that.$store.commit('getOrders')
+                    that.$vux.toast.show({
+                      text: '删除成功'
+                    })
+                  }})
+              }
+            })
+
+
+          },
+          confirmReceive(item){
+            let that = this
+            this.$vux.confirm.show({
+              title: '操作确认',
+              content:'亲，确认已经收到货了吗？',
+              // 组件除show外的属性
+              onCancel () {
+                console.log(this) // 非当前 vm
+              },
+              onConfirm () {
+                that.$store.commit('confirmReceive', { data: { orderId: item.orderId },successCallBack:function () {
+                    console.log("确认收货成功",item.orderId)
+                    that.$store.commit('getOrders')
+                    that.$vux.toast.show({
+                      width: '10em',
+                      text: '欢迎再次购买！'
+                    })
+                  }})
+              }
+            })
+
+
+          },
+          queryExpress(item){
+              //快递查询
+            if(item.deliveryId){
+              KDNWidget.run({
+                serviceType: "A",
+                expCode: item.shipperCode,
+                expNo: item.deliveryId,
+              })
+             // window.location.href = 'https://m.kuaidi100.com/index_all.html?type=&postid='+item.deliveryId+'&callbackurl='+window.location.href
+            }
+          },
+          toGoodDetail(item){
+            //跳转到商品详情页面
+            this.$router.push({name:'good',query:{goodId:item.goodId}})
           }
+
         }
     }
 </script>

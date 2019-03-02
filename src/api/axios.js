@@ -48,7 +48,7 @@ service.interceptors.response.use(
         // 没有登录或token过期需删除token,重新刷新页面登录
         // window.localStorage.removeItem('token')
         store.state.userInfo.wechatInfo = null
-        window.location.reload()
+        // window.location.reload() //去掉重新刷新，防止页面不断在刷新
       }
     }
     return data

@@ -203,6 +203,15 @@ router.beforeEach((to, from, next) => {
           console.log('跳转的路径名', to.name)
           // 这里回调只是为了调用页面api之前先完成了getUserInfo请求
           initApi.init(to)
+          let param = to.query
+          var obj = new Object()
+          for (let paramKey in param) {
+            if (paramKey !== 'code' && paramKey !== 'state') {
+              obj[paramKey] = param[paramKey]
+            }
+          }
+          console.log('请求参数', obj)
+          router.push({ name: to.name, query: obj })
         } })
       /* 路由发生变化修改页面title */
       if (to.meta.title) {

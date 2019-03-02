@@ -1,5 +1,5 @@
 <template>
-    <div class="addressManage" :style="{height: getHeight + 'px'}">
+    <div class="addressManage" >
         <div class="addressCard" v-for="item in $store.state.addresses" :key="item.receivePhone">
             <div class="container_top" @click="selectAdress(item)">
                 <div class="name_phone">{{item.receiveName}}&emsp;&emsp;{{item.receivePhone}}</div>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <!-- 添加收货地址 -->
-        <div class="addAddress" @click="addAddress">新增收货地址</div>
+        <div id="addAddress" class="addAddress" @click="addAddress">新增收货地址</div>
     </div>
 </template>
 <script>
@@ -33,7 +33,7 @@ export default {
     components: { CheckIcon,Icon },
     data () {
         return {
-
+          containerHeight:1200//内容宽度
         }
     },
     computed: {
@@ -43,6 +43,11 @@ export default {
     },
     created () {
 
+    },
+    mounted: function () {
+      this.$nextTick(function () {
+        this.containerHeight =  window.innerHeight - window.document.getElementById('addAddress').clientHeight ;
+      })
     },
     methods: {
         getAddress () {
@@ -95,15 +100,12 @@ export default {
           //删除地址
           let that = this
           this.$store.commit("deleteAddress",{ data: { addressId: item.addressId },successCallBack:function () {
-              let index = that.$store.state.addresses.indexOf(item)
-              if(index>-1){
-                that.$store.state.addresses.splice(index,1)
-              }
-
+              //刷新地址
+              that.$store.commit('getAddresses')
             },failCallBack:function () {
               that.$vux.toast.show({
-                type:"warn",
-                text: '收藏失败'
+                type:"cancel",
+                text: '删除失败'
               })
 
             } })
@@ -126,10 +128,12 @@ export default {
 <style lang='less'>
     .addressManage{
         width: 100vw;
+        height: 100vh;
         background-color: #e5e5e5;
         font-size: 14px;
         border-top: #e5e5e5 1px solid;
-        box-sizing: border-box;
+        overflow: scroll;
+        padding-bottom: 46px;
         .addressCard{
             height: 100px;
             padding: 0 10px;

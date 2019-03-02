@@ -171,6 +171,16 @@ export default {
             } })
         },
         toPayPage(){
+          if(!this.$store.state.goodDetail.onSell){
+            this.$vux.toast.show({
+              type:"text",
+              width:"14em",
+              text: '该商品目前还没上架喔'
+            })
+            return
+          }
+
+
           let specifications =  this.$store.state.goodDetail.specifications;
           let specificationItemIds = []
           if(specifications.length <= 0){

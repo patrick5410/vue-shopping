@@ -8,5 +8,6 @@ export default {
   cancelOrder: baseUrl + '/order/cancelOrder',
   payOrder: baseUrl + '/order/pay',
   refundOrder: baseUrl + '/order/refund',
-  deleteOrder: baseUrl + '/order/deleteOrder'
+  deleteOrder: baseUrl + '/order/deleteOrder',
+  confirmReceive: baseUrl + '/order/confirmReceive'
 }
