@@ -24,13 +24,13 @@
                 <div class="good-img">
                   <!--<img :src="item.img" lowsrc="../../assets/img/good/加载失败.png" style="width: 100%;height: 100%">-->
                   <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
-                  <div v-show="item.originalPrice>item.price" style="position: absolute;left: 0;bottom: 0">
+                  <div v-show="item.originalPrice>item.price.toFixed(2)" style="position: absolute;left: 0;bottom: 0">
                     <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
                   </div>
                 </div>
                 <div class="good-bottom">
                   <div>{{item.name}}</div>
-                  <div style="color:#995454">¥{{item.price}}</div>
+                  <div style="color:#995454">¥{{item.price.toFixed(2)}}</div>
                 </div>
               </div>
               <div class="loading" v-show="loading">

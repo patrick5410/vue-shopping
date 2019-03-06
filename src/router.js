@@ -171,6 +171,24 @@ const router = new Router({
       }
     },
     {
+      // 售后中心
+      path: '/afterSale',
+      name: 'afterSale',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/afterSale/AfterSale.vue'], resolve),
+      meta: {
+        title: '售后中心'
+      }
+    },
+    {
+      // 退货申请
+      path: '/returnApplication',
+      name: 'returnApplication',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/afterSale/ReturnApplication.vue'], resolve),
+      meta: {
+        title: '退货申请'
+      }
+    },
+    {
       // 404页面，放在最后
       path: '*',
       name: '404',

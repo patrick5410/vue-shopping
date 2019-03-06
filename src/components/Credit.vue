@@ -22,7 +22,7 @@
             </div>
             <div class="back">
                 <img src="../assets/img/headbackground.png" alt="积分规则"/>
-                <div class="text reverse-side">积分规则</div>
+                <div class="text reverse-side">敬请期待积分的使用</div>
             </div>
         </div>
     </div>
@@ -119,6 +119,7 @@ export default {
                 position: absolute;
                 left: 0;
                 top: 0;
+                font-style: normal;
                 /*width: 100%;*/
                 /*height: 100%;*/
               }

@@ -5,6 +5,8 @@ import cart from './cart'
 import collect from './collect'
 import address from './address'
 import order from './order'
+import afterSale from './afterSale'
+import upload from './upload'
 export default {
   user,
   clz,
@@ -12,5 +14,7 @@ export default {
   cart,
   collect,
   address,
-  order
+  order,
+  afterSale,
+  upload
 }

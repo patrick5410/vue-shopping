@@ -48,6 +48,12 @@ export default {
       case 'orderDetail':
         store.commit('getOrder', { data: { orderId: router.query.orderId } })
         break
+      case 'afterSale':
+        store.commit('getAfterSaleGoods')
+        break
+      case 'returnApplication':
+        store.commit('getReturnGood', { data: { afterSaleId: router.query.afterSaleId } })
+        break
     }
   }
 }

@@ -50,7 +50,7 @@
                   <div class="good-info">
                     <div class="goodName">
                       <div  @click="goodDetail(item.goodId)">{{item.name}}</div>
-                      <div class="goodPrice">¥{{item.price}}元</div>
+                      <div class="goodPrice">¥{{item.price.toFixed(2)}}元</div>
                     </div>
                     <div class="specification">{{item.goodSpecificationItems}}</div>
                     <div class="buyCount">

@@ -279,6 +279,7 @@
                 //生成预支付单号失败
                 that.$vux.toast.show({
                   type: 'cancel',
+                  width:'11em',
                   text: '生成预支付单号失败'
                 })
 

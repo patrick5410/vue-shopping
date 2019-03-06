@@ -25,6 +25,7 @@
     "vue-axios": "^2.1.4",
     "vue-countup-v2": "^1.0.3",
     "vue-countupjs": "^1.0.0",
+    "vue-cropper": "^0.4.8",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vux": "^2.9.2"

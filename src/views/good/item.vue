@@ -11,10 +11,10 @@
             </Swipe>
         </div>
         <!-- 商品简单介绍 -->
-        <div class="item_info">
+        <div class="item_info" v-if="$store.state.goodDetail.price">
             <div class="name">{{$store.state.goodDetail.name}}</div>
             <div v-html="$store.state.goodDetail.introduction" class="introduction"></div>
-            <div class="price"><span class="money">¥</span>{{$store.state.goodDetail.price}}&nbsp;&nbsp;&nbsp;<span v-if="$store.state.goodDetail.price<$store.state.goodDetail.originalPrice" style="font-size: 0.34rem;color: #808080;text-decoration: line-through">原价：{{$store.state.goodDetail.originalPrice}}元</span></div>
+            <div class="price"><span class="money">¥</span>{{$store.state.goodDetail.price.toFixed(2)}}&nbsp;&nbsp;&nbsp;<span v-if="$store.state.goodDetail.price<$store.state.goodDetail.originalPrice" style="font-size: 0.34rem;color: #808080;text-decoration: line-through">原价：{{$store.state.goodDetail.originalPrice.toFixed(2)}}元</span></div>
         </div>
         <!-- 商品数量选择 -->
         <div class="selectNum" @click="popupVisible=!popupVisible">

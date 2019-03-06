@@ -19,7 +19,7 @@
             </div>
             <div class="good-info">
               <div>{{item.name}}</div>
-              <div style="color: #995454">¥{{item.price}}</div>
+              <div style="color: #995454">¥{{item.price.toFixed(2)}}</div>
             </div>
           </div>
           <div class="good-right" @click="goodDetail(item.goodId)">

@@ -43,7 +43,7 @@
                   </div>
                   <div class="good-bottom">
                     <div>{{it.name}}</div>
-                    <div style="color:#995454">¥{{it.price}}</div>
+                    <div style="color:#995454">¥{{it.price.toFixed(2)}}</div>
                   </div>
                 </div>
               </div>

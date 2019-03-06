@@ -10,7 +10,7 @@
       </div>
       <div class="good-bottom">
         <div>{{item.name}}</div>
-        <div style="color:#995454">¥{{item.price}}   <span class="org-price" v-show="item.originalPrice>item.price">¥{{item.originalPrice}}</span></div>
+        <div style="color:#995454">¥{{item.price.toFixed(2)}}   <span class="org-price" v-show="item.originalPrice>item.price">¥{{item.originalPrice.toFixed(2)}}</span></div>
       </div>
     </div>
   </div>

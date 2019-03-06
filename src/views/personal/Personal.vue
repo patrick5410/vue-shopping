@@ -56,7 +56,7 @@
           <img src="../../assets/img/collect.png">
           <div>我的收藏</div>
         </div>
-        <div>
+        <div @click="toAfterSale">
           <img src="../../assets/img/after_sale2.png">
           <div>售后中心</div>
         </div>
@@ -95,6 +95,10 @@
       toCollect(){
         //跳转到收藏
         this.$router.push({name:'collect'})
+      },
+      toAfterSale(){
+        //跳转到售后中心
+        this.$router.push({name:'afterSale'})
       }
     }
 

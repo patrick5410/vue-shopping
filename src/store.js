@@ -29,6 +29,8 @@ export default new Vuex.Store({
     cartGoods: [], // 购物车商品
     guessGoods: [], // 测试商品
     collectGoods: [], // 收藏商品
+    afterSaleGoods: [], // 售后商品
+    returnGood: {}, // 退货商品
     addresses: [], // 收货地址
     choosedAddress: null, // 选择地址：选择编辑地址
     orders: [], // 所有订单
@@ -639,12 +641,117 @@ export default new Vuex.Store({
         console.log('​catch -> e', e)
       }
     },
+    /**
+     * 获取用户可能喜欢的商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
     async guessGoods (state, payload) {
       // 这里用try catch包裹，请求失败的时候就执行catch里的
       try {
         let res = await this._vm.$api.good.guess()
         if (res.success) {
           state.guessGoods = res.data
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 获取售后商品
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getAfterSaleGoods (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.afterSale.getAfterSaleGoods()
+        if (res.success) {
+          state.afterSaleGoods = res.data
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 上传图片
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async upload (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.upload.upload(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack(res.data)
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack()
+          }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 获取退货信息
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async getReturnGood (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.afterSale.getReturnGood(payload.data)
+        if (res.success) {
+          state.returnGood = res.data
+          // 重新封装下显示信息
+          let reasons = [{
+            label: '请选择退货原因',
+            type: 'info'
+          }]
+          for (let i = 0; i < state.returnGood.reasons.length; i++) {
+            reasons.push(state.returnGood.reasons[i])
+          }
+          // 退货原因
+          state.returnGood.reasons = reasons
+          let imgs = []
+          for (let i = 0; i < state.returnGood.returnImgs.length; i++) {
+            imgs.push({
+              img: state.returnGood.returnImgs[i],
+              show: false
+            })
+          }
+          // 退货上传照片
+          state.returnGood.returnImgs = imgs
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    /**
+     * 退货申请
+     * @param state
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    async returnApplication (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.afterSale.returnApplication(payload.data)
+        if (res.success) {
+          if (payload.successCallBack && typeof payload.successCallBack === 'function') {
+            payload.successCallBack()
+          }
+        } else {
+          if (payload.failCallBack && typeof payload.failCallBack === 'function') {
+            payload.failCallBack(res)
+          }
         }
       } catch (e) {
         console.log('​catch -> e', e)

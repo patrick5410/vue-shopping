@@ -162,6 +162,7 @@
         if(!this.$store.state.order.addressInfo || !this.$store.state.order.addressInfo.addressId){
           this.$vux.toast.show({
             type: 'text',
+            width: '11em',
             text: '请先选择收货地址'
           })
           return
