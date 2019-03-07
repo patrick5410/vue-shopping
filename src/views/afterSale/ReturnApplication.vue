@@ -228,7 +228,7 @@
         }
 
 
-        this.$store.commit('returnApplication', { data: data,successCallBack:function () {
+        this.$store.commit('returnApplication', { data: data,successCallBack:function (data) {
             //关闭加载框
             that.$vux.loading.hide()
             that.$vux.alert.show({
@@ -236,7 +236,7 @@
               content: '您的申请已提交,很抱歉给您带来不便'
             })
             //跳转到退货详情
-
+            that.$router.push({name:'returnDetail',query:{returnGoodId:data.returnGoodId}})
 
           },failCallBack:function (data) {
             //关闭加载框

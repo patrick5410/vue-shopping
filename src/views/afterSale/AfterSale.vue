@@ -116,7 +116,7 @@
        * @param item
        */
       returnProcess(item){
-
+        this.$router.push({name:'returnDetail',query:{returnGoodId:item.returnGoodId}})
       },
       /**
        * 申请退货

@@ -746,7 +746,7 @@ export default new Vuex.Store({
         let res = await this._vm.$api.afterSale.returnApplication(payload.data)
         if (res.success) {
           if (payload.successCallBack && typeof payload.successCallBack === 'function') {
-            payload.successCallBack()
+            payload.successCallBack(res.data)
           }
         } else {
           if (payload.failCallBack && typeof payload.failCallBack === 'function') {

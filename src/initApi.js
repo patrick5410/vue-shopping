@@ -13,9 +13,7 @@ export default {
         break
       case 'clz':
         // console.log('分类接口')
-        if (store.state.classes.length <= 0) {
-          store.commit('getClasses')
-        }
+        store.commit('getClasses')
         break
       case 'showMore':
         store.commit('getClass', { data: { classId: router.query.classId } })

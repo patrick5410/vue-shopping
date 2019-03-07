@@ -189,6 +189,15 @@ const router = new Router({
       }
     },
     {
+      // 退货进度
+      path: '/returnDetail',
+      name: 'returnDetail',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/afterSale/ReturnDetail.vue'], resolve),
+      meta: {
+        title: '服务单详情'
+      }
+    },
+    {
       // 404页面，放在最后
       path: '*',
       name: '404',
