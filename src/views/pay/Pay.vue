@@ -95,9 +95,10 @@
 <script>
   import {  Box,Icon} from 'vux'
   import Vue from 'vue'
-  import { ToastPlugin } from 'vux'
+  import { ToastPlugin,LoadingPlugin } from 'vux'
 
   Vue.use(ToastPlugin)
+  Vue.use(LoadingPlugin)
 
   export default {
     components: {
@@ -171,8 +172,13 @@
 
         //请求后台，更新订单：收货信息以及留言，然后向微信发起预支付订单，并返回
         let that = this
+        that.$vux.loading.show({
+          text: '正在支付中'
+        })
         this.$store.commit('payOrder', { data: { orderId: this.$store.state.order.orderId,addressId: this.$store.state.order.addressInfo.addressId,leaveWord: this.$store.state.order.leaveWord }
         ,successCallBack: function (data) {
+            //关闭加载框
+            that.$vux.loading.hide()
           //生成预支付单号成功
             console.log("预支付单号",data)
             /**
@@ -220,6 +226,8 @@
 
 
           },failCallBack:function () {
+            //关闭加载框
+            that.$vux.loading.hide()
             //生成预支付单号失败
             that.$vux.toast.show({
               type: 'cancel',

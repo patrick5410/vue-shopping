@@ -31,6 +31,7 @@ export default new Vuex.Store({
     collectGoods: [], // 收藏商品
     afterSaleGoods: [], // 售后商品
     returnGood: {}, // 退货商品
+    returnGoodDetail: {}, // 退货详情
     addresses: [], // 收货地址
     choosedAddress: null, // 选择地址：选择编辑地址
     orders: [], // 所有订单
@@ -195,7 +196,7 @@ export default new Vuex.Store({
           }
         } else {
           if (payload.failCallBack && typeof payload.failCallBack === 'function') {
-            payload.failCallBack()
+            payload.failCallBack(res)
           }
         }
       } catch (e) {
@@ -752,6 +753,17 @@ export default new Vuex.Store({
           if (payload.failCallBack && typeof payload.failCallBack === 'function') {
             payload.failCallBack(res)
           }
+        }
+      } catch (e) {
+        console.log('​catch -> e', e)
+      }
+    },
+    async getReturnGoodDetail (state, payload) {
+      // 这里用try catch包裹，请求失败的时候就执行catch里的
+      try {
+        let res = await this._vm.$api.afterSale.getReturnGoodDetail(payload.data)
+        if (res.success) {
+          state.returnGoodDetail = res.data
         }
       } catch (e) {
         console.log('​catch -> e', e)

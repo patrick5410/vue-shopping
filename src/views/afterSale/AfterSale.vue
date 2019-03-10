@@ -5,9 +5,9 @@
     <div class="order" v-for="(item,orderIndex) in $store.state.afterSaleGoods">
       <div class="order-head" @click="toOrderDetail(item)">
         <div class="head-date" style="color: #808080" @click="toOrderDetail(item)">订单编号:{{item.orderId}}</div>
-        <div class="orderType-detail" v-if="item.returnState === 0" :style="{color: '#3d7a99' }">{{item.returnStateStr}}</div>
+        <div class="orderType-detail" v-if="item.returnState === 0 || item.returnState === 5" :style="{color: '#3d7a99' }">{{item.returnStateStr}}</div>
         <div class="orderType-detail" v-else :style="{color: '#995454'}">
-          <span v-if="item.returnState<6">退货中</span>
+          <span v-if="item.returnState<5">退货中</span>
           <span v-else @click.stop="seeAuditRemark(item)">{{item.returnStateStr}}：点击查看</span>
         </div>
       </div>
@@ -36,7 +36,7 @@
       <div class="order-bottom">
 
         <!--退货进度-->
-        <div class="order-bottom-button" v-if="item.returnState > 0 && item.returnState<6">
+        <div class="order-bottom-button" v-if="item.returnState > 0 && item.returnState<5">
           <div style="color: #3d7a99;border-color: #3d7a99" @click="returnProcess(item)">退货进度</div>
         </div>
 
@@ -45,6 +45,10 @@
           <!--超过退货期限，不能再进行退货-->
           <div v-if="new Date(item.deadline)<new Date()" @click="unableReturnGood(item)">申请退货</div>
           <div v-else style="color: #3d7a99;border-color: #3d7a99" @click="returnGood(item)">申请退货</div>
+        </div>
+
+        <div class="order-bottom-button" v-if="item.returnState === 5">
+          <div style="color: #3d7a99;border-color: #3d7a99" @click="returnProcess(item)">查看详情</div>
         </div>
 
         <div class="order-bottom-button" v-if="item.returnState === 6">
@@ -116,7 +120,7 @@
        * @param item
        */
       returnProcess(item){
-        this.$router.push({name:'returnDetail',query:{returnGoodId:item.returnGoodId}})
+        this.$router.push({name:'returnDetail',query:{afterSaleId:item.afterSaleId}})
       },
       /**
        * 申请退货

@@ -27,10 +27,12 @@
   // import ToShowMore from '@/components/head/toShowMore'
   import Show2goods from '@/components/Show2goods'
   import { LoadingPlugin  } from 'vux'
+  import  { ToastPlugin} from 'vux'
   import Vue from 'vue'
 
 
   Vue.use(LoadingPlugin)
+  Vue.use(ToastPlugin)
 
   export default {
     name: 'showMore',
@@ -107,6 +109,13 @@
           that.org_goods.push(item);
         })
         this.$vux.loading.hide()
+        if(this.org_goods.length<=0){
+          this.$vux.toast.show({
+            type: 'text',
+            width:'10em',
+            text: '没有搜索到商品'
+          })
+        }
       }
     },
     methods:{

@@ -17,7 +17,7 @@
 
         </div>
         <div class="vux-timeline-item-tail" :style="tailStyle"></div>
-        <div class="vux-timeline-item-content" style="font-size: 0.4rem;padding-bottom: 0.8rem;padding-left: 0.8rem" :style="itemContent">
+        <div class="vux-timeline-item-content" style="font-size: 0.4rem;padding-bottom: 0.8rem;padding-left: 0.8rem;padding-top: 0.1rem" :style="itemContent">
             <slot></slot>
         </div>
     </li>

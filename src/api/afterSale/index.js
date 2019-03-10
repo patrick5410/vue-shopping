@@ -15,5 +15,9 @@ export default {
   returnApplication (data) {
     // return出去了一个promise
     return api.post(urls.returnApplication, null, null, data)
+  },
+  getReturnGoodDetail (data) {
+    // return出去了一个promise
+    return api.post(urls.getReturnGoodDetail, null, null, data)
   }
 }

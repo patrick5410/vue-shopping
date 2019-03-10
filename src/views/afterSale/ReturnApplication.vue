@@ -193,7 +193,7 @@
       },
       changeCount(item){
         console.log("item",item)
-        if (!item.returnCount || item.returnCount == ''){
+        if (!item.returnCount || item.returnCount == '' || item.returnCount<1){
           item.returnCount = 1
         }
         if(item.returnCount>item.buyCount){
@@ -211,10 +211,35 @@
       //   |remark      |Y       |String   |退货说明 |
       //   |returnImgs      |Y       |Array   |退货上传照片 |
         console.log("申请退货中")
+        if(!this.$store.state.returnGood.reason){
+          this.$vux.alert.show({
+            title: '退货申请提示',
+            content: '请先选择退货原因'
+          })
+          return
+        }
+
+        if(this.$store.state.returnGood.reason ==="其他" && !this.$store.state.returnGood.remark){
+          this.$vux.alert.show({
+            title: '退货申请提示',
+            content: '请先在退货说明输入退货原因'
+          })
+          return
+        }
+
+        if(this.$store.state.returnGood.returnImgs && this.$store.state.returnGood.returnImgs.length<1){
+          this.$vux.alert.show({
+            title: '退货申请提示',
+            content: '请至少上传一张商品相关图片'
+          })
+          return
+        }
+
         let that = this
         that.$vux.loading.show({
           text: '退货申请中'
         })
+
         let returnImgs = []
         for (let i = 0; i < this.$store.state.returnGood.returnImgs.length; i++) {
           returnImgs.push(this.$store.state.returnGood.returnImgs[i].img)
@@ -236,7 +261,7 @@
               content: '您的申请已提交,很抱歉给您带来不便'
             })
             //跳转到退货详情
-            that.$router.push({name:'returnDetail',query:{returnGoodId:data.returnGoodId}})
+            that.$router.push({name:'returnDetail',query:{afterSaleId:that.$store.state.returnGood.afterSaleId}})
 
           },failCallBack:function (data) {
             //关闭加载框

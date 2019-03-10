@@ -163,10 +163,10 @@ export default {
               that.$vux.toast.show({
                 text: '添加成功'
               })
-            },failCallBack:function () {
+            },failCallBack:function (data) {
               that.$vux.toast.show({
                 type:"warn",
-                text: '添加失败'
+                text: '添加失败:'+data.errorDesc
               })
             } })
         },

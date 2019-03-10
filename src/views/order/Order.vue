@@ -88,11 +88,12 @@
     beforeCreate(){
 
     },
-    create(){
+    created(){
 
       this.$vux.loading.show({
-        text: '加载中'
+        text: '正在加载中'
       })
+      console.log("内容加载完毕")
     },
     mounted: function () {
       this.$nextTick(function () {

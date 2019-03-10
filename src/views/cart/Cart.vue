@@ -190,7 +190,7 @@
           },failCallBack:function () {
             that.$vux.toast.show({
               type:"warn",
-              text: '添加失败'
+              text: '删除失败'
             })
           } })
       },
@@ -242,7 +242,7 @@
       },
       changeCount(item){
         console.log("item",item)
-        if (!item.count || item.count == ''){
+        if (!item.count || item.count == '' || item.count<1){
           item.count = 1
         }
         if(item.count>item.maxBuyCount){

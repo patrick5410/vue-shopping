@@ -52,6 +52,9 @@ export default {
       case 'returnApplication':
         store.commit('getReturnGood', { data: { afterSaleId: router.query.afterSaleId } })
         break
+      case 'returnDetail':
+        store.commit('getReturnGoodDetail', { data: { afterSaleId: router.query.afterSaleId } })
+        break
     }
   }
 }
