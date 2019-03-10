@@ -18,6 +18,7 @@ export default new Vuex.Store({
       code: '',
       token: ''
     },
+    isGetUserInfoing: false,
     recommendClass: {},
     goods: [], // 首页商品
     goodPage: {}, // 每次请求的商品分页封装
@@ -45,20 +46,24 @@ export default new Vuex.Store({
      * @returns {Promise<void>}
      */
     async getUserInfo (state, payload) {
-      // 这里用try catch包裹，请求失败的时候就执行catch里的
-      try {
-        let res = await this._vm.$api.user.getUserInfo({ code: payload.code })
-        if (res.success) {
-          state.userInfo = res.data
-          // window.localStorage.setItem('token', res.data.token)
+      if (!state.isGetUserInfoing) {
+        // 这里用try catch包裹，请求失败的时候就执行catch里的
+        try {
+          state.isGetUserInfoing = true
+          let res = await this._vm.$api.user.getUserInfo({ code: payload.code })
+          if (res.success) {
+            state.userInfo = res.data
+            // window.localStorage.setItem('token', res.data.token)
+          }
+          state.isGetUserInfoing = false
+          console.log('​getMatches -> res', res, state.userInfo)
+        } catch (e) {
+          console.log('​catch -> e', e)
         }
-        console.log('​getMatches -> res', res, state.userInfo)
-      } catch (e) {
-        console.log('​catch -> e', e)
-      }
-      // console.log('回调函数', payload)
-      if (payload.callBack && typeof payload.callBack === 'function') {
-        payload.callBack()
+        // console.log('回调函数', payload)
+        if (payload.callBack && typeof payload.callBack === 'function') {
+          payload.callBack()
+        }
       }
     },
     /**
@@ -94,6 +99,9 @@ export default new Vuex.Store({
         }
         let res = await this._vm.$api.good.getGoods({ currentPage: currentPage })
         if (res.success) {
+          if (res.data.currentPage === 1) {
+            state.goods = []
+          }
           state.goodPage = res.data
           state.goods = state.goods.concat(res.data.listData)
           console.log('调试商品goods', state.goods)

@@ -248,7 +248,7 @@ router.beforeEach((to, from, next) => {
     } else {
       console.log('store.state.userInfo', store.state.userInfo)
       // 没有的话，需判断是否已经获取微信相关信息了
-      if (!store.state.userInfo.wechatInfo) {
+      if (!store.state.userInfo.wechatInfo && !store.state.isGetUserInfoing) {
         // 需要微信授权获取用户信息
         // var curWwwPath = window.document.location.href
         // // 获取主机地址之后的目录
