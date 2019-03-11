@@ -77,6 +77,11 @@
       // this.org_goods = this.goods;
 
     },
+    beforeDestroy(){
+      //页面销毁前关闭加载框
+      this.$vux.loading.hide()
+      console.log("页面销毁前事件")
+    },
     watch: {
       class: function(val) {
         if(val){

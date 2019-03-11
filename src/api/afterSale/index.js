@@ -19,5 +19,9 @@ export default {
   getReturnGoodDetail (data) {
     // return出去了一个promise
     return api.post(urls.getReturnGoodDetail, null, null, data)
+  },
+  updateDeliveryId (data) {
+    // return出去了一个promise
+    return api.post(urls.updateDeliveryId, null, null, data)
   }
 }

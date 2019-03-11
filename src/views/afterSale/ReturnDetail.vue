@@ -49,13 +49,13 @@
                     <div class="address">寄回地址：{{$store.state.returnGoodDetail.receiveAddress}}</div>
                     <div class="bottom-pane">
                         <div>清空</div>
-                        <div class="confirm" @click="confirm">提交</div>
+                        <div class="confirm" @click="confirm(deliveryId)">提交</div>
                     </div>
                 </div>
 
                 <div v-else class="delivery-div">
                     <div>
-                        <div class="delivery"  @click="openDelivery":style="showContent?'':'borderBottomColor:white'">快递单号：{{deliveryId}}</div>
+                        <div class="delivery"  @click="openDelivery":style="showContent?'':'borderBottomColor:white'">快递单号：{{$store.state.returnGoodDetail.deliveryId}}</div>
                     </div>
                     <div class="delivery-slide" :class="showContent?'delivery-animate':''">
                         <div class="address">联系人：{{$store.state.returnGoodDetail.receiveName}}&nbsp;&nbsp;&nbsp;电话：{{$store.state.returnGoodDetail.receivePhone}}</div>
@@ -65,7 +65,7 @@
                                 <!--<XInput title="" v-model="reDeliveryId" placeholder="修改快递单号" text-align="center" :max="25" required class="express-input" style="border: 0"></XInput>-->
                             <!--</Group>-->
                             <input v-model="reDeliveryId" placeholder="输入修改快递单号"  :max="25" required class="express-input" style="border: 0"></input>
-                            <div class="confirm" @click="confirm">修改</div>
+                            <div class="confirm" @click="confirm(reDeliveryId)">修改</div>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,10 @@
     import Timeline from '../../components/Timeline'
     import TimelineItem from '../../components/TimelineItem'
     import { XInput,Group,Cell } from 'vux'
+    import { ToastPlugin,LoadingPlugin } from 'vux'
+    import Vue from 'vue'
 
+    Vue.use(ToastPlugin,LoadingPlugin)
 
     // import { Timeline, TimelineItem } from 'vux'
 
@@ -136,7 +139,7 @@
         },
         mounted: function () {
             this.$nextTick(function () {
-                this.remainHeight = window.innerHeight-window.document.getElementById("head-container").clientHeight;
+                // this.remainHeight = window.innerHeight-window.document.getElementById("head-container").clientHeight;
             })
         },
         watch: {
@@ -148,8 +151,21 @@
             openDelivery(){
                 this.showContent = !this.showContent
             },
-            confirm(){
-                alert('测试弹框')
+            confirm(deliveryId){
+                //修改快递单号
+                let that = this
+                this.$store.commit('updateDeliveryId', { data: {returnGoodId:that.$store.state.returnGoodDetail.id,deliveryId:deliveryId},successCallBack:function () {
+                        that.$vux.toast.show({
+                            text: '修改快递单号成功'
+                        })
+                    },failCallBack:function (data) {
+                        that.$vux.toast.show({
+                            type: 'text',
+                            width:'11em',
+                            text: '修改快递单号失败('+data.errorCode+')：'+data.errorDesc
+                        })
+                    } })
+
             }
         }
     }

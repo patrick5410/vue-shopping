@@ -104,6 +104,11 @@
 
       })
     },
+    beforeDestroy(){
+      //页面销毁前关闭加载框
+      this.$vux.loading.hide()
+      console.log("页面销毁前事件")
+    },
     methods: {
       onItemClick (index) {
         console.log('on item click:', index)
