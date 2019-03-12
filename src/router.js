@@ -198,6 +198,15 @@ const router = new Router({
       }
     },
     {
+      // 快递页面
+      path: '/express',
+      name: 'express',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/express/Express.vue'], resolve),
+      meta: {
+        title: '快递页面'
+      }
+    },
+    {
       // 404页面，放在最后
       path: '*',
       name: '404',
@@ -242,14 +251,15 @@ router.beforeEach((to, from, next) => {
             console.log('请求参数', obj)
             router.push({ name: to.name, query: obj })
           } })
+      } else {
+        /* 路由发生变化修改页面title */
+        if (to.meta.title) {
+          document.title = to.meta.title
+        }
+        // 防止微信回调两次相同的code值，请求后台出错
+        store.state.userInfo.code = code
+        next()
       }
-      /* 路由发生变化修改页面title */
-      if (to.meta.title) {
-        document.title = to.meta.title
-      }
-      // 防止微信回调两次相同的code值，请求后台出错
-      store.state.userInfo.code = code
-      next()
     } else {
       console.log('store.state.userInfo', store.state.userInfo)
       // 没有的话，需判断是否已经获取微信相关信息了
