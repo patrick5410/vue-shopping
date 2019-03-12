@@ -48,7 +48,7 @@
                     <div class="address">联系人：{{$store.state.returnGoodDetail.receiveName}}&nbsp;&nbsp;电话：{{$store.state.returnGoodDetail.receivePhone}}</div>
                     <div class="address">寄回地址：{{$store.state.returnGoodDetail.receiveAddress}}</div>
                     <div class="bottom-pane">
-                        <div>清空</div>
+                        <div @click="deliveryId=''">清空</div>
                         <div class="confirm" @click="confirm(deliveryId)">提交</div>
                     </div>
                 </div>

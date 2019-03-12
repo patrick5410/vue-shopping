@@ -189,6 +189,11 @@
 
 
         },
+        beforeDestroy() {
+          // console.log("页面跳转之前");
+          //页面关闭前把当前订单设为null
+          this.$store.state.order = null
+        },
         methods:{
             // 获取订单取消剩余时间，单位是秒
             getCancelTime(order){

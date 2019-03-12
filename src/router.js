@@ -225,40 +225,68 @@ router.beforeEach((to, from, next) => {
     if (code) {
       // 有微信code值
       console.log('有code值', code)
-      store.commit('getUserInfo', { code: code,
-        callBack: function () {
-          console.log('跳转的路径名', to.name)
-          // 这里回调只是为了调用页面api之前先完成了getUserInfo请求
-          initApi.init(to)
-          let param = to.query
-          var obj = new Object()
-          for (let paramKey in param) {
-            if (paramKey !== 'code' && paramKey !== 'state') {
-              obj[paramKey] = param[paramKey]
+      if (code !== store.state.userInfo.code) {
+        // 防止微信回调两次相同的code值，请求后台出错
+        store.commit('getUserInfo', { code: code,
+          callBack: function () {
+            console.log('跳转的路径名', to.name)
+            // 这里回调只是为了调用页面api之前先完成了getUserInfo请求
+            initApi.init(to)
+            let param = to.query
+            var obj = new Object()
+            for (let paramKey in param) {
+              if (paramKey !== 'code' && paramKey !== 'state') {
+                obj[paramKey] = param[paramKey]
+              }
             }
-          }
-          console.log('请求参数', obj)
-          router.push({ name: to.name, query: obj })
-        } })
+            console.log('请求参数', obj)
+            router.push({ name: to.name, query: obj })
+          } })
+      }
       /* 路由发生变化修改页面title */
       if (to.meta.title) {
         document.title = to.meta.title
       }
+      // 防止微信回调两次相同的code值，请求后台出错
+      store.state.userInfo.code = code
       next()
     } else {
       console.log('store.state.userInfo', store.state.userInfo)
       // 没有的话，需判断是否已经获取微信相关信息了
-      if (!store.state.userInfo.wechatInfo && !store.state.isGetUserInfoing) {
-        // 需要微信授权获取用户信息
-        // var curWwwPath = window.document.location.href
-        // // 获取主机地址之后的目录
-        // var pathName = window.document.location.pathname
-        // var pos = curWwwPath.indexOf(pathName)
-        // // 获取主机地址
-        // var localhostPaht = curWwwPath.substring(0, pos)
-        // let fromUrl = localhostPaht + router.history.base + to.path
-        // console.log('需要微信访问路径', fromUrl)
-        window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(window.location.href) + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect'
+      if (!store.state.userInfo.wechatInfo) {
+        if (!store.state.isGetUserInfoing) {
+          // 需要微信授权获取用户信息
+          var curWwwPath = window.document.location.href
+          // 获取主机地址之后的目录
+          var pathName = window.document.location.pathname
+          var pos = curWwwPath.indexOf(pathName)
+          // 获取主机地址
+          var localhostPaht = curWwwPath.substring(0, pos)
+          localhostPaht = localhostPaht + router.history.base + to.path
+          // console.log('需要微信访问路径', fromUrl)
+          // initApi.init(to)
+          let param = to.query
+          var obj = new Object()
+          let paramStr = ''
+          for (let paramKey in param) {
+            if (paramKey !== 'code' && paramKey !== 'state') {
+              obj[paramKey] = param[paramKey]
+              paramStr += paramKey + '=' + param[paramKey] + '&'
+            }
+          }
+          paramStr = paramStr.substr(0, paramStr.length - 1)
+          if (paramStr){
+            localhostPaht = localhostPaht + '?' + paramStr
+          }
+          console.log('访问微信授权链接', localhostPaht)
+          // alert('访问微信授权链接:' + localhostPaht)
+          window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(localhostPaht) + '&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect'
+        }
+        /* 路由发生变化修改页面title */
+        if (to.meta.title) {
+          document.title = to.meta.title
+        }
+        next()
       } else {
         /* 路由发生变化修改页面title */
         if (to.meta.title) {
