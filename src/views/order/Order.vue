@@ -4,13 +4,13 @@
     <div class="order-head" id="order-head">
       <tab custom-bar-width="1rem" active-color="#3d7a99"  :scroll-threshold="5" >
         <tab-item :selected="!($route.query.index>0 && $route.query.index<5)" @on-item-click="onItemClick">全部订单</tab-item>
-        <tab-item @on-item-click="onItemClick" style="position: relative" :selected="$route.query.index == 1">
+        <tab-item @on-item-click="onItemClick" style="position: relative" :selected="$route.query.index === 1">
           待付款
           <Badge :text="unPayCount" class="pay-count" v-show="unPayCount>0"></Badge>
         </tab-item>
-        <tab-item @on-item-click="onItemClick" :selected="$route.query.index == 2">待收货</tab-item>
-        <tab-item @on-item-click="onItemClick" :selected="$route.query.index == 3">已收货</tab-item>
-        <tab-item  @on-item-click="onItemClick" :selected="$route.query.index == 4">退款订单</tab-item>
+        <tab-item @on-item-click="onItemClick" :selected="$route.query.index === 2">待收货</tab-item>
+        <tab-item @on-item-click="onItemClick" :selected="$route.query.index === 3">已收货</tab-item>
+        <tab-item  @on-item-click="onItemClick" :selected="$route.query.index === 4">退款订单</tab-item>
       </tab>
     </div>
 
@@ -74,7 +74,7 @@
           //计算未付款订单数量
           this.unPayCount = 0
           val.forEach((item)=>{
-            if(item.orderState == 1){
+            if(item.orderState === 1){
               this.unPayCount++
             }
           })
