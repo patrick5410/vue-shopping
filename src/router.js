@@ -293,10 +293,10 @@ router.beforeEach((to, from, next) => {
           window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(localhostPaht) + '&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect'
         }
         /* 路由发生变化修改页面title */
-        if (to.meta.title) {
-          document.title = to.meta.title
-        }
-        next()
+        // if (to.meta.title) {
+        //   document.title = to.meta.title
+        // }
+        // next()
       } else {
         /* 路由发生变化修改页面title */
         if (to.meta.title) {
