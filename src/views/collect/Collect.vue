@@ -74,7 +74,7 @@
       console.log("containerHeight",this.containerWidth)
     },
     methods:{
-      //商品详情页面
+      //书籍详情页面
       goodDetail(goodId)
       {
         this.$router.push({name: 'good', query: {goodId: goodId}})

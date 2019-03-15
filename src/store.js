@@ -20,18 +20,18 @@ export default new Vuex.Store({
     },
     isGetUserInfoing: false,
     recommendClass: {},
-    goods: [], // 首页商品
-    goodPage: {}, // 每次请求的商品分页封装
-    classes: [], // 所有类型商品
+    goods: [], // 首页书籍
+    goodPage: {}, // 每次请求的书籍分页封装
+    classes: [], // 所有类型书籍
     currentClzId: 0, // 分类id
-    class: {}, // 某类型商品
-    searchGoods: {}, // 搜索商品
-    goodDetail: {}, // 商品详情
-    cartGoods: [], // 购物车商品
-    guessGoods: [], // 测试商品
-    collectGoods: [], // 收藏商品
-    afterSaleGoods: [], // 售后商品
-    returnGood: {}, // 退货商品
+    class: {}, // 某类型书籍
+    searchGoods: {}, // 搜索书籍
+    goodDetail: {}, // 书籍详情
+    cartGoods: [], // 购物车书籍
+    guessGoods: [], // 测试书籍
+    collectGoods: [], // 收藏书籍
+    afterSaleGoods: [], // 售后书籍
+    returnGood: {}, // 退货书籍
     returnGoodDetail: {}, // 退货详情
     addresses: [], // 收货地址
     choosedAddress: null, // 选择地址：选择编辑地址
@@ -67,7 +67,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 获取推荐商品类型
+     * 获取推荐书籍类型
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -85,7 +85,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 分页获取商品
+     * 分页获取书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -104,9 +104,9 @@ export default new Vuex.Store({
           }
           state.goodPage = res.data
           state.goods = state.goods.concat(res.data.listData)
-          console.log('调试商品goods', state.goods)
+          console.log('调试书籍goods', state.goods)
         }
-        console.log('请求商品接口完毕', state.goodPage, state.goods)
+        console.log('请求书籍接口完毕', state.goodPage, state.goods)
       } catch (e) {
         console.log('​catch -> e', e)
       }
@@ -117,7 +117,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 获取所有类型商品
+     * 获取所有类型书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -135,7 +135,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 获取某个类型商品
+     * 获取某个类型书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -153,7 +153,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 关键字搜索商品
+     * 关键字搜索书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -170,7 +170,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 商品详情
+     * 书籍详情
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -187,7 +187,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 添加商品到购物车
+     * 添加书籍到购物车
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -212,7 +212,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 获取购物车商品
+     * 获取购物车书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -230,7 +230,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 改变购物车商品数量
+     * 改变购物车书籍数量
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -252,7 +252,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 删除购物车商品
+     * 删除购物车书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -275,7 +275,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 收藏商品
+     * 收藏书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -321,7 +321,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 获取收藏商品
+     * 获取收藏书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -532,7 +532,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 购物车商品下单
+     * 购物车书籍下单
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -651,7 +651,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 获取用户可能喜欢的商品
+     * 获取用户可能喜欢的书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}
@@ -668,7 +668,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 获取售后商品
+     * 获取售后书籍
      * @param state
      * @param payload
      * @returns {Promise<void>}

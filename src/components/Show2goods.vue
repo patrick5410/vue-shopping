@@ -1,4 +1,4 @@
-<!--每行显示2个商品-->
+<!--每行显示2个书籍-->
 <template>
   <div class="goods">
     <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
@@ -41,14 +41,14 @@
   export default {
     data: function () {
       return {
-        // goods: [{name:'我是商品',price:123}], //商品
+        // goods: [{name:'我是书籍',price:123}], //书籍
       }
     },
     props: {
       goods: Array
     },
     methods:{
-      //商品详情页面
+      //书籍详情页面
       goodDetail(goodId){
         this.$router.push({name:'good',query:{goodId:goodId}})
       }

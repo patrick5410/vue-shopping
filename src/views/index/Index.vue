@@ -8,7 +8,7 @@
         <div class="container">
           <!--积分-->
           <Credit></Credit>
-          <!--推荐商品类型-->
+          <!--推荐书籍类型-->
           <div class="recommend-good">
             <div class="re-class">
               <div class="re-className">{{$store.state.recommendClass.name}}</div>
@@ -17,7 +17,7 @@
             <img class="re-classImg" :src="$store.state.recommendClass.themeImg"/>
           </div>
 
-          <!--商品列表-->
+          <!--书籍列表-->
           <div class="goods-container">
             <div class="goods" >
               <div class="good" v-for="(item,index) in $store.state.goods" :key="item.id" @click="goodDetail(item.id)">
@@ -77,9 +77,9 @@ export default {
   data: function () {
     return {
       creditSort: 425, // 用户积分
-      recommendClass: '车载配件', // 推荐商品类型
-      recommendClassUrl: '/showMore', // 推荐商品链接
-      recommendImgUrl: 'img/good/banner.png', // 推荐商品图片
+      recommendClass: '车载配件', // 推荐书籍类型
+      recommendClassUrl: '/showMore', // 推荐书籍链接
+      recommendImgUrl: 'img/good/banner.png', // 推荐书籍图片
       loading: false, // 加载
       isFinish:false,
       goods: [],
@@ -91,7 +91,7 @@ export default {
       // vm.$Lazyload.$once('loaded', function ({ el, src }) {
       //   console.log(el, src)
       // })
-      //加载商品
+      //加载书籍
       // this.loadMore ()
     })
   },
@@ -109,7 +109,7 @@ export default {
       if(this.$store.state.goodPage && !that.isFinish && !this.loading ){
         this.loading = true
         this.$store.commit("getGoods",{currentPage:this.$store.state.goodPage.nextPage,callBack:function () {
-            console.log("加载商品完毕",that)
+            console.log("加载书籍完毕",that)
             that.loading = false
             if(that.$store.state.goodPage.currentPage>=that.$store.state.goodPage.totalPage){
               that.isFinish = true;
@@ -117,7 +117,7 @@ export default {
           }})
       }
     },
-    //商品详情页面
+    //书籍详情页面
     goodDetail(goodId){
       this.$router.push({name:'good',query:{goodId:goodId}})
     }
@@ -138,7 +138,7 @@ export default {
   }
 
 
-  /*推荐商品*/
+  /*推荐书籍*/
   .recommend-good{
     display: flex;
     width: 100%;
@@ -187,7 +187,7 @@ export default {
 
 
 
-  /*商品列表*/
+  /*书籍列表*/
   .goods-container{
     display: flex;
     width: 375px;

@@ -46,10 +46,10 @@
     },
     data: function () {
       return {
-        goods: [], //商品
+        goods: [], //书籍
         sortIndex:0,//0：综合，1：价格，2：销量
         isSortAdd:false,//价格升序
-        org_goods:[],//记录初始化商品排序，用于综合排序
+        org_goods:[],//记录初始化书籍排序，用于综合排序
       }
     },
     computed: {
@@ -118,7 +118,7 @@
           this.$vux.toast.show({
             type: 'text',
             width:'10em',
-            text: '没有搜索到商品'
+            text: '没有搜索到书籍'
           })
         }
       }

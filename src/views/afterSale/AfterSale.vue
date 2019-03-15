@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <!--一种商品-->
+      <!--一种书籍-->
       <div class="order-good" @click.stop="toGoodDetail(item)">
         <div class="good-left">
           <div class="good-img">
@@ -31,7 +31,7 @@
       </div>
 
       <!--订单合算-->
-      <div class="order-calInfo" @click="">商品总金额<span style="color: #995454">¥{{(item.buyCount*item.goodPrice).toFixed(2)}}元</span></div>
+      <div class="order-calInfo" @click="">书籍总金额<span style="color: #995454">¥{{(item.buyCount*item.goodPrice).toFixed(2)}}元</span></div>
       <!--订单底部-->
       <div class="order-bottom">
 
@@ -95,7 +95,7 @@
         })
       },
       /**
-       * 跳转到商品详情页面
+       * 跳转到书籍详情页面
        * @param item
        */
       toGoodDetail(item){
@@ -112,7 +112,7 @@
       unableReturnGood(item){
         this.$vux.alert.show({
           title: '退货提示',
-          content: '该商品退货截止时间为：'+item.deadline
+          content: '该书籍退货截止时间为：'+item.deadline
         })
       },
       /**

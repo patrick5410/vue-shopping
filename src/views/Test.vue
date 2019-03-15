@@ -51,9 +51,9 @@
         onFetching: false,
         bottomCount: 20,
         creditSort: 425, // 用户积分
-        recommendClass: '车载配件', // 推荐商品类型
-        recommendClassUrl: '/showMore', // 推荐商品链接
-        recommendImgUrl: '../assets/img/banner.png', // 推荐商品图片
+        recommendClass: '车载配件', // 推荐书籍类型
+        recommendClassUrl: '/showMore', // 推荐书籍链接
+        recommendImgUrl: '../assets/img/banner.png', // 推荐书籍图片
         loading: false, // 加载
         isFinish:false,
         goods: [],
@@ -163,7 +163,7 @@
   }
 
 
-  /*推荐商品*/
+  /*推荐书籍*/
   .recommend-good{
     display: flex;
     width: 100%;
@@ -216,7 +216,7 @@
     border: 1px solid yellow;
   }
 
-  /*商品列表*/
+  /*书籍列表*/
   .goods-container{
     display: flex;
     width: 375px;

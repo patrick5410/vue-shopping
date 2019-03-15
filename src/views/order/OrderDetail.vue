@@ -71,7 +71,7 @@
                     <!--<div>车载配件</div>-->
                 <!--</div>-->
                 <!--<div class="buy-info">-->
-                    <!--<div>商品规格：红色</div>-->
+                    <!--<div>书籍规格：红色</div>-->
                     <!--<div style="display: flex;justify-content: space-between">-->
                         <!--<div style="color: #e54545">¥1288</div>-->
                         <!--<div>x1</div>-->
@@ -122,7 +122,7 @@
 
         <div class="pay-info">
             <div class="common">
-                <div>商品金额</div>
+                <div>书籍金额</div>
                 <div>¥{{$store.state.order.totalPrice}}</div>
             </div>
             <div class="common">
@@ -389,7 +389,7 @@
                 }
             },
             toGoodDetail(item){
-                //跳转到商品详情页面
+                //跳转到书籍详情页面
               this.$router.push({name:'good',query:{goodId:item.goodId}})
             }
         }

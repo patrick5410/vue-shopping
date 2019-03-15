@@ -2,7 +2,7 @@
 <template>
   <div class="not-can-find-container">
     <div class="content">
-      <h1>盟友淘</h1>
+      <h1>汇书阁</h1>
       <div class="img-div">
         <img src="../../assets/img/banner404.png">
       </div>

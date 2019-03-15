@@ -9,7 +9,7 @@
                 <div v-else="item.orderState" class="orderType-detail" :style="{color: item.orderState===1 || item.orderState===3 ||item.orderState===5? '#995454':'#3d7a99'}">{{item.orderStateStr}}</div>
             </div>
 
-            <!--一种商品-->
+            <!--一种书籍-->
             <div class="order-good" v-for="(good,goodIndex) in item.goods" @click="toOrderDetail(item)">
                 <div class="good-left">
                     <div class="good-img" @click.stop="toGoodDetail(good)">
@@ -28,7 +28,7 @@
             </div>
 
             <!--订单合算-->
-            <div class="order-calInfo" @click="toOrderDetail(item)">共{{item.goodCount}}件商品，总金额<span style="color: #995454">¥{{item.paymentAmount}}元</span></div>
+            <div class="order-calInfo" @click="toOrderDetail(item)">共{{item.goodCount}}件书籍，总金额<span style="color: #995454">¥{{item.paymentAmount}}元</span></div>
             <!--订单底部-->
             <div class="order-bottom">
                 <!--待支付-->
@@ -241,7 +241,7 @@
             }
           },
           toGoodDetail(item){
-            //跳转到商品详情页面
+            //跳转到书籍详情页面
             this.$router.push({name:'good',query:{goodId:item.goodId}})
           }
 

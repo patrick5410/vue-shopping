@@ -17,7 +17,7 @@
             已免运费
           </div>
         </div>
-        <!--购物车商品-->
+        <!--购物车书籍-->
         <div class="cart-good">
           <swipeout>
             <swipeout-item transition-mode="follow"  class="cart-good-one" v-for="(item,index) in $store.state.cartGoods" >
@@ -42,7 +42,7 @@
                   <x-icon v-show="item.isSelected" type="ios-checkmark" size="0.7rem" ></x-icon>
                   <x-icon v-show="!item.isSelected" type="ios-circle-outline" size="0.7rem" class="unSelected"></x-icon>
                 </div>
-                <!--右边商品-->
+                <!--右边书籍-->
                 <div class="good-one-right">
                   <div class="good-img" @click="goodDetail(item.goodId)">
                     <img :src="item.img">
@@ -123,11 +123,11 @@
     data: function () {
       return {
         containerWidth:750,//容器高度
-        // goods: [{}], //商品
-        // guessGoods: [],//可能喜欢商品
+        // goods: [{}], //书籍
+        // guessGoods: [],//可能喜欢书籍
         isSelectAll:false,
         selectCount:0,//已选中总数量
-        totalPrice:0,//选中商品总价
+        totalPrice:0,//选中书籍总价
       }
     },
     created(){
@@ -178,8 +178,8 @@
 
       },
       deleteGood(item){
-        console.log("删除购物车商品");
-        //删除购物车商品
+        console.log("删除购物车书籍");
+        //删除购物车书籍
         let that = this
         this.$store.commit("deleteCartGood",{ data: { cartId: item.id },successCallBack:function () {
             let index = that.$store.state.cartGoods.indexOf(item)
@@ -195,7 +195,7 @@
           } })
       },
       selectAll(){
-        //选择所有的商品或取消所有的商品
+        //选择所有的书籍或取消所有的书籍
         this.isSelectAll = !this.isSelectAll;
           this.goods.forEach((item)=>{
             if(this.isSelectAll){
@@ -205,7 +205,7 @@
             }
           })
       },
-      //商品详情页面
+      //书籍详情页面
       goodDetail(goodId){
         this.$router.push({name:'good',query:{goodId:goodId}})
       },
@@ -259,11 +259,11 @@
       goods: {
         handler(val, oldVal){
           if(val){
-            //开启深度监听，用于监听商品是否被选中和输入数量
-            console.log("商品变化",val)
+            //开启深度监听，用于监听书籍是否被选中和输入数量
+            console.log("书籍变化",val)
             this.selectCount = 0;
             this.totalPrice = 0;
-            let selectKind = 0;//选中商品种类
+            let selectKind = 0;//选中书籍种类
             val.forEach((item)=>{
               if(item.isSelected){
                 this.selectCount += parseInt(item.count);

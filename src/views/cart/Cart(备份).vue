@@ -23,7 +23,7 @@
             已免运费
           </div>
         </div>
-        <!--购物车商品-->
+        <!--购物车书籍-->
         <div class="cart-good">
           <div class="cart-good-one" v-for="(item,index) in goods">
             <mt-cell-swipe :right="[ {
@@ -39,7 +39,7 @@
                 </div>
               </div>
 
-              <!--右边商品-->
+              <!--右边书籍-->
               <div class="good-one-right">
                   <div class="good-img">
                     <img :src="item.img" style="width: 100%;height: auto">
@@ -138,13 +138,13 @@
     },
     data: function () {
       return {
-        goods: [{}], //商品
-        guessGoods: [],//可能喜欢商品
-        selectGoods: [],//选中商品
+        goods: [{}], //书籍
+        guessGoods: [],//可能喜欢书籍
+        selectGoods: [],//选中书籍
         // selectGood: [],
         isSelectAll:false,
         selectCount:0,//已选中数量
-        totalPrice:0,//选中商品总价
+        totalPrice:0,//选中书籍总价
       }
     },
     mounted: function () {
@@ -178,10 +178,10 @@
         this.$router.push('/clz')
       },
       selectGood(){
-        console.log("选中商品",this.goods);
+        console.log("选中书籍",this.goods);
       },
       deleteGood(index){
-        //删除购物车商品
+        //删除购物车书籍
         this.goods.splice(index,1)
       },
       add(item){
@@ -194,7 +194,7 @@
       },
       countInputListen(index){
         let item = this.goods[index];
-        // console.log("输入商品数量事件",item);
+        // console.log("输入书籍数量事件",item);
         if(item.buyCount<0){
           item.buyCount = 0
         }
@@ -208,11 +208,11 @@
       calculateBuyInfo(){
         // console.log("执行该计算函数");
         if(this.selectGoods.length>0){
-          //有商品被选中
+          //有书籍被选中
           this.selectCount = 0;
           this.totalPrice = 0;
           this.selectGoods.forEach((item)=>{
-            // console.log("选中的商品",item);
+            // console.log("选中的书籍",item);
             this.selectCount += item.buyCount;
             this.totalPrice += item.buyCount*item.price;
           })
@@ -222,7 +222,7 @@
     },
     watch: {
       selectGoods: function (val) {
-        // console.log("已选中商品", val);
+        // console.log("已选中书籍", val);
         //每次改变，重新结算价格
         this.calculateBuyInfo();
 

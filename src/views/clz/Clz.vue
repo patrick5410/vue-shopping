@@ -19,18 +19,18 @@
           <li v-for="(item,index) in $store.state.classes" class="clz-sign" :id="'clz-sign'+item.classId">
             <div class="clz-container">
               <!--<div>{{index}}</div>-->
-              <!--商品类型主题图片-->
+              <!--书籍类型主题图片-->
               <div class="clzImg-div" @click="toShowClz(item)">
                 <img :src="item.themeImg" style="width: 100%;height: 100%"  ref='itemImg' />
               </div>
 
-              <!--商品类型主题-->
+              <!--书籍类型主题-->
               <div class="sigma-content">
                 <div class="sigma-middle-line">
                   <span class="sigma-line-text">{{item.theme}}</span>
                 </div>
               </div>
-              <!--商品-->
+              <!--书籍-->
               <div class="good-container">
                 <div v-for="it in item.goods"  class="good" @click="goodDetail(it.id)">
                   <div class="goodImg-div">
@@ -102,8 +102,8 @@
         // currentClzId:0,//分类id
         clzs:new Array(50),//分类
         wrapperMenuScroll : null,//左边菜单滚动框
-        goodScroll: null,//商品滚动框
-        clzSigns:[],//记录各个类型商品的offsetTop值，用于滚动(右边)
+        goodScroll: null,//书籍滚动框
+        clzSigns:[],//记录各个类型书籍的offsetTop值，用于滚动(右边)
         menuIndexChange: false,//menuIndexChange解决运动时listenScroll依然监听的bug
         placeholderHeight:'0px',// 占位li高度
       }
@@ -125,7 +125,7 @@
         this.containerHeight =  window.innerHeight - window.document.getElementById('header').clientHeight -window.document.getElementById('menu').clientHeight ;
         // console.log("containerHeight",this.containerHeight)
 
-        //商品类型滚动框
+        //书籍类型滚动框
         this.wrapperMenuScroll = new BScroll(this.$refs.wrapperMenu, {
           probeType: 0,
           deceleration: 0.001,
@@ -139,7 +139,7 @@
 
         })
 
-        //商品滚动框
+        //书籍滚动框
         this.goodScroll = new BScroll(this.$refs.wrapperGood, {
           probeType: 3,
           deceleration: 0.001,
@@ -205,11 +205,11 @@
       },
       selectClz(val){
         // this.currentClzId = val;
-        //滚动右边商品框
+        //滚动右边书籍框
         let clzSigns = this.$refs.wrapperGood.querySelectorAll('#clz-sign'+val);
         this.goodScroll.scrollToElement(clzSigns[0], 600,0,0)
       },
-      //商品详情页面
+      //书籍详情页面
       goodDetail(goodId){
         this.$router.push({name:'good',query:{goodId:goodId}})
       },

@@ -28,7 +28,7 @@
     </div>
 
     <div class="good-detail">
-      <div class="good-detail-title" style="text-align: left">商品详细</div>
+      <div class="good-detail-title" style="text-align: left">书籍详细</div>
 
       <div class="good" v-for="(item,index) in $store.state.order.goods">
         <div class="good-left">
@@ -69,7 +69,7 @@
     <div style="padding-bottom: 6rem">
       <div class="pay-info">
         <div>
-          <div>商品总价</div>
+          <div>书籍总价</div>
           <div style="color: #995454">¥{{$store.state.order.totalPrice.toFixed(2)}}</div>
         </div>
         <div>

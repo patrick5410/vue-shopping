@@ -1,7 +1,7 @@
 <!--申请退货-->
 <template>
   <div class="return-application">
-    <div class="head">退货商品</div>
+    <div class="head">退货书籍</div>
 
     <div class="good-one-right">
       <div class="good-img" @click="goodDetail($store.state.returnGood.goodId)">
@@ -18,7 +18,7 @@
             <input class="buyCount-input" type="number" v-model="$store.state.returnGood.returnCount" @blur="changeCount($store.state.returnGood)"></input>
             <div class="buyCount-add" @click="addCount($store.state.returnGood)">+</div>
           </div>
-          <div class="count-tip">该商品可退{{$store.state.returnGood.buyCount}}件</div>
+          <div class="count-tip">该书籍可退{{$store.state.returnGood.buyCount}}件</div>
         </div>
       </div>
     </div>
@@ -181,7 +181,7 @@
           this.$store.state.returnGood.returnImgs.splice(index, 1);
         }
       },
-      //商品详情页面
+      //书籍详情页面
       goodDetail(goodId){
         this.$router.push({name:'good',query:{goodId:goodId}})
       },
@@ -230,7 +230,7 @@
         if(this.$store.state.returnGood.returnImgs && this.$store.state.returnGood.returnImgs.length<1){
           this.$vux.alert.show({
             title: '退货申请提示',
-            content: '请至少上传一张商品相关图片'
+            content: '请至少上传一张书籍相关图片'
           })
           return
         }

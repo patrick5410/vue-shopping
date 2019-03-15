@@ -62,7 +62,7 @@
           }else {
             this.$vux.toast.show({
               type:'text',
-              text: '请输入您要搜索的商品',
+              text: '请输入您要搜索的书籍',
               width:'15em'
             })
             this.keyword = ""

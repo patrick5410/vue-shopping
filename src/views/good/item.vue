@@ -1,6 +1,6 @@
 <template>
     <div class="good_item">
-        <!-- 商品轮播图 -->
+        <!-- 书籍轮播图 -->
         <div class="item">
             <img class="back" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png" @click="$router.back()"/>
             <img class="home" src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_homeNormal.png" @click="toIndex"/>
@@ -10,23 +10,23 @@
                 </SwipeItem>
             </Swipe>
         </div>
-        <!-- 商品简单介绍 -->
+        <!-- 书籍简单介绍 -->
         <div class="item_info" v-if="$store.state.goodDetail.price">
             <div class="name">{{$store.state.goodDetail.name}}</div>
             <div v-html="$store.state.goodDetail.introduction" class="introduction"></div>
             <div class="price"><span class="money">¥</span>{{$store.state.goodDetail.price.toFixed(2)}}&nbsp;&nbsp;&nbsp;<span v-if="$store.state.goodDetail.price<$store.state.goodDetail.originalPrice" style="font-size: 0.34rem;color: #808080;text-decoration: line-through">原价：{{$store.state.goodDetail.originalPrice.toFixed(2)}}元</span></div>
         </div>
-        <!-- 商品数量选择 -->
+        <!-- 书籍数量选择 -->
         <div class="selectNum" @click="popupVisible=!popupVisible">
             &nbsp;&nbsp;已选：<span>{{selectNum}}件</span>
             <img src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png"/>
         </div>
-        <!-- 商品说明 -->
+        <!-- 书籍说明 -->
         <div class="description">
             <div class="description-title">说明：</div>
             <div class="explain" v-html="$store.state.goodDetail.explain"></div>
         </div>
-        <!-- 商品详情 -->
+        <!-- 书籍详情 -->
         <div class="details" v-html="$store.state.goodDetail.detailHtml">
             <!--<img v-for="item in list" :key="item" :src="item" alt="item">-->
         </div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
               <div class="specification" v-if="!$store.state.goodDetail.specifications || $store.state.goodDetail.specifications.length<=0">
-                <div>商品规格</div>
+                <div>书籍规格</div>
                 <div class="specification-item">
                   <div class="specification-item-one specificationItemActive">默认</div>
                   <!--<div class="specification-item-one">默认</div>-->
@@ -140,7 +140,7 @@ export default {
           let specifications =  this.$store.state.goodDetail.specifications;
           let specificationItemIds = []
           if(specifications.length<=0){
-            //没有商品规格
+            //没有书籍规格
             specificationItemIds.push(0)
           }else {
             for (let i = 0; i < specifications.length; i++) {
@@ -151,7 +151,7 @@ export default {
                 this.$vux.toast.show({
                   type:"text",
                   width:"14em",
-                  text: '请先选中商品规格'
+                  text: '请先选中书籍规格'
                 })
                 return
               }
@@ -175,7 +175,7 @@ export default {
             this.$vux.toast.show({
               type:"text",
               width:"14em",
-              text: '该商品目前还没上架喔'
+              text: '该书籍目前还没上架喔'
             })
             return
           }
@@ -184,10 +184,10 @@ export default {
           let specifications =  this.$store.state.goodDetail.specifications;
           let specificationItemIds = []
           if(specifications.length <= 0){
-            //商品没有规格
+            //书籍没有规格
             specificationItemIds.push(0)
           }else {
-            //商品有规格
+            //书籍有规格
             for (let i = 0; i < specifications.length; i++) {
               if(specifications[i].currentSpecificationItemId>0){
                 specificationItemIds.push(specifications[i].currentSpecificationItemId)
@@ -196,7 +196,7 @@ export default {
                 this.$vux.toast.show({
                   type:"text",
                   width:"14em",
-                  text: '请先选中商品规格'
+                  text: '请先选中书籍规格'
                 })
                 return
               }
@@ -204,7 +204,7 @@ export default {
           }
 
 
-          //这里不用传选中商品id，直接存储在store中
+          //这里不用传选中书籍id，直接存储在store中
           let that = this
           this.$store.commit("createOrder",{ data: { goodId: that.$store.state.goodDetail.id
               ,buyCount:that.selectNum
@@ -265,7 +265,7 @@ export default {
         background-color: #e5e5e5;
         // position: fixed;
     }
-    // 商品轮播图
+    // 书籍轮播图
     .item{
         width: 100%;
         height: 211px;
@@ -297,7 +297,7 @@ export default {
             z-index: 2;
         }
     }
-    // 商品价格及介绍
+    // 书籍价格及介绍
     .item_info{
         display: flex;
         flex-direction: column;
@@ -323,7 +323,7 @@ export default {
             }
         }
     }
-    //选择商品购买数量
+    //选择书籍购买数量
     .selectNum{
         margin-top: 10px;
         height: 35px;
@@ -343,7 +343,7 @@ export default {
             transform: rotateY(180deg)
         }
     }
-    //商品说明
+    //书籍说明
     .description{
         margin-top: 10px;
         margin-bottom: 10px;
@@ -372,7 +372,7 @@ export default {
 
 
     }
-    //商品详情图
+    //书籍详情图
     .details{
         padding-bottom: 49px;
 

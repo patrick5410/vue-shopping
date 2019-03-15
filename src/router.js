@@ -48,7 +48,7 @@ const router = new Router({
       name: 'good',
       component: (resolve) => require(['./views/good/Book.vue'], resolve),
       meta: {
-        title: '商品详情'
+        title: '书籍详情'
       }
     },
     {
@@ -88,7 +88,7 @@ const router = new Router({
       name: 'personal',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/Personal.vue'], resolve),
       meta: {
-        title: '盟友淘'
+        title: '汇书阁'
       }
     },
     {
@@ -169,7 +169,7 @@ const router = new Router({
       name: 'orderDetail',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/order/OrderDetail.vue'], resolve),
       meta: {
-        title: '盟友淘'
+        title: '汇书阁'
       }
     },
     {
@@ -223,7 +223,7 @@ const router = new Router({
       name: '404',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/other/404.vue'], resolve),
       meta: {
-        title: '盟友淘'
+        title: '汇书阁'
       }
     }
   ]
