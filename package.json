@@ -23,6 +23,7 @@
     "postcss-px2rem": "^0.3.0",
     "vue": "^2.5.21",
     "vue-axios": "^2.1.4",
+    "vue-cookies": "^1.5.12",
     "vue-countup-v2": "^1.0.3",
     "vue-countupjs": "^1.0.0",
     "vue-cropper": "^0.4.8",

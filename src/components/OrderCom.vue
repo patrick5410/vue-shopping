@@ -13,7 +13,7 @@
             <div class="order-good" v-for="(good,goodIndex) in item.goods" @click="toOrderDetail(item)">
                 <div class="good-left">
                     <div class="good-img" @click.stop="toGoodDetail(good)">
-                        <img :src="good.goodImg" style="width: 100%;height: auto"  ref='itemImg' />
+                        <img :src="good.goodImg"  ref='itemImg' />
                         <!--<img  src="../assets/img/good/1.jpg" style="width: 100%;height: auto" >-->
                     </div>
                     <div style="text-align: left">
@@ -286,7 +286,14 @@
                     .good-img{
                         width: 80px;
                         height: 80px;
-                        background-color: #e5e5e5;
+                        background-color: white;
+
+                        img{
+                          height: 100%;
+                          width: auto;
+                          max-width: 100%;
+                        }
+
                     }
 
                 }

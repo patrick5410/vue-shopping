@@ -34,7 +34,7 @@
               <div class="good-container">
                 <div v-for="it in item.goods"  class="good" @click="goodDetail(it.id)">
                   <div class="goodImg-div">
-                    <img v-lazy="it.img" style="width: 100%;height: auto"  />
+                    <img v-lazy="it.img"/>
                     <!--<div v-show="it.originalPrice>it.price" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{it.originalPrice-it.price}}元</div>-->
                     <div v-show="it.originalPrice>it.price" style="position: absolute;left: 0;bottom: 0">
                       <span class="cutPrice" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{it.originalPrice-it.price}}元&nbsp;</span>
@@ -331,8 +331,14 @@
     width: 85px;
     height: 85px;
     position: relative;
-    background-color: #f2f2f2;
+    background-color: white;
     overflow: hidden;
+
+    img{
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+    }
   }
 
   .good-bottom{

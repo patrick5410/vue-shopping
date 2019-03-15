@@ -3,7 +3,7 @@
   <div class="goods">
     <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
       <div class="good-img-div">
-        <img style="width: 100%;height: auto" v-lazy="item.img">
+        <img v-lazy="item.img">
       </div>
       <div v-show="item.originalPrice>item.price" style="text-align: left">
         <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'">&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
@@ -79,6 +79,13 @@
     width: 100%;
     height: 170px;
     overflow: hidden;
+    background-color: white;
+
+    img{
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+    }
   }
 
 

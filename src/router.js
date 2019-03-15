@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store'
 import initApi from './initApi'
+import VueCookies from 'vue-cookies'
+
 
 Vue.use(Router)
 
@@ -44,7 +46,7 @@ const router = new Router({
     {
       path: '/good',
       name: 'good',
-      component: (resolve) => require(['./views/good/item.vue'], resolve),
+      component: (resolve) => require(['./views/good/Book.vue'], resolve),
       meta: {
         title: '商品详情'
       }
@@ -207,6 +209,15 @@ const router = new Router({
       }
     },
     {
+      // 个人书籍
+      path: '/personalBook',
+      name: 'personalBook',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/good/Book2.vue'], resolve),
+      meta: {
+        title: '个人书籍'
+      }
+    },
+    {
       // 404页面，放在最后
       path: '*',
       name: '404',
@@ -220,6 +231,11 @@ const router = new Router({
 
 // console.log('Vue', Vue)
 router.beforeEach((to, from, next) => {
+  if (!store.state.userInfo.wechatInfo && VueCookies.isKey('userInfo')) {
+    // 重新进入页面时，如果cookie存在userInfo就不用重新微信登录验证
+    console.log('VueCookies-userInfo', VueCookies.get('userInfo'))
+    store.state.userInfo = VueCookies.get('userInfo')
+  }
   if (process.env.NODE_ENV === 'development') {
     // 开发环境就不进行微信授权
     initApi.init(to)
@@ -238,6 +254,8 @@ router.beforeEach((to, from, next) => {
         // 防止微信回调两次相同的code值，请求后台出错
         store.commit('getUserInfo', { code: code,
           callBack: function () {
+            // 设置cookie
+            VueCookies.set('userInfo', JSON.stringify(store.state.userInfo), 60 * 60 * 1) // 一个小时过期
             console.log('跳转的路径名', to.name)
             // 这里回调只是为了调用页面api之前先完成了getUserInfo请求
             initApi.init(to)
@@ -290,7 +308,7 @@ router.beforeEach((to, from, next) => {
           }
           console.log('访问微信授权链接', localhostPaht)
           // alert('访问微信授权链接:' + localhostPaht)
-          window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3411d52f54a19541&redirect_uri=' + encodeURIComponent(localhostPaht) + '&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect'
+          window.location.href = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxad55a11373d3ad0d&redirect_uri=' + encodeURIComponent(localhostPaht) + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect'
         }
         /* 路由发生变化修改页面title */
         // if (to.meta.title) {

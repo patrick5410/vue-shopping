@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '../store'
 import { Message } from 'element-ui'
+import VueCookies from 'vue-cookies'
 
 // 创建 axios 实例
 let service = axios.create({
@@ -50,6 +51,7 @@ service.interceptors.response.use(
         // window.localStorage.removeItem('token')
         store.state.userInfo.wechatInfo = null
         // window.location.reload() //去掉重新刷新，防止页面不断在刷新
+        VueCookies.remove('userInfo')
         Message.error('登录过期，请重新刷新页面⊙﹏⊙')
       }
     }

@@ -3,7 +3,7 @@
   <div class="collect-container">
 
     <swipeout>
-      <swipeout-item transition-mode="follow"  v-for="(item,index) in $store.state.collectGoods" >
+      <swipeout-item transition-mode="follow" class="collect-good" v-for="(item,index) in $store.state.collectGoods" >
         <div slot="right-menu">
           <swipeout-button @click.native="deleteGood(item)" type="warn" :width="parseInt(120*containerWidth/750)">
             <div style="text-align: center">
@@ -15,7 +15,7 @@
         <div slot="content" class="demo-content vux-1px-t good">
           <div class="good-left">
             <div class="good-img-div">
-              <img :src="item.img" style="width: 100%;height: auto">
+              <img :src="item.img">
             </div>
             <div class="good-info">
               <div>{{item.name}}</div>
@@ -110,6 +110,10 @@
 <style lang="less" scoped>
 
   .collect-container{
+    .collect-good{
+      background-color: white;
+      border-bottom: 1px solid #e5e5e5;
+    }
 
     .good{
       display: flex;
@@ -117,7 +121,6 @@
       width: 355px;
       height: 100px;
       padding: 0 10px;
-      border-bottom: 1px solid #e5e5e5;
       background-color: white;
 
       .good-left{
@@ -129,10 +132,14 @@
           width: 100px;
           height: 100%;
           overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
           img{
-            height: 100%;
-            width: auto
+            height: 90%;
+            width: auto;
+            max-width: 90%;
           }
         }
 

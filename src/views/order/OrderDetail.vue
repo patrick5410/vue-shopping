@@ -586,9 +586,10 @@
                     margin-bottom: 10px;
 
                     img{
-                        height: 60px;
-                        width: auto;
-                        margin-right: 10px;
+                      height: 60px;
+                      width: auto;
+                      max-width: 60px;
+                      margin-right: 10px;
                     }
                 }
 

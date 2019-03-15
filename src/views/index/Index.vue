@@ -23,7 +23,7 @@
               <div class="good" v-for="(item,index) in $store.state.goods" :key="item.id" @click="goodDetail(item.id)">
                 <div class="good-img">
                   <!--<img :src="item.img" lowsrc="../../assets/img/good/加载失败.png" style="width: 100%;height: 100%">-->
-                  <img v-lazy="item.img" style="width: 100%;height: auto"  ref='itemImg' />
+                  <img v-lazy="item.img"  ref='itemImg' />
                   <div v-show="item.originalPrice>item.price.toFixed(2)" style="position: absolute;left: 0;bottom: 0">
                     <span class="cutPrice" :style="item.originalPrice-item.price>100?(item.originalPrice-item.price>300?'background-color:#995454':'background-color:#ffbf80'):'background-color:#52992e'" >&nbsp;直降{{item.originalPrice-item.price}}元&nbsp;</span>
                   </div>
@@ -220,7 +220,14 @@ export default {
     overflow: hidden;
     position: relative;
     /*background-color: #f2f2f2;*/
-    background: rgba(0,0,0,0.02);
+    /*background: rgba(0,0,0,0.02);*/
+    background-color: white;
+
+    img{
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+    }
   }
   .good-bottom{
     display: block;

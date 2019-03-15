@@ -45,7 +45,7 @@
                 <!--右边商品-->
                 <div class="good-one-right">
                   <div class="good-img" @click="goodDetail(item.goodId)">
-                    <img :src="item.img" style="width: 100%;height: auto">
+                    <img :src="item.img">
                   </div>
                   <div class="good-info">
                     <div class="goodName">
@@ -381,7 +381,13 @@
             display: inline-block;
             width: 80px;
             height: 80px;
-            background-color: #f2f2f2;
+            background-color: white;
+
+            img{
+              height: 100%;
+              width: auto;
+              max-width: 100%;
+            }
           }
 
           .good-info{

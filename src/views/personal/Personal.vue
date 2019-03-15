@@ -32,16 +32,16 @@
           <div>待付款</div>
         </div>
         <div  @click="toOrder(2)">
-          <img src="../../assets/img/unreceive.png">
-          <div>待收货</div>
+          <img src="../../assets/img/unreceive2.png">
+          <div>待取书</div>
         </div>
         <div  @click="toOrder(3)">
           <img src="../../assets/img/receive.png">
-          <div>已收货</div>
+          <div>已完成</div>
         </div>
         <div  @click="toOrder(4)">
           <img src="../../assets/img/after_sale.png">
-          <div>已退款</div>
+          <div>已取消</div>
         </div>
       </div>
     </div>
@@ -49,20 +49,20 @@
     <div class="other-entrance">
       <div class="common">
         <div @click="toAddressManage">
-          <img src="../../assets/img/address_management.png">
-          <div>地址管理</div>
+          <img src="../../assets/img/book_management.png">
+          <div>书籍管理</div>
+        </div>
+        <div @click="toAfterSale">
+          <img src="../../assets/img/sale_order.png">
+          <div>卖书书籍</div>
         </div>
         <div @click="toCollect">
           <img src="../../assets/img/collect.png">
           <div>我的收藏</div>
         </div>
         <div @click="toAfterSale">
-          <img src="../../assets/img/after_sale2.png">
-          <div>售后中心</div>
-        </div>
-        <div>
-          <img src="../../assets/img/service2.png">
-          <div>联系客服</div>
+          <img src="../../assets/img/donate.png">
+          <div>我要捐书</div>
         </div>
       </div>
     </div>

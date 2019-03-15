@@ -33,7 +33,7 @@
       <div class="good" v-for="(item,index) in $store.state.order.goods">
         <div class="good-left">
           <div class="good-img">
-            <img style="width: 100%;height: auto" :src="item.goodImg">
+            <img :src="item.goodImg">
           </div>
           <div class="good-left-info">
             <div>{{item.goodName}}</div>
@@ -382,6 +382,12 @@
             width: 80px;
             height: 80px;
             margin-right: 10px;
+
+            img{
+              height: 100%;
+              width: auto;
+              max-width: 100%;
+            }
 
           }
 

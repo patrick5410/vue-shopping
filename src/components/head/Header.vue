@@ -1,6 +1,6 @@
 <template>
     <div class="header" id="header">
-        <input v-bind:class="{searchInput:$route.path.indexOf('search') != -1}"  type="text" placeholder="搜索商品" v-on:focus="toSearch"  ref="searchInput" v-model="keyword">
+        <input v-bind:class="{searchInput:$route.path.indexOf('search') != -1}"  type="text" placeholder="搜索书籍" v-on:focus="toSearch"  ref="searchInput" v-model="keyword">
         <div class="search" @click="search">搜索</div>
     </div>
 
