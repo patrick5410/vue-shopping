@@ -14,7 +14,7 @@
             全选
           </div>
           <div class="cart-head-right">
-            已免运费
+
           </div>
         </div>
         <!--购物车书籍-->
@@ -59,7 +59,7 @@
                       <div class="buyCount-add" @click="addCount(item)">+</div>
                     </div>
                   </div>
-                  <div class="good-sore">可获积分：{{item.count*item.score}}分<span style="position: absolute;right: 0.2rem">单件不能超过{{item.maxBuyCount}}件</span></div>
+                  <div class="good-sore">积分抵购：{{item.count*item.score}}分<span style="position: absolute;right: 0.2rem">单件不能超过{{item.maxBuyCount}}件</span></div>
                 </div>
               </div>
             </swipeout-item>

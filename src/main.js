@@ -27,8 +27,8 @@ new Vue({
 Vue.use(InfiniteScroll)
 Vue.component(Spinner.name, Spinner)
 Vue.use(VueLazyLoad, {
-  error: 'img/good/加载失败.png',
-  loading: 'img/good/加载.png',
+  error: '../assets/img/good/加载失败.png',
+  loading: 'img/logo2.png',
   adapter: {
     loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init }) {
       // do something here

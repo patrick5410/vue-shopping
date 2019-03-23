@@ -30,7 +30,7 @@
             <!--订单合算-->
             <div class="order-calInfo" @click="toOrderDetail(item)">共{{item.goodCount}}件书籍，总金额<span style="color: #995454">¥{{item.paymentAmount}}元</span></div>
             <!--订单底部-->
-            <div class="order-bottom">
+            <div class="order-bottom" v-if="!hiddenBottom">
                 <!--待支付-->
                 <div  v-show="item.orderState === 1" style="display: flex;justify-content: space-between">
                     <div style="display: flex;align-items: center">
@@ -76,7 +76,8 @@
     Vue.use(ConfirmPlugin)
     export default {
         props: {
-            orders: Array//0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：订单取消（超时或用户主动取消）
+            orders: Array,//0：全部 1：待付款  2：待发货 3：已发货  4：已收货 5：退款中 6：已退款 7：订单取消（超时或用户主动取消）
+            hiddenBottom:false
         },
         components: {
             Countdown
@@ -251,7 +252,7 @@
 
 <style lang="scss" scoped>
     .orderCom-container{
-        background-color: #e5e5e5;
+        /*background-color: #e5e5e5;*/
 
         .order{
             width: 355px;

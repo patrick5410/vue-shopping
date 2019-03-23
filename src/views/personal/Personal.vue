@@ -48,19 +48,19 @@
 
     <div class="other-entrance">
       <div class="common">
-        <div @click="toAddressManage">
+        <div @click="toBookManage">
           <img src="../../assets/img/book_management.png">
           <div>书籍管理</div>
         </div>
-        <div @click="toAfterSale">
+        <div @click="toSellOrder">
           <img src="../../assets/img/sale_order.png">
-          <div>卖书书籍</div>
+          <div>卖出书籍</div>
         </div>
         <div @click="toCollect">
-          <img src="../../assets/img/collect.png">
+          <img src="../../assets/img/collect2.png">
           <div>我的收藏</div>
         </div>
-        <div @click="toAfterSale">
+        <div @click="toDonate">
           <img src="../../assets/img/donate.png">
           <div>我要捐书</div>
         </div>
@@ -99,6 +99,18 @@
       toAfterSale(){
         //跳转到售后中心
         this.$router.push({name:'afterSale'})
+      },
+      toBookManage(){
+        //跳转到书籍管理
+        this.$router.push({name:'bookManage'})
+      },
+      toSellOrder(){
+        //跳转到卖出书籍订单
+        this.$router.push({name:'sellOrder'})
+      },
+      toDonate(){
+        //跳转到捐书页面
+        this.$router.push({name:'donate'})
       }
     }
 

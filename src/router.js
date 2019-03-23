@@ -100,6 +100,14 @@ const router = new Router({
       }
     },
     {
+      path: '/personalAdrress',
+      name: 'personalAdrress',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/personal/AddressEdit.vue'], resolve),
+      meta: {
+        title: '个人信息'
+      }
+    },
+    {
       path: '/showMore',
       name: 'showMore',
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/showMore/ShowMore.vue'], resolve),
@@ -215,6 +223,24 @@ const router = new Router({
       component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/good/Book2.vue'], resolve),
       meta: {
         title: '个人书籍'
+      }
+    },
+    {
+      // 书籍管理
+      path: '/bookManage',
+      name: 'bookManage',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/manage/BookManage.vue'], resolve),
+      meta: {
+        title: '书籍管理'
+      }
+    },
+    {
+      // 卖出书籍
+      path: '/sellOrder',
+      name: 'sellOrder',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/order/SellOrder.vue'], resolve),
+      meta: {
+        title: '卖出书籍'
       }
     },
     {

@@ -99,8 +99,8 @@
                 <div>微信支付</div>
             </div>
             <div class="common border">
-                <div>配送快递</div>
-                <div>{{$store.state.order.deliveryCompany?$store.state.order.deliveryCompany:"暂无信息"}}</div>
+                <div>取书方式</div>
+                <div>{{$store.state.order.deliveryCompany?$store.state.order.deliveryCompany:"上门取书"}}</div>
             </div>
             <div class="common">
                 <div>发票信息</div>
@@ -159,7 +159,6 @@
         <div class="bottom" v-if="$store.state.order.orderState === 7">
             <div class="bottom-common changeColor" @click="toClz">再次购买</div>
         </div>
-
     </div>
 </template>
 
@@ -232,63 +231,73 @@
             },
             pay(){
 
+              // window.localStorage.setItem('orderId',this.$store.state.order.orderId)
+              // window.localStorage.setItem('addressId',this.$store.state.order.addressInfo.addressId)
+              // window.localStorage.setItem('leaveWord',this.$store.state.order.leaveWord)
+              // window.localStorage.setItem('token',this.$store.state.userInfo.token)
+              // window.localStorage.setItem('callBack',window.location.href)
+              let href = 'http://www.tdxiov.com/shopping/testPay?orderId='+this.$store.state.order.orderId+'&addressId='
+                +this.$store.state.order.addressInfo.addressId+"&leaveWord="+this.$store.state.order.leaveWord
+                +"&userId="+this.$store.state.userInfo.userId+"&callBack="+encodeURIComponent("http://www.lzcj.site/shopping/order")
+              // alert("请求链接："+href)
+              window.location.href = href
             //请求后台，更新订单：收货信息以及留言，然后向微信发起预支付订单，并返回
-            let that = this
-            this.$store.commit('payOrder', { data: { orderId: this.$store.state.order.orderId,addressId: this.$store.state.order.addressInfo.addressId,leaveWord: this.$store.state.order.leaveWord }
-              ,successCallBack: function (data) {
-                //生成预支付单号成功
-                console.log("预支付单号",data)
-                /**
-                 * 微信jsapi支付
-                 */
-                function onBridgeReady(){
-                  // alert(res.data.appId+","+res.data.timeStamp+","+res.data.nonceStr+","+res.data.package+","+res.data.signType+","+res.data.paySign);
-                  WeixinJSBridge.invoke(
-                    'getBrandWCPayRequest', {
-                      "appId":data.appId,     //公众号appId
-                      "timeStamp":data.timeStamp,  //时间戳
-                      "nonceStr":data.nonceStr, //随机字符串串
-                      "package":data.package,
-                      "signType":data.signType, //微信签名方式
-                      "paySign":data.paySign //微信签名
-                    },
-                    function(res){
-                      // console.log(res);
-                      // alert(res.err_code+","+res.err_desc+","+res.err_msg);
-                      if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                        // 使用以上方式判断前端返回,微信团队郑重提示：
-                        //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-                        //跳转到支付结果页面
-                        that.$router.push({name:'payResult',query:{payResult:"success"}})
-                      }else {
-                        that.$router.push({name:'payResult'})
-                      }
-                    });
-                }
-
-                //弹出支付窗口
-                if (typeof WeixinJSBridge == "undefined"){
-                  if( document.addEventListener ){
-                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-                  }else if (document.attachEvent){
-                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-                  }
-                }else{
-                  onBridgeReady();
-                }
-
-
-
-              },failCallBack:function () {
-                //生成预支付单号失败
-                that.$vux.toast.show({
-                  type: 'cancel',
-                  width:'11em',
-                  text: '生成预支付单号失败'
-                })
-
-              } })
+            // let that = this
+            // this.$store.commit('payOrder', { data: { orderId: this.$store.state.order.orderId,addressId: this.$store.state.order.addressInfo.addressId,leaveWord: this.$store.state.order.leaveWord }
+            //   ,successCallBack: function (data) {
+            //     //生成预支付单号成功
+            //     console.log("预支付单号",data)
+            //     /**
+            //      * 微信jsapi支付
+            //      */
+            //     function onBridgeReady(){
+            //       // alert(res.data.appId+","+res.data.timeStamp+","+res.data.nonceStr+","+res.data.package+","+res.data.signType+","+res.data.paySign);
+            //       WeixinJSBridge.invoke(
+            //         'getBrandWCPayRequest', {
+            //           "appId":data.appId,     //公众号appId
+            //           "timeStamp":data.timeStamp,  //时间戳
+            //           "nonceStr":data.nonceStr, //随机字符串串
+            //           "package":data.package,
+            //           "signType":data.signType, //微信签名方式
+            //           "paySign":data.paySign //微信签名
+            //         },
+            //         function(res){
+            //           // console.log(res);
+            //           // alert(res.err_code+","+res.err_desc+","+res.err_msg);
+            //           if(res.err_msg == "get_brand_wcpay_request:ok" ){
+            //             // 使用以上方式判断前端返回,微信团队郑重提示：
+            //             //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+            //             //跳转到支付结果页面
+            //             that.$router.push({name:'payResult',query:{payResult:"success"}})
+            //           }else {
+            //             that.$router.push({name:'payResult'})
+            //           }
+            //         });
+            //     }
+            //
+            //     //弹出支付窗口
+            //     if (typeof WeixinJSBridge == "undefined"){
+            //       if( document.addEventListener ){
+            //         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            //       }else if (document.attachEvent){
+            //         document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+            //         document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            //       }
+            //     }else{
+            //       onBridgeReady();
+            //     }
+            //
+            //
+            //
+            //   },failCallBack:function () {
+            //     //生成预支付单号失败
+            //     that.$vux.toast.show({
+            //       type: 'cancel',
+            //       width:'11em',
+            //       text: '生成预支付单号失败'
+            //     })
+            //
+            //   } })
 
 
 

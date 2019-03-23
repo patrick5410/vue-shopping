@@ -24,10 +24,11 @@
     <div class="encrypted-data">
       <div class="title">密保资料</div>
       <div class="content">
-        <div>手机号码</div>
-        <div>
-          13425816564
+        <div>个人信息</div>
+        <div v-if="$store.state.userInfo.address.addressId" style="color: #2f2fd5" @click="editAddress">
+          修改
         </div>
+        <div v-else style="color: #2f2fd5" @click="editAddress">添加</div>
       </div>
       <div class="content">
         <div>账号安全</div>
@@ -46,6 +47,11 @@
   export default {
     components: {
       Menu
+    },
+    methods:{
+      editAddress(){
+        this.$router.push({name:'personalAdrress'})
+      }
     }
 
   }

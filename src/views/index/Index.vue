@@ -20,7 +20,8 @@
           <!--书籍列表-->
           <div class="goods-container">
             <div class="goods" >
-              <div class="good" v-for="(item,index) in $store.state.goods" :key="item.id" @click="goodDetail(item.id)">
+              <div class="good" v-for="(item,index) in $store.state.goods" :key="item.id" @click="goodDetail(item)">
+                <img v-if="item.type ===0" class="book-sign" src="../../assets/img/book_sign.png">
                 <div class="good-img">
                   <!--<img :src="item.img" lowsrc="../../assets/img/good/加载失败.png" style="width: 100%;height: 100%">-->
                   <img v-lazy="item.img"  ref='itemImg' />
@@ -106,20 +107,28 @@ export default {
     loadMore () {
       let that = this;
       console.log("请求加载")
-      if(this.$store.state.goodPage && !that.isFinish && !this.loading ){
+      if(this.$store.state.goodPage && !that.isFinish && !this.loading && this.$store.state.goodPage.nextPage > this.$store.state.goodPage.currentPage){
         this.loading = true
         this.$store.commit("getGoods",{currentPage:this.$store.state.goodPage.nextPage,callBack:function () {
             console.log("加载书籍完毕",that)
             that.loading = false
             if(that.$store.state.goodPage.currentPage>=that.$store.state.goodPage.totalPage){
-              that.isFinish = true;
+              that.isFinish = true
             }
           }})
       }
+      if(this.$store.state.goodPage.nextPage <= this.$store.state.goodPage.currentPage){
+        that.isFinish = true
+      }
+
     },
     //书籍详情页面
-    goodDetail(goodId){
-      this.$router.push({name:'good',query:{goodId:goodId}})
+    goodDetail(item){
+      if(item.type ===0 ){
+        this.$router.push({name:'good',query:{goodId:item.id}})
+      }else {
+        this.$router.push({name:'personalBook',query:{goodId:item.id}})
+      }
     }
 
   }
@@ -207,11 +216,23 @@ export default {
 
   .good{
     width: 110px;
-    height: 150px;
+    /*height: 150px;*/
     margin: 5px 0;
     /*text-align: left;*/
     /*background-color: blue;*/
     /*border: 1px solid blue;*/
+    position: relative;
+
+    .book-sign{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 30px;
+      z-index: 999;
+
+    }
+
   }
 
   .good-img{

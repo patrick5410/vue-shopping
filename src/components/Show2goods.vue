@@ -1,7 +1,8 @@
 <!--每行显示2个书籍-->
 <template>
   <div class="goods">
-    <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item.id)">
+    <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item)">
+      <img v-if="item.type ===0" class="book-sign" src="../assets/img/book_sign.png">
       <div class="good-img-div">
         <img v-lazy="item.img">
       </div>
@@ -23,7 +24,7 @@
 
   Vue.use(VueLazyLoad,{
     error:'../assets/img/good/加载失败.png',
-    loading:'../assets/img/good/加载.png',
+    loading:'img/logo2.png',
     adapter: {
       loaded ({ bindType, el, naturalHeight, naturalWidth, $parent, src, loading, error, Init}) {
         // do something here
@@ -49,8 +50,12 @@
     },
     methods:{
       //书籍详情页面
-      goodDetail(goodId){
-        this.$router.push({name:'good',query:{goodId:goodId}})
+      goodDetail(item){
+        if(item.type ===0 ){
+          this.$router.push({name:'good',query:{goodId:item.id}})
+        }else {
+          this.$router.push({name:'personalBook',query:{goodId:item.id}})
+        }
       }
     }
 
@@ -70,9 +75,20 @@
 
   .good{
     width: 170px;
-    height: 230px;
+    /*height: 230px;*/
     /*border: 1px solid blue;*/
     margin-bottom: 10px;
+    position: relative;
+
+    .book-sign{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      z-index: 999;
+
+    }
   }
 
   .good-img-div{

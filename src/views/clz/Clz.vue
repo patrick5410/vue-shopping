@@ -4,7 +4,7 @@
     <Header/>
 
     <!--内容框-->
-    <div class="container" :style="{height:containerHeight+'px'}">
+    <div class="container">
       <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
         <ul>
           <li v-for="(item,index) in $store.state.classes"  :class="{active : item.classId == $store.state.currentClzId}" @click="selectClz(item.classId)" class="menu_left_li" :id="'clz'+item.classId">
@@ -14,7 +14,7 @@
         </ul>
       </section>
 
-      <section class="menu_right" id="wrapper_good" ref="wrapperGood" :style="{height:containerHeight+'px'}">
+      <section class="menu_right" id="wrapper_good" ref="wrapperGood">
         <ul>
           <li v-for="(item,index) in $store.state.classes" class="clz-sign" :id="'clz-sign'+item.classId">
             <div class="clz-container">
@@ -30,9 +30,11 @@
                   <span class="sigma-line-text">{{item.theme}}</span>
                 </div>
               </div>
+              <!--<LoadMore :show-loading="false" :tip="item.theme" background-color="#fbf9fe"></LoadMore>-->
               <!--书籍-->
               <div class="good-container">
-                <div v-for="it in item.goods"  class="good" @click="goodDetail(it.id)">
+                <div v-for="it in item.goods"  class="good" @click="goodDetail(it)">
+                  <img v-if="it.type ===0" class="book-sign" src="../../assets/img/book_sign.png">
                   <div class="goodImg-div">
                     <img v-lazy="it.img"/>
                     <!--<div v-show="it.originalPrice>it.price" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{it.originalPrice-it.price}}元</div>-->
@@ -65,6 +67,7 @@
   import Menu from '@/components/Menu'
   import Header from '@/components/head/Header'
   import BScroll from 'better-scroll'
+  import { LoadMore } from 'vux'
 
   // import VueLazyLoad from 'vue-lazyload'
   //
@@ -94,7 +97,8 @@
     name: 'index',
     components: {
       Menu,
-      Header
+      Header,
+      LoadMore
     },
     data(){
       return {
@@ -210,8 +214,12 @@
         this.goodScroll.scrollToElement(clzSigns[0], 600,0,0)
       },
       //书籍详情页面
-      goodDetail(goodId){
-        this.$router.push({name:'good',query:{goodId:goodId}})
+      goodDetail(item){
+        if(item.type ===0 ){
+          this.$router.push({name:'good',query:{goodId:item.id}})
+        }else {
+          this.$router.push({name:'personalBook',query:{goodId:item.id}})
+        }
       },
       toShowClz (item) {
         this.$router.push({name:'showMore',query:{classId:item.classId}})
@@ -259,8 +267,12 @@
     display: flex;
     flex-direction:row;
     align-items: flex-start;
-    margin-top: 37px;
+    /*margin-top: 37px;*/
     background-color: white;
+    position: absolute;
+    top:37px;
+    left: 0;
+    bottom: 60px;
   }
 
 
@@ -324,6 +336,17 @@
   .good{
     margin: 10px 0;
     /*border: 1px solid blue;*/
+    width: 85px;
+    position: relative;
+    .book-sign{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 25px;
+      height: 25px;
+      z-index: 999;
+
+    }
 
   }
 
@@ -377,7 +400,7 @@
 
   /*文字横线样式*/
   .sigma-content{
-    width: 50%;
+    width: 80%;
     margin: 10px auto;
     text-align: center;
     background-color: #fff;

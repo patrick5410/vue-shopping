@@ -24,6 +24,9 @@ export default {
       case 'good':
         store.commit('detail', { data: { goodId: router.query.goodId } })
         break
+      case 'personalBook':
+        store.commit('detail', { data: { goodId: router.query.goodId } })
+        break
       case 'cart':
         store.commit('getCartGoods')
         store.commit('guessGoods')
