@@ -2,7 +2,7 @@
 <template>
   <div class="goods">
     <div class="good" v-for="(item,index) in goods" :key="item.id" @click="goodDetail(item)">
-      <img v-if="item.type ===0" class="book-sign" src="../assets/img/book_sign.png">
+      <img v-if="item.sellUserId ===0" class="book-sign" src="../assets/img/book_sign.png">
       <div class="good-img-div">
         <img v-lazy="item.img">
       </div>
@@ -51,7 +51,7 @@
     methods:{
       //书籍详情页面
       goodDetail(item){
-        if(item.type ===0 ){
+        if(item.sellUserId ===0 ){
           this.$router.push({name:'good',query:{goodId:item.id}})
         }else {
           this.$router.push({name:'personalBook',query:{goodId:item.id}})
@@ -70,7 +70,7 @@
     flex-wrap:wrap;
     justify-content:space-around;
     /*z-index: 1;*/
-    padding-top: 36px;
+    padding-top: 45px;
   }
 
   .good{
@@ -86,7 +86,7 @@
       left: 0;
       width: 40px;
       height: 40px;
-      z-index: 999;
+      /*z-index: 1;*/
 
     }
   }

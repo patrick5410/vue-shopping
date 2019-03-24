@@ -50,6 +50,7 @@ export default {
     background-color: white;
     border-top: 1px solid #e5e5e5;
     font-size: 14px;
+    z-index: 999;
   }
   .menu>div{
     display: inline-flex;

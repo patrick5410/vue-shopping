@@ -34,7 +34,7 @@
               <!--书籍-->
               <div class="good-container">
                 <div v-for="it in item.goods"  class="good" @click="goodDetail(it)">
-                  <img v-if="it.type ===0" class="book-sign" src="../../assets/img/book_sign.png">
+                  <img v-if="it.sellUserId ===0" class="book-sign" src="../../assets/img/book_sign.png">
                   <div class="goodImg-div">
                     <img v-lazy="it.img"/>
                     <!--<div v-show="it.originalPrice>it.price" :style="it.originalPrice-it.price>100?(it.originalPrice-it.price>300?'background-color:#995454':'background-color:#ffbf80'):''" class="cutPrice">直降{{it.originalPrice-it.price}}元</div>-->
@@ -215,7 +215,7 @@
       },
       //书籍详情页面
       goodDetail(item){
-        if(item.type ===0 ){
+        if(item.sellUserId ===0 ){
           this.$router.push({name:'good',query:{goodId:item.id}})
         }else {
           this.$router.push({name:'personalBook',query:{goodId:item.id}})

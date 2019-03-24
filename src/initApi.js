@@ -46,6 +46,14 @@ export default {
           store.commit('getOrder', { data: { orderId: router.query.orderId } })
         }
         break
+      case 'payResult':
+          console.log("准备获取订单",store.state.order,router.query.orderId)
+        if (!store.state.order || router.query.orderId) {
+          // 如果没有订单，需从后台获取
+          console.log("开始获取订单")
+          store.commit('getOrder', { data: { orderId: router.query.orderId } })
+        }
+        break
       case 'orderDetail':
         store.commit('getOrder', { data: { orderId: router.query.orderId } })
         break

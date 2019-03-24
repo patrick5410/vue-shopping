@@ -1,72 +1,79 @@
 <!--个人卖书展示页面-->
 <template>
-  <div class="book2">
+  <div class="book2" v-if="$store.state.goodDetail">
     <div class="head">
       <div class="navigation-bar">
         <img src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_detailBackNormal.png" @click="$router.back()"/>
         <img src="https://app.youpin.mi.com/youpin/static/m/res/images/std_titlebar_homeNormal.png" />
       </div>
       <div class="book-img">
-        <img src="https://booklibimg.kfzimg.com/data/book_lib_img_v2/user/0/0ca8/0ca85940c6733fe5f07b66d191142921_0_0_0_0.jpg">
+        <img :src="$store.state.goodDetail.img">
       </div>
       <div class="publish-box">
-        <div class="book-title">火星孤儿</div>
+        <div class="book-title">{{ $store.state.goodDetail.subTitle }}</div>
         <div class="book-info">
           <div class="title">作者</div>
-          <div class="content">刘洋 著</div>
+          <div class="content">{{ $store.state.goodDetail.author }} 著</div>
         </div>
         <div class="book-info">
           <div class="title">出版社</div>
-          <div class="content">人民文学出版社</div>
+          <div class="content">{{ $store.state.goodDetail.publishingHouse }}</div>
         </div>
         <div class="book-info">
           <div class="title">出版时间</div>
-          <div class="content">2018年12月 第1版</div>
+          <div class="content">{{ $store.state.goodDetail.publishingDate }}</div>
         </div>
         <div class="book-info">
           <div class="title">ISBN</div>
-          <div class="content">9787020146734</div>
+          <div class="content">{{ $store.state.goodDetail.ISBN }}</div>
         </div>
       </div>
     </div>
     <div class="book-detail">
       <div class="title">图书描述</div>
-      <div class="content">近腾中学——一所*所未有的学校，凭借难以想象的另类教学，维持着奇迹般的升学率。而在光鲜亮丽的成绩背后，反抗的种子正在悄悄萌芽。当近腾内部发生骚乱时，世界上出现了许多神秘事件：一辆大卡车无端腾空，无数神秘石碑从地底涌出。最终，人类在衰败的文明中苟延残喘。此时，近腾中学的一群高中生成了人类最后的炬火，最后的光……</div>
+      <div class="content" v-html="$store.state.goodDetail.detailHtml">近腾中学——一所*所未有的学校，凭借难以想象的另类教学，维持着奇迹般的升学率。而在光鲜亮丽的成绩背后，反抗的种子正在悄悄萌芽。当近腾内部发生骚乱时，世界上出现了许多神秘事件：一辆大卡车无端腾空，无数神秘石碑从地底涌出。最终，人类在衰败的文明中苟延残喘。此时，近腾中学的一群高中生成了人类最后的炬火，最后的光……</div>
     </div>
     <div class="bottom-pane">
-      <div class="price">
-        ¥22.36<span class="original-price">原价：36.38元</span>
+      <div class="collection" @click="collect">
+        <div class="img">
+          <img v-if="$store.state.goodDetail.isCollect" src="../../assets/img/collection.png" alt="collection">
+          <img v-else src="../../assets/img/uncollection.png" alt="collection">
+        </div>
+        <!--<span v-if="!$store.state.goodDetail.isCollect">收藏</span>-->
+        <!--<span v-else>取消收藏</span>-->
       </div>
-      <div class="buy" @click="popupVisible=true">
+      <div class="price">
+        ¥{{ $store.state.goodDetail.price }}<span class="original-price">原价：{{ $store.state.goodDetail.originalPrice.toFixed(2) }}元</span>
+      </div>
+      <div class="buy" @click="buy">
         <img src="../../assets/img/cart3.png"/>
         <div>去购买</div>
       </div>
-
-      <!--<Popup v-model="popupVisible" position="bottom" class="toBuy">-->
-        <!--<div class="toBuy_container">-->
-          <!--<div class="good">-->
-            <!--<div><img :src="$store.state.goodDetail.img" alt="logo" /></div>-->
-            <!--<div class="text">-->
-              <!--<div class="name">{{ $store.state.goodDetail.name }}</div>-->
-              <!--<div class="price">¥{{ $store.state.goodDetail.price }}</div>-->
-            <!--</div>-->
-            <!--<div class="kucun">-->
-              <!--库存：{{ $store.state.goodDetail.remainCount }}件-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="numSelect">-->
-            <!--<span style="color: #808080">数量</span><br>-->
-            <!--<InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="$store.state.goodDetail.remainCount"></InputNumber>-->
-          <!--</div>-->
-          <!--<div class="button">-->
-            <!--<div class="buy" @click="toPayPage">-->
-              <!--<img src="../../assets/img/cart3.png"/>-->
-              <!--<div>去购买</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</Popup>-->
     </div>
+    <Popup v-model="popupVisible" position="bottom" class="toBuy">
+      <div class="toBuy_container">
+        <div class="good">
+          <div><img :src="$store.state.goodDetail.img" alt="logo" /></div>
+          <div class="text">
+            <div class="name">{{ $store.state.goodDetail.name }}</div>
+            <div class="price">¥{{ $store.state.goodDetail.price }}</div>
+          </div>
+          <div class="kucun">
+            库存：{{ $store.state.goodDetail.remainCount }}件
+          </div>
+        </div>
+        <div class="numSelect">
+          <span style="color: #808080">数量</span><br>
+          <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="$store.state.goodDetail.remainCount"></InputNumber>
+        </div>
+        <div class="button">
+          <div class="buy" @click="toPayPage">
+            <img src="../../assets/img/cart3.png"/>
+            <div>去购买</div>
+          </div>
+        </div>
+      </div>
+    </Popup>
   </div>
 </template>
 
@@ -74,11 +81,18 @@
   import  { ConfirmPlugin,ToastPlugin} from 'vux'
   import Vue from 'vue'
   import  { LoadingPlugin } from 'vux'
+  import {Badge,InputNumber} from 'element-ui'
+  import {Popup} from 'mint-ui'
 
   Vue.use(LoadingPlugin)
   Vue.use(ConfirmPlugin)
   Vue.use(ToastPlugin)
   export default {
+    components:{
+      Popup,
+      Badge,
+      InputNumber
+    },
     data(){
       return{
         selectNum: 1,// 购买数量
@@ -93,6 +107,14 @@
             type:"text",
             width:"14em",
             text: '该书籍目前还没上架喔'
+          })
+          return
+        }
+        if(!this.$store.state.goodDetail.remainCount){
+          this.$vux.toast.show({
+            type:"text",
+            width:"16em",
+            text: '该书籍库存不足，稍后再试'
           })
           return
         }
@@ -115,6 +137,54 @@
               text: '生成订单出错'
             })
           } })
+
+
+      },
+      buy(){
+        console.log("测试购买点击")
+        if(!this.popupVisible){
+          this.popupVisible= true
+        }else {
+          if(!this.$store.state.goodDetail.onSell){
+            this.$vux.toast.show({
+              type:"text",
+              width:"14em",
+              text: '该书籍目前还没上架喔'
+            })
+            return
+          }
+          //这里不用传选中书籍id，直接存储在store中
+          let that = this
+          this.$store.commit("createOrder",{ data: { goodId: that.$store.state.goodDetail.id
+              ,buyCount:that.selectNum
+              ,goodSpecificationItemIds:[0]
+            }
+            ,successCallBack:function () {
+              //成功
+              that.$router.push({name:'payPage'})
+            },failCallBack:function () {
+              //失败
+              that.$vux.toast.show({
+                type:"warn",
+                text: '生成订单出错'
+              })
+            } })
+        }
+      },
+      collect(){
+        //收藏
+        // this.goodDetail.isCollect = !this.goodDetail.isCollect
+        if(!this.$store.state.goodDetail.isCollect){
+          let that = this
+          this.$store.commit("collectGood",{ data: { goodId: that.$store.state.goodDetail.id },successCallBack:function () {
+              that.$store.state.goodDetail.isCollect = true
+            } })
+        }else {
+          let that = this
+          this.$store.commit("deleteCollect",{ data: { goodId: that.$store.state.goodDetail.id },successCallBack:function () {
+              that.$store.state.goodDetail.isCollect = false
+            } })
+        }
 
 
       }
@@ -242,11 +312,25 @@
       align-items: center;
       border-top: 1px solid #e5e5e5;
       background-color: white;
+      z-index: 9999;
+
+      .collection{
+        margin-left: 10px;
+        width: 30px;
+        /*height: 41px;*/
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        img{
+          width: 24px;
+          height: 24px;
+        }
+      }
 
       .price{
         color: #9e100e;
         font-size: 22px;
-        margin-left: 20px;
+        margin-left: 5px;
         height: 100%;
         display: flex;
         align-items: center;
@@ -266,9 +350,10 @@
         justify-content: center;
         align-items: center;
         background-color: #9e100e;
-        margin-right: 20px;
+        margin-right: 5px;
         border-radius: 5px;
         color: white;
+        z-index: 999;
 
         img{
           height: 50%;
@@ -285,6 +370,7 @@
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
       bottom: 0;
+      /*left: 0;*/
       background-color: #fff;
       z-index: 2;
       /*padding-bottom: 100px;*/
@@ -373,24 +459,39 @@
           justify-content:space-between;
           width: 355px;
 
-          div{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 150px;
-            height: 36px;
-            border-radius: 10px;
-            line-height: 32px;
-            background-color: rgb(153,84,84);
-          }
-
-          .buy{
+          /*div{*/
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
             /*width: 150px;*/
             /*height: 36px;*/
             /*border-radius: 10px;*/
             /*line-height: 32px;*/
-            background-color: rgb(153,84,84);
+            /*!*background-color: rgb(153,84,84);*!*/
+
+
+          /*}*/
+
+          .buy{
+            width: 120px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #9e100e;
+            margin-right: 20px;
+            margin-left: 250px;
+            border-radius: 5px;
+            color: white;
+
+            img{
+              height: 50%;
+              width: auto;
+              margin-right: 5px;
+              /*margin-left: 10px;*/
+            }
           }
+
           .toCart{
             /*width: 150px;*/
             /*height: 36px;*/

@@ -21,7 +21,7 @@
           <div class="goods-container">
             <div class="goods" >
               <div class="good" v-for="(item,index) in $store.state.goods" :key="item.id" @click="goodDetail(item)">
-                <img v-if="item.type ===0" class="book-sign" src="../../assets/img/book_sign.png">
+                <img v-if="item.sellUserId ===0" class="book-sign" src="../../assets/img/book_sign.png">
                 <div class="good-img">
                   <!--<img :src="item.img" lowsrc="../../assets/img/good/加载失败.png" style="width: 100%;height: 100%">-->
                   <img v-lazy="item.img"  ref='itemImg' />
@@ -124,7 +124,7 @@ export default {
     },
     //书籍详情页面
     goodDetail(item){
-      if(item.type ===0 ){
+      if(item.sellUserId ===0 ){
         this.$router.push({name:'good',query:{goodId:item.id}})
       }else {
         this.$router.push({name:'personalBook',query:{goodId:item.id}})

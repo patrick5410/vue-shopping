@@ -16,19 +16,19 @@
             <!--<div v-html="$store.state.goodDetail.introduction" class="introduction"></div>-->
             <div class="book-info">
               <div class="title">作者</div>
-              <div class="content">刘洋 著</div>
+              <div class="content">{{ $store.state.goodDetail.author }} 著</div>
             </div>
             <div class="book-info">
               <div class="title">出版社</div>
-              <div class="content">人民文学出版社</div>
+              <div class="content">{{ $store.state.goodDetail.publishingHouse }}</div>
             </div>
             <div class="book-info">
               <div class="title">出版时间</div>
-              <div class="content">2018年12月 第1版</div>
+              <div class="content">{{ $store.state.goodDetail.publishingDate }}</div>
             </div>
             <div class="book-info">
               <div class="title">ISBN</div>
-              <div class="content">9787020146734</div>
+              <div class="content">{{ $store.state.goodDetail.ISBN }}</div>
             </div>
             <div class="price"><span class="money">¥</span>{{$store.state.goodDetail.price.toFixed(2)}}&nbsp;&nbsp;&nbsp;<span v-if="$store.state.goodDetail.price<$store.state.goodDetail.originalPrice" style="font-size: 0.34rem;color: #808080;text-decoration: line-through">原价：{{$store.state.goodDetail.originalPrice.toFixed(2)}}元</span></div>
         </div>
@@ -109,7 +109,7 @@
               </div>
               <div class="numSelect">
                   <span style="color: #808080">数量</span><br>
-                  <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="$store.state.goodDetail.maxBuyCount"></InputNumber>
+                  <InputNumber class="InputNumber" size="small" v-model="selectNum" :min="1" :max="$store.state.goodDetail.remainCount"></InputNumber>
               </div>
               <div class="button">
                   <div class="buy" @click="toPayPage">
@@ -192,6 +192,14 @@ export default {
               type:"text",
               width:"14em",
               text: '该书籍目前还没上架喔'
+            })
+            return
+          }
+          if(!this.$store.state.goodDetail.remainCount){
+            this.$vux.toast.show({
+              type:"text",
+              width:"16em",
+              text: '该书籍库存不足，稍后再试'
             })
             return
           }
@@ -420,6 +428,7 @@ export default {
     //书籍详情图
     .details{
         padding-bottom: 49px;
+        background-color: white;
 
         img{
             width: 100%;
@@ -440,6 +449,7 @@ export default {
         height: 49px;
         background-color: #fff;
         font-size: 12px;
+        border-top: 1px solid #e5e5e5;
         img{
             width: 24px;
             height: 24px;

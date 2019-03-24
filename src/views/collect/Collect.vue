@@ -22,7 +22,7 @@
               <div style="color: #995454">¥{{item.price.toFixed(2)}}</div>
             </div>
           </div>
-          <div class="good-right" @click="goodDetail(item.goodId)">
+          <div class="good-right" @click="goodDetail(item)">
             <img src="../../assets/img/forward_right.png">
           </div>
         </div>
@@ -75,9 +75,12 @@
     },
     methods:{
       //书籍详情页面
-      goodDetail(goodId)
-      {
-        this.$router.push({name: 'good', query: {goodId: goodId}})
+      goodDetail(item){
+        if(item.sellUserId ===0 ){
+          this.$router.push({name:'good',query:{goodId:item.id}})
+        }else {
+          this.$router.push({name:'personalBook',query:{goodId:item.id}})
+        }
       },
       //删除收藏
       deleteGood(item){

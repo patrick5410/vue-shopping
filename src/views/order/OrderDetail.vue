@@ -399,7 +399,11 @@
             },
             toGoodDetail(item){
                 //跳转到书籍详情页面
-              this.$router.push({name:'good',query:{goodId:item.goodId}})
+              if(item.sellUserId ===0 ){
+                this.$router.push({name:'good',query:{goodId:item.id}})
+              }else {
+                this.$router.push({name:'personalBook',query:{goodId:item.id}})
+              }
             }
         }
     }
