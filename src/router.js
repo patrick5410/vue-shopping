@@ -244,6 +244,31 @@ const router = new Router({
       }
     },
     {
+      // 捐书信息
+      path: '/donateManage',
+      name: 'donateManage',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/donate/DonateManage.vue'], resolve),
+      meta: {
+        title: '捐书信息'
+      }
+    },
+    {
+      path: '/donateBooks',
+      name: 'donateBooks',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/donate/DonateBooks.vue'], resolve),
+      meta: {
+        title: '申请捐书'
+      }
+    },
+    {
+      path: '/donateDetails',
+      name: 'donateDetails',
+      component: (resolve) => require(/* webpackChunkName: "about" */ ['./views/donate/DonateDetails.vue'], resolve),
+      meta: {
+        title: '捐书详情'
+      }
+    },
+    {
       // 404页面，放在最后
       path: '*',
       name: '404',
