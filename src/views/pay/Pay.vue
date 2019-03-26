@@ -4,7 +4,8 @@
     <div class="receive-info">
       <div class="receive-info-left">
         <div>{{$store.state.order.addressInfo.receiveName}}</div>
-        <div>{{$store.state.order.addressInfo.addressArea}}</div>
+        <!--<div>{{$store.state.order.addressInfo.addressArea}}</div>-->
+        <div>佛山科学技术学院</div>
       </div>
 
       <div class="receive-info-right">
@@ -16,12 +17,23 @@
     </div>
     <div class="receive-bottom"></div>
 
-    <div class="pay_type">
+    <div class="pay_type" @click="$store.state.order.paymentType=0">
       <div class="weixin">
         微信支付
       </div>
       <div style="display:flex;align-items: center">
-        <box>
+        <box v-show="$store.state.order.paymentType===0">
+          <icon type="success"></icon>
+        </box>
+      </div>
+    </div>
+
+    <div class="pay_type2" v-if="$store.state.order.sellUserId===0" @click="$store.state.order.paymentType=1">
+      <div class="weixin">
+        积分抵购
+      </div>
+      <div style="display:flex;align-items: center">
+        <box v-show="$store.state.order.paymentType===1">
           <icon type="success"></icon>
         </box>
       </div>
@@ -37,7 +49,8 @@
           </div>
           <div class="good-left-info">
             <div>{{item.goodName}}</div>
-            <div style="color: #995454">¥{{item.goodPrice.toFixed(2)}}</div>
+            <div style="color: #995454" v-if="$store.state.order.paymentType===1">{{item.goodScore}}积分</div>
+            <div style="color: #995454" v-else>¥{{item.goodPrice.toFixed(2)}}</div>
             <div style="color: #808080">{{item.goodSpecificationItems}}</div>
           </div>
         </div>
@@ -45,10 +58,10 @@
       </div>
 
 
-      <div class="good-common">
-        <div>可获积分</div>
-        <div style="color: #808080">{{$store.state.order.score}}分</div>
-      </div>
+      <!--<div class="good-common">-->
+        <!--<div>可获积分</div>-->
+        <!--<div style="color: #808080">{{$store.state.order.score}}分</div>-->
+      <!--</div>-->
       <div class="good-common">
         <div>取书方式</div>
         <div style="color: #808080">上门取书</div>
@@ -70,23 +83,27 @@
       <div class="pay-info">
         <div>
           <div>书籍总价</div>
-          <div style="color: #995454">¥{{$store.state.order.totalPrice.toFixed(2)}}</div>
+          <div style="color: #995454" v-if="$store.state.order.paymentType===1">{{$store.state.order.score}}积分</div>
+          <div style="color: #995454" v-else>¥{{$store.state.order.totalPrice.toFixed(2)}}</div>
         </div>
-        <div>
-          <div>运费</div>
-          <div style="color: #995454">+¥{{$store.state.order.deliveryMoney.toFixed(2)}}</div>
-        </div>
+        <!--<div>-->
+          <!--<div>运费</div>-->
+          <!--<div style="color: #995454">+¥{{$store.state.order.deliveryMoney.toFixed(2)}}</div>-->
+        <!--</div>-->
       </div>
     </div>
 
     <!--详细地址-->
     <div class="detail-address">
-      取书地址：{{$store.state.order.addressInfo.addressDetail}}
+      &nbsp;您的宿舍：{{$store.state.order.addressInfo.addressDetail}}
     </div>
     <!--支付按钮-->
     <div class="pay-div">
-      <div class="pay-money">合计：<span style="color: #995454">¥{{$store.state.order.paymentAmount.toFixed(2)}}</span></div>
-        <div class="pay-button" @click="pay">去支付</div>
+      <div class="pay-money">合计：
+        <span style="color: #995454" v-if="$store.state.order.paymentType===1">{{$store.state.order.score}}积分</span>
+        <span style="color: #995454" v-else>¥{{$store.state.order.paymentAmount.toFixed(2)}}</span>
+      </div>
+       <div class="pay-button" @click="pay">去支付</div>
     </div>
 
   </div>
@@ -246,8 +263,8 @@
       },
       toAddressManage(){
         //跳转到选择地址页面（管理地址）
-        this.$store.state.choosedAddress = null
-        this.$router.push({name:'addressManage'})
+        this.$store.state.choosedAddress = this.$store.state.order.addressInfo
+        this.$router.push({name:'personalAdrress'})
       }
     }
   }
@@ -339,6 +356,31 @@
 
     }
 
+    .pay_type2{
+      display: flex;
+      height: 40px;
+      background-color: white;
+      /*margin-top: 10px;*/
+      justify-content: space-between;
+      width: 355px;
+      padding: 0 10px;
+      border-top: 1px solid #e5e5e5;
+
+      .weixin{
+        display: flex;
+        width: 100px;
+        background-image: url("../../assets/img/jifen.png");
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: 31px 27px;
+        padding-left: 30px;
+        align-items: center;
+
+      }
+
+
+    }
+
     .good-detail{
       background-color: white;
       margin-top: 15px;
@@ -410,7 +452,7 @@
 
     .pay-info{
       width: 355px;
-      height: 60px;
+      height: 40px;
       padding: 0 10px;
       background-color: white;
       margin-top: 15px;
@@ -418,7 +460,7 @@
 
       div{
         display: flex;
-        height: 30px;
+        height: 40px;
         justify-content: space-between;
         align-items: center;
       }

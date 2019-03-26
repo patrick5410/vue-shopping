@@ -26,11 +26,12 @@
 
 <script>
   import OrderCom from '@/components/OrderCom'
-  import { Tab, TabItem,LoadingPlugin,Badge  } from 'vux'
+  import { Tab, TabItem,LoadingPlugin,Badge,ToastPlugin  } from 'vux'
   import Vue from 'vue'
 
 
   Vue.use(LoadingPlugin)
+  Vue.use(ToastPlugin)
   export default {
     components: {
       Tab,
@@ -86,14 +87,31 @@
       }
     },
     beforeCreate(){
-
+      if(this.$route.query.index>0 && this.$route.query.index<5){
+        this.currentIndex = this.$route.query.index
+      }
     },
     created(){
+      if(this.$store.state.orders.length>0){
+        //有可能页面加载之前订单已经获取到了
+        this.onItemClick(this.currentIndex);
+      }else {
+        this.$vux.loading.show({
+          text: '正在加载中'
+        })
+        console.log("内容加载完毕")
 
-      this.$vux.loading.show({
-        text: '正在加载中'
-      })
-      console.log("内容加载完毕")
+        let that = this
+        setTimeout(function () {
+          if(that.$vux.loading.isVisible()){
+            that.$vux.loading.hide()
+            that.$vux.toast.show({
+              text: '请求超时'
+            })
+          }
+
+        },10000)
+      }
     },
     mounted: function () {
       this.$nextTick(function () {

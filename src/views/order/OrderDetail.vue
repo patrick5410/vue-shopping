@@ -400,9 +400,9 @@
             toGoodDetail(item){
                 //跳转到书籍详情页面
               if(item.sellUserId ===0 ){
-                this.$router.push({name:'good',query:{goodId:item.id}})
+                this.$router.push({name:'good',query:{goodId:item.goodId}})
               }else {
-                this.$router.push({name:'personalBook',query:{goodId:item.id}})
+                this.$router.push({name:'personalBook',query:{goodId:item.goodId}})
               }
             }
         }

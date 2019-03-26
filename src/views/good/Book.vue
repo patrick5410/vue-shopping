@@ -87,7 +87,7 @@
                     <div><img :src="$store.state.goodDetail.img" alt="logo" /></div>
                     <div class="text">
                         <div class="name">{{ $store.state.goodDetail.name }}</div>
-                        <div class="price">¥{{ $store.state.goodDetail.price }}</div>
+                        <div class="price">¥{{ $store.state.goodDetail.price }}&nbsp;&nbsp;<span style="font-size: 0.34rem;color: #808080;">{{$store.state.goodDetail.goodScore}}分</span></div>
                     </div>
                     <div class="kucun">
                         库存：{{ $store.state.goodDetail.remainCount }}件

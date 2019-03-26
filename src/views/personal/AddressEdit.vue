@@ -158,7 +158,13 @@
                 text: '添加成功'
               })
               // item.isCollect = true
-              that.$router.push({name:'personal'})
+              if(that.$store.state.choosedAddress){
+                that.$store.state.order.addressInfo = that.address
+                that.$router.push({name:'payPage'})
+                that.$store.state.choosedAddress = null
+              }else {
+                that.$router.push({name:'personal'})
+              }
             },failCallBack:function () {
               that.$vux.toast.show({
                 type: 'warn',
@@ -182,7 +188,13 @@
                 text: '编辑成功'
               })
               // item.isCollect = true
-              that.$router.push({name:'personal'})
+              if(that.$store.state.choosedAddress){
+                that.$store.state.order.addressInfo = that.address
+                that.$router.push({name:'payPage'})
+                that.$store.state.choosedAddress = null
+              }else {
+                that.$router.push({name:'personal'})
+              }
             },failCallBack:function () {
               that.$vux.toast.show({
                 type: 'warn',

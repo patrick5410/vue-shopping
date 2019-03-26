@@ -42,8 +42,8 @@
         <!--<span v-if="!$store.state.goodDetail.isCollect">收藏</span>-->
         <!--<span v-else>取消收藏</span>-->
       </div>
-      <div class="price">
-        ¥{{ $store.state.goodDetail.price }}<span class="original-price">原价：{{ $store.state.goodDetail.originalPrice.toFixed(2) }}元</span>
+      <div class="price" v-if="$store.state.goodDetail.price">
+        ¥{{ $store.state.goodDetail.price.toFixed(2) }}<span class="original-price">原价：{{ $store.state.goodDetail.originalPrice.toFixed(2) }}元</span>
       </div>
       <div class="buy" @click="buy">
         <img src="../../assets/img/cart3.png"/>
