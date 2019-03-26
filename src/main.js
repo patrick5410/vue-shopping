@@ -11,6 +11,7 @@ import VueLazyLoad from 'vue-lazyload'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import api from './api/install'
+import 'iview/dist/styles/iview.css'
 
 Vue.use(api)
 Vue.use(VueAxios, axios)

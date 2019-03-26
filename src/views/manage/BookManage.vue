@@ -1,6 +1,30 @@
 <template>
   <div class="addressManage" >
-    <div class="addressCard" v-for="item in $store.state.addresses" :key="item.receivePhone">
+   <div class="big">
+    <div class="addressCard" v-for="item in bookManage">
+      <div class="container_top">
+        <img src="https://www.kfzimg.com/G06/M00/24/12/p4YBAFqaYjWAAUCsAADI9fBJ77U475_s.jpg">
+      </div>
+      <div class="button">
+        <div class="onSell">
+          <XSwitch size="large">
+            <span slot="open">上架</span>
+            <span slot="close">下架</span>
+          </XSwitch>
+        </div>
+        <div class="bottom-right">
+          <div class="edit" @click="editAddress(item)">
+            <img src="../../assets/img/addressManage/edit.png" alt="编辑"><div>编辑</div>
+          </div>
+          <div class="delete" @click="deleteAddress(item)">
+            <img src="../../assets/img/addressManage/delete.png" alt="删除"><div>删除</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+   </div>
+    <!--<div class="addressCard" v-for="item in $store.state.addresses" :key="item.receivePhone">
       <div class="container_top" @click="selectAdress(item)">
         <div class="name_phone">{{item.receiveName}}&emsp;&emsp;{{item.receivePhone}}</div>
         <div class="address">{{handleStr(item.addressArea+item.addressDetail)}}</div>
@@ -22,17 +46,34 @@
         </div>
 
       </div>
-    </div>
+    </div>-->
     <!-- 添加收货地址 -->
-    <div id="addAddress" class="addAddress" @click="addAddress">新增书籍</div>
+    <!--<div id="addAddress" class="addAddress" @click="addAddress">新增书籍</div>-->
   </div>
 </template>
 <script>
   import { CheckIcon,Icon  } from 'vux'
+  // import {FormItem,Switch} from 'element-ui'
+  import {Switch} from 'iview'
   export default {
-    components: { CheckIcon,Icon },
+    components: {
+      CheckIcon,
+      Icon,
+      XSwitch:Switch
+    },
     data () {
       return {
+        bookManage:[{
+          picture:'13213345345',
+          word:'gjghjghjgkjgh',
+          onSell:false
+        },
+        {
+          picture:'13213345345',
+          word:'gjghjghjgkjgh',
+          onSell:true
+        }
+        ],
         containerHeight:1200//内容宽度
       }
     },
@@ -45,9 +86,9 @@
 
     },
     mounted: function () {
-      this.$nextTick(function () {
-        this.containerHeight =  window.innerHeight - window.document.getElementById('addAddress').clientHeight ;
-      })
+      // this.$nextTick(function () {
+      //   this.containerHeight =  window.innerHeight - window.document.getElementById('addAddress').clientHeight ;
+      // })
     },
     methods: {
       getAddress () {
@@ -127,83 +168,96 @@
 </script>
 <style lang='less'>
   .addressManage{
-    width: 100vw;
-    height: 100vh;
+    width: 375px;
+    height: auto;
     background-color: #e5e5e5;
     font-size: 14px;
     border-top: #e5e5e5 1px solid;
     overflow: scroll;
     padding-bottom: 46px;
-    .addressCard{
-      height: 100px;
-      padding: 0 10px;
-      background-color: #fff;
-      margin: 10px 0;
+    .big{
+      width:355px;
+      height: auto;
+      margin: 0px 10px;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      //姓名 电话 地址
-      .container_top{
-        width: 100%;
-        display: inline-flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        height: 60px;
-        border-bottom: #e5e5e5 1px solid;
-        box-sizing: border-box;
-        position: relative;
-        .name_receivePhone{
-          color: rgb(51, 51, 51)
-        }
-        .address{
-          font-size: 12px;
-          color: rgb(128, 128, 128);
-        }
+      justify-content: space-between;
 
-        .order-check{
-          display: flex;
+      .addressCard{
+        width: 170px;
+        background-color: #fff;
+        margin: 10px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        box-shadow: 0 0.133333rem 0.266667rem 0 rgba(0, 0, 0, 0.4);
+        border-radius: 0.15rem;
+        //姓名 电话 地址
+        .container_top{
+          width: 170px;
+          display: inline-flex;
+          flex-direction: column;
+          /*align-items: flex-start;*/
+          /*justify-content: center;*/
+          height: 170px;
+          border-bottom: #e5e5e5 1px solid;
+          box-sizing: border-box;
+          position: relative;
+
           justify-content: center;
           align-items: center;
-          position: absolute;
-          top: 0;
-          right: 0;
-          height: 100%;
-          width: 30px;
-        }
 
-      }
-      //编辑删除
-      .container_bottom{
-        width: 100%;
-        height: 40px;
-        font-size: 12px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        .check {
-          position: relative;
-          left: -5px;
-          .vux-check-icon > .weui-icon-success:before, .vux-check-icon > .weui-icon-success-circle:before{
-            color:#995454;
+          img{
+            height: 90%;
+            width: auto;
+            max-width: 90%;
+          }
+
+          .name_receivePhone{
+            color: rgb(51, 51, 51)
+          }
+          .address{
+            font-size: 12px;
+            color: rgb(128, 128, 128);
           }
         }
+      }
+      .button{
+        width: 170px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .onSell{
+          margin-left: 3px;
+        }
+
         img{
           width: 16px;
           height: 15.5px;
           margin: 0 5px;
         }
-        .edit,.delete{
-          display: inline-flex;
-          align-items: center;
-          width: 55px;
-          height: 20px;
-          color: rgb(128, 128, 128);
+
+        .bottom-right{
+          /*width: 120px;*/
+          margin-right: 2px;
+
+          .edit,.delete{
+            display: inline-flex;
+            align-items: center;
+            width: 50px;
+            height: 20px;
+            color: rgb(128, 128, 128);
+            img{
+              margin: 0 2px;
+            }
+          }
         }
+
       }
     }
+
     //添加地址按钮
     .addAddress{
       background-color: #e4393c;
@@ -218,4 +272,5 @@
       bottom: 0;
     }
   }
+
 </style>

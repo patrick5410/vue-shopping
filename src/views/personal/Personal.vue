@@ -110,7 +110,7 @@
       },
       toDonate(){
         //跳转到捐书页面
-        this.$router.push({name:'donate'})
+        this.$router.push({name:'donateManage'})
       }
     }
 
