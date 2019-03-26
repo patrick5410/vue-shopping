@@ -20,9 +20,6 @@
           <div>
             <input class="input-word"  type="text" maxlength="11"  placeholder="捐赠数量" v-model.trim="donate.bookNumber">
           </div>
-          <!--<label for="Addr" id="areaLabel" class="address" style="border: 0">
-            <input type="text" name="Addr" id="Addr" style="width: 7.7rem;height: 1rem;font-size: .37rem;border: 0" readonly placeholder="请选择地区"  v-model="address.addressArea">
-          </label>-->
         </div>
       </div>
       <div class="good-common">
@@ -40,16 +37,7 @@
       <div class="good-common">
         <div>预约时间</div>
         <div class="date-time">
-          <!--<DatePicker v-model="dateTime" type="datetimerange" placeholder="选择日期时间"></DatePicker>-->
           <DatePicker v-model="dateTime" type="datetime" placeholder="选择日期时间"></DatePicker>
-          <!--<input class="input-word" type="text" placeholder="预约时间" v-model.trim="address.addressDetail">-->
-          <!--<el-date-picker
-            v-model="value4"
-            type="datetimerange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
-          </el-date-picker>-->
         </div>
       </div>
 
@@ -171,75 +159,7 @@
         }else{
           this.$router.push({name:'donateDetails'})
         }
-        /*let that = this
-        console.log("提交前的address",this.address)
-        if(this.address.addressId === -1){
-          console.log("添加地址");
-          //添加
-          that.$store.commit("addAddress",{ data: {
-              addressCode: that.address.addressCode,
-              addressArea: that.address.addressArea,
-              addressDetail: that.address.addressDetail,
-              receiveName: that.address.receiveName,
-              receivePhone: that.address.receivePhone
-            }
-          ,successCallBack:function () {
-              that.$vux.toast.show({
-                text: '添加成功'
-              })
-              // item.isCollect = true
-            },failCallBack:function () {
-              that.$vux.toast.show({
-                type: 'warn',
-                text: '添加失败'
-              })
-            } })
-        }else {
-          //修改
-          console.log("修改地址");
-          that.$store.commit("editAddress",{ data: {
-              addressId: that.address.addressId,
-              addressCode: that.address.addressCode,
-              addressArea: that.address.addressArea,
-              addressDetail: that.address.addressDetail,
-              receiveName: that.address.receiveName,
-              receivePhone: that.address.receivePhone
-            }
-            ,successCallBack:function () {
-              that.$vux.toast.show({
-                text: '编辑成功'
-              })
-              // item.isCollect = true
-            },failCallBack:function () {
-              that.$vux.toast.show({
-                type: 'warn',
-                text: '编辑失败'
-              })
-            } })
-
-        }*/
-
       }
-      //初始化地址选择
-      /*initAddress:function () {
-        let that = this
-        $("#Addr").cityLinkage({
-          containerId: "addressSelectWrapper",
-          getSelectedCode: function () {
-            return $("#Addr").data("code");
-          },
-          callback: function (data) {
-            console.log("data.addr",data.addr)
-            that.address.addressArea = data.addr
-            that.address.addressCode = data.code
-            $("#Addr").val(data.addr).data("code", data.code);
-          }
-        });
-      },
-      addressChange(val){
-        console.log("val",val)
-      }*/
-
     }
   }
 
@@ -265,38 +185,27 @@
       border-bottom: 1px solid #e5e5e5;
       background-color: white;
       div:first-child{
+
         color: #808080;
       }
 
       .date-time{
-        width: 82%;
+        margin: 0 10px;
+        width: 75%;
         display: flex;
         justify-content: flex-start;
       }
       .input-word{
         display: block;
-        width: 290px;
-        /*height: 20px;*/
-        /*line-height: 20px;*/
+        width: 260px;
         font-size: 14px;
         vertical-align:middle;
         outline: none;
         border: 0;
         margin: auto 0;
         padding: .1rem 0;
-        /*padding-top: 0.1rem;*/
       }
     }
-
-    /*.selectAddress{*/
-      /*width: 200px;*/
-      /*height: 40px;*/
-
-
-      /*.Addr{*/
-        /*width: 50px;*/
-      /*}*/
-    /*}*/
 
     .confirm{
       display: flex;

@@ -1,38 +1,21 @@
 <template>
     <div class="addressManage" >
         <div class="addressCard" v-for="item in books" :key="item.receivePhone">
-            <div class="container_top" @click="selectAdress(item)">
               <div class="createTime_status">
                 <div>{{item.createTime}}</div>
                 <div class="status">{{item.status}}</div>
               </div>
+
               <div class="bookName_bookCount">
-                <div>{{item.bookName}}</div>
-                <div class="count">x{{item.count}}</div>
+                <div class="bookName_bookCount1">
+                  <div>{{item.bookName}}</div>
+                  <div class="count">x{{item.count}}</div>
+                </div>
+
+                  <div class="name_phone">个人信息：{{item.userName}}&emsp;{{item.phone}}</div>
+
               </div>
-              <div class="name_phone">个人信息：{{item.userName}}&emsp;{{item.phone}}</div>
               <div class="gainScore">获得积分：{{item.gainScore}}</div>
-
-                <!--<div class="address">{{handleStr(item.addressArea+item.addressDetail)}}</div>-->
-
-                <!--<div class="order-check" v-show="$store.state.order && item.addressId === $store.state.order.addressInfo.addressId">
-                  <icon type="success-no-circle"></icon>
-                </div>-->
-            </div>
-            <!--<div class="container_bottom">
-                <div class="check" @click="changechecked(item)">
-                    <check-icon :value.sync="item.isDefault">默认地址</check-icon>
-                </div>
-                <div class="button">
-                    <div class="edit" @click="editAddress(item)">
-                        <img src="../../assets/img/addressManage/edit.png" alt="编辑"><div>编辑</div>
-                    </div>
-                    <div class="delete" @click="deleteAddress(item)">
-                        <img src="../../assets/img/addressManage/delete.png" alt="删除"><div>删除</div>
-                    </div>
-                </div>
-
-            </div>-->
         </div>
         <!-- 添加收货地址 -->
         <div id="goDonateBooks" class="goDonateBooks" @click="goDonateBooks">去捐书</div>
@@ -171,101 +154,63 @@ export default {
         border-top: #e5e5e5 1px solid;
         overflow: scroll;
         padding-bottom: 46px;
-        .addressCard{
-            height: 80px;
-            padding: 0 10px;
-            background-color: #fff;
-            margin-bottom: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            //姓名 电话 地址
-            .container_top{
-                width: 100%;
-                display: inline-flex;
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: center;
-                height: 80px;
-                /*border-bottom: #e5e5e5 1px solid;*/
-                box-sizing: border-box;
-                position: relative;
-                .name_receivePhone{
-                    color: rgb(51, 51, 51)
-                }
-                .address {
-                  font-size: 12px;
-                  color: rgb(128, 128, 128);
-                }
-                .createTime_status{
-                  width: 100%;
-                  height: 20px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  .status{
-                    color: rgb(153, 84, 84)
-                  }
-                }
-                .bookName_bookCount{
-                  width: 100%;
-                  height: 20px;
-                  border-top:#e5e5e5 1px solid;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  .count{
-                    color: rgb(153, 84, 84)
-                  }
-                }
-                .gainScore{
-                  width:100%;
-                  border-top:#e5e5e5 1px solid;
-                  text-align: right;
-                  color: #3d7a99
-                }
-                /*.order-check{
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  position: absolute;
-                  top: 0;
-                  right: 0;
-                  height: 100%;
-                  width: 30px;
-                }*/
 
+
+        .addressCard {
+          /*height: 95px;*/
+          /*padding: 0 10px;*/
+          background-color: #fff;
+          margin-bottom: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          //姓名 电话 地址
+          .createTime_status {
+            /*padding: 0 10px;*/
+            margin: 0 10px;
+            width: 355px;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+
+            .status {
+              color: rgb(153, 84, 84)
             }
-            //编辑删除
-            /*.container_bottom{
-                width: 100%;
-                height: 40px;
-                font-size: 12px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                .check {
-                    position: relative;
-                    left: -5px;
-                    .vux-check-icon > .weui-icon-success:before, .vux-check-icon > .weui-icon-success-circle:before{
-                        color:#995454;
-                    }
-                }
-                img{
-                    width: 16px;
-                    height: 15.5px;
-                    margin: 0 5px;
-                }
-                .edit,.delete{
-                    display: inline-flex;
-                    align-items: center;
-                    width: 55px;
-                    height: 20px;
-                    color: rgb(128, 128, 128);
-                }
-            }*/
+          }
+
+          .bookName_bookCount {
+            padding:5px 10px;
+            width: 100%;
+            /*height: 50px;*/
+            /*border-top: #e5e5e5 1px solid;*/
+            border-bottom: 1px solid #e5e5e5;
+            //align-items: center;
+            .count {
+              color: rgb(153, 84, 84)
+            }
+
+            .bookName_bookCount1 {
+              display: flex;
+              justify-content: space-between;
+            }
+
+            .name_phone{
+              text-align: left;
+            }
+          }
+
+          .gainScore {
+            padding: 0 10px;
+            width: 100%;
+            height: 30px;
+            /*border-top: #e5e5e5 1px solid;*/
+            text-align: right;
+            color: #3d7a99;
+            line-height: 30px;
+          }
         }
         //添加地址按钮
         .goDonateBooks{
